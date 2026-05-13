@@ -2,33 +2,25 @@
 
 {% block content %}
 
-<div class="p-5 bg-light rounded">
-
-    <h1>Welcome to Our School</h1>
-
-    <p>
-        Excellence in Education
-    </p>
-
-</div>
-
-<hr>
-
-<h2 class="mb-4">Latest News</h2>
+<h1 class="mb-4">School News</h1>
 
 <div class="row">
 
-{% for post in latest_news %}
+{% for post in posts %}
 
-<div class="col-md-4">
+<div class="col-md-4 mb-4">
 
-    <div class="card">
+    <div class="card h-100">
 
         <img src="{{ post.image.url }}" class="card-img-top">
 
         <div class="card-body">
 
             <h5>{{ post.title }}</h5>
+
+            <p>
+                {{ post.content|truncatewords:20 }}
+            </p>
 
             <a href="{% url 'news_detail' post.slug %}" class="btn btn-dark">
                 Read More

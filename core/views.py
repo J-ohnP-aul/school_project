@@ -1,9 +1,16 @@
 from django.shortcuts import render
 from .models import SchoolInfo, Staff, Facility
+from news.models import NewsPost
+
 
 # Create your views here.
+
 def home(request):
-    return render(request, 'core/home.html')
+    latest_news = NewsPost.objects.order_by('-created_at')[:3]
+
+    return render(request, 'core/home.html', {
+        'latest_news': latest_news
+    })
 
 def about(request):
     school = SchoolInfo.objects.first()
@@ -17,3 +24,4 @@ def about(request):
     }
 
     return render(request, 'core/about.html', context)
+
