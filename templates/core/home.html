@@ -2,36 +2,53 @@
 
 {% block content %}
 
-<div class="p-5 bg-light rounded">
+<div class="hero">
 
-    <h1>Welcome to Our School</h1>
+    <h1>
+        Excellence in Education
+    </h1>
 
     <p>
-        Excellence in Education
+        Empowering students with knowledge,
+        creativity, leadership, and innovation
+        for a brighter future.
     </p>
+
+    <a href="/admissions/" class="btn btn-light btn-lg mt-3">
+        Apply Now
+    </a>
 
 </div>
 
-<hr>
-
-<h2 class="mb-4">Latest News</h2>
+<h2 class="mb-4">
+    Latest News
+</h2>
 
 <div class="row">
 
 {% for post in latest_news %}
 
-<div class="col-md-4">
+<div class="col-md-4 mb-4">
 
-    <div class="card">
+    <div class="card h-100">
 
-        <img src="{{ post.image.url }}" class="card-img-top">
+        <img src="{{ post.image.url }}">
 
         <div class="card-body">
 
-            <h5>{{ post.title }}</h5>
+            <h5 class="fw-bold">
+                {{ post.title }}
+            </h5>
 
-            <a href="{% url 'news_detail' post.slug %}" class="btn btn-dark">
+            <p>
+                {{ post.content|truncatewords:18 }}
+            </p>
+
+            <a href="{% url 'news_detail' post.slug %}"
+               class="btn btn-dark">
+
                 Read More
+
             </a>
 
         </div>

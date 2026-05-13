@@ -17,25 +17,65 @@
 
 <h2>Our Staff</h2>
 
+<div class="row">
+
 {% for member in staff %}
-    <div>
-        <img src="{{ member.photo.url }}" width="200">
-        <h3>{{ member.name }}</h3>
-        <p>{{ member.position }}</p>
-        <p>{{ member.bio }}</p>
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card h-100">
+
+            <img src="{{ member.photo.url }}">
+
+            <div class="card-body">
+
+                <h4>{{ member.name }}</h4>
+
+                <p class="text-primary">
+                    {{ member.position }}
+                </p>
+
+                <p>{{ member.bio }}</p>
+
+            </div>
+
+        </div>
+
     </div>
+
 {% endfor %}
+
+</div>
 
 <hr>
 
 <h2>Facilities</h2>
 
-{% for facility in facilities %}
-    <div>
-        <img src="{{ facility.image.url }}" width="250">
-        <h3>{{ facility.title }}</h3>
-        <p>{{ facility.description }}</p>
+<div class="row">
+
+{% for facility in facilities %} 
+<div class="col-md-4 mb-4">
+
+    <div class="card h-100">
+
+        <img src="{{ facility.image.url }}">
+
+        <div class="card-body">
+
+            <h4>{{ facility.title }}</h4>
+
+            <p class="text-primary">
+                {{ facility.description }}
+            </p>
+
+        </div>
+
     </div>
+
+</div>
+
 {% endfor %}
+
+</div>
 
 {% endblock %}
