@@ -9,6 +9,7 @@ from accounts.models import TeacherProfile, StudentProfile, ParentProfile
 from .forms import AssignmentForm, GradeForm, AttendanceForm
 from .models import Assignment, Grade, Attendance
 from django.db.models import Q
+from django.core.paginator import Paginator
 
 def teacher_check(user):
 
@@ -63,12 +64,16 @@ def assignment_list(request):
             Q(description__icontains=query)
 
         )
+        
+    paginator = Paginator(assignments, 6)
+    page_number = request.GET.get('page')
+    page_obj = paginator.get_page(page_number)
 
     return render(
         request,
         'academics/assignment_list.html',
         {
-            'assignments': assignments
+            'page_obj': page_obj,
         }
     )
 
