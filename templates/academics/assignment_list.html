@@ -1,0 +1,62 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<div class="d-flex justify-content-between mb-4">
+
+    <h1>
+        Assignments
+    </h1>
+
+    {% if request.user.groups.all.0.name == 'Teachers' %}
+
+        <a href="{% url 'create_assignment' %}"
+           class="btn btn-dark">
+
+            New Assignment
+
+        </a>
+
+    {% endif %}
+
+</div>
+
+<div class="row">
+
+{% for assignment in assignments %}
+
+<div class="col-md-4 mb-4">
+
+    <div class="card h-100">
+
+        <div class="card-body">
+
+            <h4>
+                {{ assignment.title }}
+            </h4>
+
+            <p>
+                {{ assignment.description|truncatewords:20 }}
+            </p>
+
+            <p>
+                Due:
+                {{ assignment.due_date }}
+            </p>
+
+            <small>
+                Teacher:
+                {{ assignment.teacher.user.username }}
+            </small>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+{% endblock %}
