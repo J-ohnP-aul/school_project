@@ -20,7 +20,24 @@
     {% endif %}
 
 </div>
+<form method="GET" class="mb-4">
 
+    <div class="input-group">
+
+        <input
+            type="text"
+            name="q"
+            class="form-control"
+            placeholder="Search assignments..."
+        >
+
+        <button class="btn btn-dark">
+            Search
+        </button>
+
+    </div>
+
+</form>
 <div class="row">
 
 {% for assignment in assignments %}

@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    Student Dashboard
+</h1>
+
+<h4>
+    Welcome {{ student.user.username }}
+</h4>
+
+<hr>
+
+<h3>
+    Recent Assignments
+</h3>
+
+<ul>
+
+{% for assignment in assignments %}
+
+    <li>
+        {{ assignment.title }}
+        -
+        Due {{ assignment.due_date }}
+    </li>
+
+{% endfor %}
+
+</ul>
+
+<hr>
+
+<h3>
+    Grades
+</h3>
+
+<table class="table">
+
+    <tr>
+        <th>Assignment</th>
+        <th>Score</th>
+    </tr>
+
+    {% for grade in grades %}
+
+    <tr>
+
+        <td>
+            {{ grade.assignment.title }}
+        </td>
+
+        <td>
+            {{ grade.score }}
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+<hr>
+
+<h3>
+    Attendance
+</h3>
+
+<table class="table">
+
+    <tr>
+        <th>Date</th>
+        <th>Status</th>
+    </tr>
+
+    {% for record in attendance %}
+
+    <tr>
+
+        <td>
+            {{ record.date }}
+        </td>
+
+        <td>
+            {{ record.status }}
+        </td>
+
+    </tr>
+
+    {% endfor %}
+
+</table>
+
+{% endblock %}

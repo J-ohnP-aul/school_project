@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    Parent Dashboard
+</h1>
+
+<h3>
+    Linked Students
+</h3>
+
+<ul>
+
+{% for student in students %}
+
+    <li>
+        {{ student.user.username }}
+        -
+        {{ student.grade }}
+    </li>
+
+{% endfor %}
+
+</ul>
+
+{% endblock %}

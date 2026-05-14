@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">
+    Record Grade
+</h1>
+
+<form method="POST">
+
+    {% csrf_token %}
+
+    {% for field in form %}
+
+        <div class="mb-3">
+
+            <label class="form-label">
+                {{ field.label }}
+            </label>
+
+            {{ field }}
+
+        </div>
+
+    {% endfor %}
+
+    <button class="btn btn-dark">
+        Save Grade
+    </button>
+
+</form>
+
+{% endblock %}
