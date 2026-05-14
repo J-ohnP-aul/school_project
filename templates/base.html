@@ -24,7 +24,7 @@
       </div>
     </a>
 
-    <!-- Desktop links -->
+    <!-- Dl -->
     <ul class="ga-nav-links">
       <li><a href="/">Home</a></li>
       <li><a href="/about/">About</a></li>
@@ -33,7 +33,7 @@
       <li><a href="/admissions/" class="ga-nav-cta">Apply Now</a></li>
     </ul>
 
-    <!-- Mobile toggle -->
+    <!-- Mobt-->
     <button class="ga-toggler" id="ga-toggler" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
@@ -103,7 +103,6 @@
         </div>
       </div>
 
-      <!-- Navigation -->
       <div class="col-md-2 offset-md-2">
         <h5>Navigate</h5>
         <ul>
@@ -114,7 +113,6 @@
         </ul>
       </div>
 
-      <!-- Contact -->
       <div class="col-md-4">
         <h5>Contact</h5>
         <ul>
@@ -149,18 +147,15 @@
       toggler.classList.toggle('open', open);
     }
 
-    // Toggle button
     toggler?.addEventListener('click', () => {
       const isOpen = drawer.classList.contains('open');
       setDrawer(!isOpen);
     });
 
-    // Backdrop click closes
     backdrop?.addEventListener('click', () => {
       setDrawer(false);
     });
 
-    // 🔥 CLICK OUTSIDE DRAWER CLOSES (KEY PART)
     document.addEventListener('click', (e) => {
       const isOpen = drawer.classList.contains('open');
 
@@ -174,12 +169,10 @@
       }
     });
 
-    // Close on link click
     drawer.querySelectorAll('a').forEach(link => {
       link.addEventListener('click', () => setDrawer(false));
     });
 
-    // ESC key
     document.addEventListener('keydown', (e) => {
       if (e.key === 'Escape') setDrawer(false);
     });
