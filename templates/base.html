@@ -8,172 +8,69 @@
     <title>School Website</title>
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 
 <body>
 
-<nav class="navbar navbar-dark custom-navbar fixed-top">
+<nav class="ga-navbar" id="ga-navbar">
+  <div class="container">
 
-    <div class="container">
+    <a class="ga-brand" href="/">
+      <div class="ga-brand-icon">GA</div>
+      <div class="ga-brand-text">
+        <span class="ga-brand-name">Greenfield Academy</span>
+        <span class="ga-brand-tagline">Where young minds grow</span>
+      </div>
+    </a>
 
-        <a class="navbar-brand" href="/">
+    <!-- Desktop links -->
+    <ul class="ga-nav-links">
+      <li><a href="/">Home</a></li>
+      <li><a href="/about/">About</a></li>
+      <li><a href="/academics/">Academics</a></li>
+      <li><a href="/news/">News</a></li>
+      <li><a href="/admissions/" class="ga-nav-cta">Apply Now</a></li>
+    </ul>
 
-            <span class="brand-highlight">
-                Greenfield
-            </span>
+    <!-- Mobile toggle -->
+    <button class="ga-toggler" id="ga-toggler" aria-label="Toggle menu">
+      <span></span><span></span><span></span>
+    </button>
 
-            Academy
+  </div>
 
-        </a>
+  <!-- Drawer -->
+  <div class="ga-drawer" id="ga-drawer">
+    <div class="ga-drawer-inner">
+      <ul class="ga-drawer-nav">
+        <li><a href="/">Home</a></li>
+        <li><a href="/about/">About Us</a></li>
+        <li><a href="/academics/">Academics</a></li>
+        <li><a href="/admissions/">Admissions</a></li>
+        <li><a href="/news/">News & Events</a></li>
+        <li><a href="/gallery/">Gallery</a></li>
+        <li><a href="/contact/">Contact</a></li>
 
-        <button
-            class="navbar-toggler"
-            type="button"
-            data-bs-toggle="offcanvas"
-            data-bs-target="#sidebarMenu">
+        <li class="ga-drawer-divider"></li>
 
-            <span class="navbar-toggler-icon"></span>
+        {% if user.is_authenticated %}
+          <li><a href="/accounts/dashboard/">Dashboard</a></li>
+          <li><a href="/accounts/logout/">Logout</a></li>
+        {% else %}
+          <li><a href="/accounts/login/">Login</a></li>
+          <li><a href="/accounts/register/">Register</a></li>
+        {% endif %}
+      </ul>
 
-        </button>
-
+      <div class="ga-drawer-footer">
+        <a href="/admissions/" class="ga-drawer-cta">Apply Now</a>
+      </div>
     </div>
+  </div>
 
+  <div class="ga-drawer-backdrop" id="ga-drawer-backdrop"></div>
 </nav>
-
-
-<div
-    class="offcanvas offcanvas-end"
-    tabindex="-1"
-    id="sidebarMenu">
-
-    <div class="offcanvas-header">
-
-        <h4 class="offcanvas-title">
-
-            School Menu
-
-        </h4>
-
-        <button
-            type="button"
-            class="btn-close"
-            data-bs-dismiss="offcanvas">
-
-        </button>
-
-    </div>
-
-    <div class="offcanvas-body">
-
-        <ul class="navbar-nav">
-
-            <li class="nav-item mb-2">
-                <a class="nav-link" href="/">
-                    Home
-                </a>
-            </li>
-
-            <li class="nav-item mb-2">
-                <a class="nav-link" href="/about/">
-                    About Us
-                </a>
-            </li>
-
-            <li class="nav-item mb-2">
-                <a class="nav-link" href="/academics/">
-                    Academics
-                </a>
-            </li>
-
-            <li class="nav-item mb-2">
-                <a class="nav-link" href="/admissions/">
-                    Admissions
-                </a>
-            </li>
-
-            <li class="nav-item mb-2">
-                <a class="nav-link" href="/news/">
-                    News & Events
-                </a>
-            </li>
-
-            <li class="nav-item mb-2">
-                <a class="nav-link" href="/gallery/">
-                    Gallery
-                </a>
-            </li>
-
-            <li class="nav-item mb-2">
-                <a class="nav-link" href="/contact/">
-                    Contact
-                </a>
-            </li>
-
-            <hr>
-
-            {% if user.is_authenticated %}
-
-                <li class="nav-item mb-2">
-
-                    <a class="nav-link"
-                       href="/accounts/dashboard/">
-
-                        Dashboard
-
-                    </a>
-
-                </li>
-
-                <li class="nav-item mb-2">
-
-                    <a class="nav-link"
-                       href="/accounts/logout/">
-
-                        Logout
-
-                    </a>
-
-                </li>
-
-            {% else %}
-
-                <li class="nav-item mb-2">
-
-                    <a class="nav-link"
-                       href="/accounts/login/">
-
-                        Login
-
-                    </a>
-
-                </li>
-
-                <li class="nav-item mb-3">
-
-                    <a class="nav-link"
-                       href="/accounts/register/">
-
-                        Register
-
-                    </a>
-
-                </li>
-
-            {% endif %}
-
-        </ul>
-
-        <a href="/admissions/"
-           class="btn apply-btn w-100 mt-4">
-
-            Apply Now
-
-        </a>
-
-    </div>
-
-</div>
 <div class="container mt-4">
     {% if messages %}
         {% for message in messages %}
@@ -187,18 +84,26 @@
     {% endblock %}
 
 </div>
-
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
-
-<footer class="ga-footer">
+  <footer class="ga-footer">
   <div class="container">
     <div class="row g-4">
+
+      <!-- Brand -->
       <div class="col-md-4">
         <p class="ga-footer-brand">Greenfield Academy</p>
-        <p style="font-size:0.83rem; line-height:1.7; color:rgba(255,255,255,0.5); max-width:260px;">
+
+        <p class="ga-footer-text">
           Nurturing young minds since 2005. A place where every child belongs and every voice matters.
         </p>
+
+        <div class="ga-footer-social">
+          <a href="#">Facebook</a>
+          <a href="#">Instagram</a>
+          <a href="#">Twitter</a>
+        </div>
       </div>
+
+      <!-- Navigation -->
       <div class="col-md-2 offset-md-2">
         <h5>Navigate</h5>
         <ul>
@@ -208,6 +113,8 @@
           <li><a href="/admissions/">Admissions</a></li>
         </ul>
       </div>
+
+      <!-- Contact -->
       <div class="col-md-4">
         <h5>Contact</h5>
         <ul>
@@ -216,13 +123,66 @@
           <li>✉️ info@greenfieldacademy.ac.ke</li>
         </ul>
       </div>
+
     </div>
+
     <hr class="ga-footer-divider" />
-    <div class="d-flex justify-content-between flex-wrap gap-2">
+
+    <div class="ga-footer-bottom d-flex justify-content-between flex-wrap gap-2">
       <span>© 2025 Greenfield Academy. All rights reserved.</span>
       <span>Built with care for our community.</span>
     </div>
+
   </div>
 </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
+  <script>
+    const toggler = document.getElementById('ga-toggler');
+    const drawer = document.getElementById('ga-drawer');
+    const backdrop = document.getElementById('ga-drawer-backdrop');
+
+    function setDrawer(open) {
+      drawer.classList.toggle('open', open);
+      backdrop.classList.toggle('show', open);
+      document.body.style.overflow = open ? 'hidden' : '';
+      toggler.classList.toggle('open', open);
+    }
+
+    // Toggle button
+    toggler?.addEventListener('click', () => {
+      const isOpen = drawer.classList.contains('open');
+      setDrawer(!isOpen);
+    });
+
+    // Backdrop click closes
+    backdrop?.addEventListener('click', () => {
+      setDrawer(false);
+    });
+
+    // 🔥 CLICK OUTSIDE DRAWER CLOSES (KEY PART)
+    document.addEventListener('click', (e) => {
+      const isOpen = drawer.classList.contains('open');
+
+      if (!isOpen) return;
+
+      const clickedInsideDrawer = drawer.contains(e.target);
+      const clickedToggler = toggler.contains(e.target);
+
+      if (!clickedInsideDrawer && !clickedToggler) {
+        setDrawer(false);
+      }
+    });
+
+    // Close on link click
+    drawer.querySelectorAll('a').forEach(link => {
+      link.addEventListener('click', () => setDrawer(false));
+    });
+
+    // ESC key
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') setDrawer(false);
+    });
+</script>
 </body>
 </html>
