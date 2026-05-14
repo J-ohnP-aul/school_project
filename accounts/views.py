@@ -37,7 +37,32 @@ def logout_view(request):
     messages.success(request, 'logout successfull !!')
     return redirect('home')
 
+
 @login_required
 def dashboard(request):
-    return render(request, 'accounts/dashboard.html')
-    
+
+    user = request.user
+
+    is_student = user.groups.filter(
+        name='Students'
+    ).exists()
+
+    is_teacher = user.groups.filter(
+        name='Teachers'
+    ).exists()
+
+    is_parent = user.groups.filter(
+        name='Parents'
+    ).exists()
+
+    context = {
+        'is_student': is_student,
+        'is_teacher': is_teacher,
+        'is_parent': is_parent,
+    }
+
+    return render(
+        request,
+        'accounts/dashboard.html',
+        context
+    )

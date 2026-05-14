@@ -2,12 +2,46 @@
 
 {% block content %}
 
-<h1>
+<h1 class="mb-4">
     Dashboard
 </h1>
 
-<p>
+<h4>
     Welcome {{ request.user.username }}
-</p>
+</h4>
+
+<hr>
+
+{% if is_student %}
+
+    <div class="alert alert-primary">
+
+        Student Dashboard
+
+    </div>
+
+{% endif %}
+
+
+{% if is_teacher %}
+
+    <div class="alert alert-success">
+
+        Teacher Dashboard
+
+    </div>
+
+{% endif %}
+
+
+{% if is_parent %}
+
+    <div class="alert alert-warning">
+
+        Parent Dashboard
+
+    </div>
+
+{% endif %}
 
 {% endblock %}
