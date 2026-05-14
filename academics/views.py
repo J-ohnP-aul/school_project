@@ -10,6 +10,7 @@ from .forms import AssignmentForm, GradeForm, AttendanceForm
 from .models import Assignment, Grade, Attendance
 from django.db.models import Q
 from django.core.paginator import Paginator
+from django.db.models import Avg
 
 def teacher_check(user):
 
@@ -155,6 +156,7 @@ def student_dashboard(request):
     assignments = Assignment.objects.order_by(
         '-created_at'
     )[:5]
+    average_score = grades.aggregate(Avg('score'))['score__avg']
 
     context = {
 
@@ -165,6 +167,7 @@ def student_dashboard(request):
         'attendance': attendance,
 
         'assignments': assignments,
+        'average_score': average_score,
     }
 
     return render(

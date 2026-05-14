@@ -35,6 +35,75 @@
 <h3>
     Grades
 </h3>
+<div class="row mb-4">
+
+    <div class="col-md-4">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h5>
+                    Average Score
+                </h5>
+
+                <h2>
+
+                    {{ average_score|default:"0" }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h5>
+                    Total Grades
+                </h5>
+
+                <h2>
+
+                    {{ grades.count }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4">
+
+        <div class="card">
+
+            <div class="card-body">
+
+                <h5>
+                    Attendance Records
+                </h5>
+
+                <h2>
+
+                    {{ attendance.count }}
+
+                </h2>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
 
 <table class="table">
 
