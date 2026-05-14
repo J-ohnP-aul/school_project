@@ -3,148 +3,112 @@
 {% block content %}
 
 <section class="hero">
-<div class="container">
-
-<div class="row align-items-center">
-
-<div class="col-lg-6">
-
-    <span class="hero-badge">
-        Excellence In Education
-    </span>
-
-    <h1 class="hero-title">
-
-        Building Future Leaders
-        Through Quality Education
-
-    </h1>
-
-    <p class="hero-text">
-
-        Empowering students with academic excellence,
-        innovation, creativity, and leadership skills
-        for tomorrow’s world.
-
-    </p>
-
-    <div class="mt-4">
-
-        <a href="/admissions/"
-           class="btn btn-primary-custom">
-
-            Apply Now
-
-        </a>
-
-        <a href="/about/"
-           class="btn btn-outline-custom">
-
-            Learn More
-
-        </a>
-
-    </div>
-
-</div>
-
-<div class="col-lg-6">
-
-    <img
-        src="https://images.unsplash.com/photo-1509062522246-3755977927d7"
-        class="img-fluid hero-image"
-    >
-
-</div>
-
-</div>
-
-</div>
-</section>
-
-<section>
-
-<div class="container">
-
-<div class="row text-center">
-
-<div class="col-md-3">
-
-    <h2>1200+</h2>
-
-    <p>Students</p>
-
-</div>
-
-<div class="col-md-3">
-
-    <h2>80+</h2>
-
-    <p>Teachers</p>
-
-</div>
-
-<div class="col-md-3">
-
-    <h2>25+</h2>
-
-    <p>Programs</p>
-
-</div>
-
-<div class="col-md-3">
-
-    <h2>15+</h2>
-
-    <p>Years Excellence</p>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
-<h2 class="mb-4">
-    Latest News
-</h2>
-
-<div class="row">
-
-{% for post in latest_news %}
-
-<div class="col-md-4 mb-4">
-
-    <div class="card h-100">
-
-        <img src="{{ post.image.url }}">
-
-        <div class="card-body">
-
-            <h5 class="fw-bold">
-                {{ post.title }}
-            </h5>
-
-            <p>
-                {{ post.content|truncatewords:18 }}
-            </p>
-
-            <a href="{% url 'news_detail' post.slug %}"
-               class="btn btn-dark">
-
-                Read More
-
-            </a>
-
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <span class="hero-badge">Excellence In Education</span>
+                <h1 class="hero-title">
+                    Building Future Leaders
+                    Through Quality Education
+                </h1>
+                <p class="hero-text">
+                    Empowering students with academic excellence,
+                    innovation, creativity, and leadership skills
+                    for tomorrow’s world.
+                </p>
+                <div class="mt-4">
+                    <a href="/admissions/" class="btn btn-primary-custom">Apply Now</a>
+                    <a href="/about/" class="btn btn-outline-custom">Learn More</a>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <img
+                    src="https://images.unsplash.com/photo-1509062522246-3755977927d7"
+                    class="img-fluid hero-image"
+                    alt="School community"
+                >
+            </div>
         </div>
-
     </div>
+</section>
 
-</div>
+<section class="stats-section py-5">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-md-3">
+                <h2>1200+</h2>
+                <p>Students</p>
+            </div>
+            <div class="col-md-3">
+                <h2>80+</h2>
+                <p>Teachers</p>
+            </div>
+            <div class="col-md-3">
+                <h2>25+</h2>
+                <p>Programs</p>
+            </div>
+            <div class="col-md-3">
+                <h2>15+</h2>
+                <p>Years Excellence</p>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="ga-section">
+  <div class="container">
+    <div class="row g-4 align-items-center mb-5">
+      <div class="col-md-6">
+        <p class="ga-section-eyebrow">Why Greenfield</p>
+        <h2 class="ga-section-title">Learning that <em>lasts</em> a lifetime</h2>
+      </div>
+      <div class="col-md-6">
+        <p class="ga-section-lead">We blend proven teaching methods with a joyful, child-centred environment so every pupil builds confidence alongside knowledge.</p>
+      </div>
+    </div>
+    <div class="row g-4">
+      <div class="col-md-4">
+        <div class="ga-card">
+          <div class="ga-card-icon">🧑‍🏫</div>
+          <h3>Experienced Teachers</h3>
+          <p>Our educators are qualified, passionate, and trained in the latest child-centred pedagogies.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="ga-card">
+          <div class="ga-card-icon">🏫</div>
+          <h3>Modern Facilities</h3>
+          <p>Bright classrooms, a library, computer lab, and outdoor play areas designed for young learners.</p>
+        </div>
+      </div>
+      <div class="col-md-4">
+        <div class="ga-card">
+          <div class="ga-card-icon">🌍</div>
+          <h3>Character & Values</h3>
+          <p>We instill respect, resilience, and responsibility alongside academic excellence.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-{% endfor %}
-
-</div>
+<section class="news-section py-5">
+    <div class="container">
+        <h2 class="mb-4">Latest News</h2>
+        <div class="row">
+            {% for post in latest_news %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+                        <div class="card-body">
+                            <h5 class="fw-bold">{{ post.title }}</h5>
+                            <p>{{ post.content|truncatewords:18 }}</p>
+                            <a href="{% url 'news_detail' post.slug %}" class="btn btn-dark">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 
 {% endblock %}
