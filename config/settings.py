@@ -28,7 +28,7 @@ SECRET_KEY = 'django-insecure-p7^^ioh8zml-7p85v&%j)80!3d&6_%t3#*@==@9-8met&zt58h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost', 'onrender.com']
 
 
 # Application definition
@@ -82,24 +82,13 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
-if os.environ.get('RENDER'):
-       DB_DIR = '/data'
-else:
-       DB_DIR = BASE_DIR
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(DB_DIR, 'db.sqlite3'),
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
 
 
 # Password validation
@@ -153,7 +142,7 @@ LOGIN_REDIRECT_URL = 'dashboard'
 LOGOUT_REDIRECT_URL = 'home'
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://school-project-t3y9.onrender.com',
+    # 'https://school-project-t3y9.onrender.com',
 ]
 
 django_heroku.settings(locals())
