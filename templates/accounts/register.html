@@ -2,46 +2,83 @@
 
 {% block content %}
 
-<div class="row justify-content-center">
+<section class="auth-section">
+  <div class="container">
 
-<div class="col-md-6">
+    <div class="row justify-content-center align-items-center">
 
-<h1 class="mb-4">
-    Register
-</h1>
+      <div class="col-lg-6">
 
-<form method="POST">
+        <div class="auth-card">
 
-    {% csrf_token %}
+          <!-- Header -->
+          <div class="auth-header text-center">
+            <div class="auth-logo">GA</div>
 
-    {% for field in form %}
+            <h1>Create Account</h1>
 
-        <div class="mb-3">
+            <p>
+              Join the Greenfield Academy community today.
+            </p>
+          </div>
 
-            <label class="form-label">
-                {{ field.label }}
-            </label>
+          <!-- Form -->
+          <form method="POST" class="auth-form">
 
-            {{ field }}
+            {% csrf_token %}
 
-            {% if field.errors %}
-                <div class="text-danger">
+            {% for field in form %}
+
+              <div class="auth-group">
+
+                <label class="auth-label">
+                  {{ field.label }}
+                </label>
+
+                {{ field }}
+
+                {% if field.help_text %}
+                  <small class="auth-help">
+                    {{ field.help_text }}
+                  </small>
+                {% endif %}
+
+                {% if field.errors %}
+                  <div class="auth-error">
                     {{ field.errors }}
-                </div>
-            {% endif %}
+                  </div>
+                {% endif %}
+
+              </div>
+
+            {% endfor %}
+
+            <button type="submit" class="auth-btn">
+              Create Account
+            </button>
+
+          </form>
+
+          <!-- Footer -->
+          <div class="auth-footer text-center">
+
+            <p>
+              Already have an account?
+            </p>
+
+            <a href="/accounts/login/">
+              Sign In
+            </a>
+
+          </div>
 
         </div>
 
-    {% endfor %}
+      </div>
 
-    <button class="btn btn-dark">
-        Register
-    </button>
+    </div>
 
-</form>
-
-</div>
-
-</div>
+  </div>
+</section>
 
 {% endblock %}

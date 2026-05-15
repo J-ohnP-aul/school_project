@@ -137,3 +137,7 @@ LOGIN_URL = 'login'
 LOGIN_REDIRECT_URL = 'dashboard'
 
 LOGOUT_REDIRECT_URL = 'home'
+
+CSRF_TRUSTED_ORIGINS = [
+    'https://school-project-t3y9.onrender.com',
+]
