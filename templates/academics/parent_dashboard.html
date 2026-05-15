@@ -1,221 +1,155 @@
 {% extends 'base.html' %}
-
 {% block content %}
-
 <section class="dashboard-section">
-
 <div class="container">
-
     <!-- HEADER -->
-
     <div class="dashboard-header">
-
         <div>
-
             <h1 class="dashboard-title">
-
                 Parent Dashboard
-
             </h1>
-
             <p class="dashboard-subtitle">
-
                 Monitor your child's academic progress
                 and school activities.
-
             </p>
-
         </div>
-
     </div>
-
-
     <!-- STUDENTS -->
-
     <div class="row g-4">
-
         {% for student in students %}
-
         <div class="col-lg-6">
-
             <div class="parent-student-card">
-
                 <!-- TOP -->
-
                 <div class="student-top">
-
                     <div class="student-avatar">
 
-                        {{ student.user.username|slice:":1" }}
+    {% if student.profile_picture %}
 
-                    </div>
+        <img src="{{ student.profile_picture.url }}"
+             alt="{{ student.user.username }}">
 
-                    <div>
+    {% else %}
 
-                        <h3>
+        {{ student.user.username|slice:":1" }}
 
-                            {{ student.user.username }}
-
-                        </h3>
-
-                        <p>
-
-                            Grade:
-                            {{ student.grade }}
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <!-- INFO GRID -->
-
-                <div class="student-info-grid">
-
-                    <div class="info-box">
-
-                        <h4>
-
-                            92%
-
-                        </h4>
-
-                        <p>
-
-                            Attendance
-
-                        </p>
-
-                    </div>
-
-                    <div class="info-box">
-
-                        <h4>
-
-                            B+
-
-                        </h4>
-
-                        <p>
-
-                            Average Grade
-
-                        </p>
-
-                    </div>
-
-                    <div class="info-box">
-
-                        <h4>
-
-                            5
-
-                        </h4>
-
-                        <p>
-
-                            Assignments
-
-                        </p>
-
-                    </div>
-
-                    <div class="info-box">
-
-                        <h4>
-
-                            Good
-
-                        </h4>
-
-                        <p>
-
-                            Performance
-
-                        </p>
-
-                    </div>
-
-                </div>
-
-
-                <!-- RECENT ACTIVITY -->
-
-                <div class="recent-box">
-
-                    <h5>
-
-                        Recent Activity
-
-                    </h5>
-
-                    <ul>
-
-                        <li>
-                            Submitted Mathematics Assignment
-                        </li>
-
-                        <li>
-                            Present on Monday
-                        </li>
-
-                        <li>
-                            Science CAT score updated
-                        </li>
-
-                    </ul>
-
-                </div>
-
-
-                <!-- BUTTONS -->
-
-                <div class="parent-actions">
-
-                    <a href="#"
-                       class="dashboard-btn">
-
-                        View Full Report
-
-                    </a>
-
-                    <a href="#"
-                       class="dashboard-btn secondary-btn">
-
-                        Contact Teacher
-
-                    </a>
-
-                </div>
-
-            </div>
-
-        </div>
-
-        {% empty %}
-
-        <div class="col-12">
-
-            <div class="dashboard-card">
-
-                <p>
-
-                    No linked students found.
-
-                </p>
-
-            </div>
-
-        </div>
-
-        {% endfor %}
-
-    </div>
+    {% endif %}
 
 </div>
-
+                    <div>
+                        <h3>
+                            {{ student.user.username }}
+                        </h3>
+                        <p>
+                            Grade:
+                            {{ student.grade }}
+                        </p>
+                    </div>
+                </div>
+                <!-- INFO GRID -->
+                <div class="student-info-grid">
+                    <div class="info-box">
+                        <h4>
+                            {{ student.attendance_percentage|default:"0" }}%
+                        </h4>
+                        <p>
+                            Attendance
+                        </p>
+                    </div>
+                    <div class="info-box">
+                        <h4>
+                            {% if student.average_grade > 80 %}
+                                A
+                            {% elif student.average_grade > 75 %}
+                                A-
+                            {% elif student.average_grade > 70 %}
+                                B+
+                            {% elif student.average_grade > 65 %}
+                                B
+                            {% elif student.average_grade > 60 %}
+                                B-
+                            {% elif student.average_grade > 55 %}
+                                C+
+                            {% elif student.average_grade > 50 %}
+                                C
+                            {% elif student.average_grade > 45 %}
+                                C-
+                            {% elif student.average_grade > 40 %}
+                                D+
+                            {% elif student.average_grade > 35 %}
+                                D
+                            {% else %}
+                                E
+                            {% endif %}
+                        </h4>
+                        <p>
+                            Average Grade
+                        </p>
+                    </div>
+                    <div class="info-box">
+                        <h4>
+                            {{ student.assignments_count|default:"0" }}
+                        </h4>
+                        <p>
+                            Assignments
+                        </p>
+                    </div>
+                    <div class="info-box">
+                        <h4>
+                            {% if student.average_grade > 75 %}
+                                Excellent
+                            {% elif student.average_grade > 60 %}
+                                Good
+                            {% elif student.average_grade > 45 %}
+                                Average
+                            {% else %}
+                                Needs Improvement
+                            {% endif %}
+                        </h4>
+                        <p>
+                            Performance
+                        </p>
+                    </div>
+                </div>
+                <!-- RECENT ACTIVITY -->
+                <div class="recent-box">
+                    <h5>
+                        Recent Activity
+                    </h5>
+                    <ul>
+                        {% for activity in student.recent_activities|slice:":3" %}
+                        <li>
+                            {{ activity.description }}
+                        </li>
+                        {% empty %}
+                        <li>
+                            No recent activity
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+                <!-- BUTTONS -->
+                <div class="parent-actions">
+                    <a href="#"
+                       class="dashboard-btn">
+                        View Full Report
+                    </a>
+                    <a href="#"
+                       class="dashboard-btn secondary-btn">
+                        Contact Teacher
+                    </a>
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div class="col-12">
+            <div class="dashboard-card">
+                <p>
+                    No linked students found.
+                </p>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
 </section>
-
 {% endblock %}
