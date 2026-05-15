@@ -1,5 +1,5 @@
 from django.shortcuts import render
-from .models import SchoolInfo, Staff, Facility
+from .models import SchoolInfo, Staff, Facility, GalleryImage
 from news.models import NewsPost
 
 
@@ -27,3 +27,7 @@ def about(request):
 
 def contact(request):
     return render(request, 'core/contact.html')
+
+def gallery_view(request):
+    images = GalleryImage.objects.all().order_by('-uploaded_at')
+    return render(request, 'core/gallery.html', {'images': images})

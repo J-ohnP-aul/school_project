@@ -205,3 +205,5 @@ def parent_dashboard(request):
             'students': students
         }
     )
+def teacher_dashboard(request):
+    return render(request, 'academics/teacher_dashboard.html')
