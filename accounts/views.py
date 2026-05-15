@@ -42,19 +42,9 @@ def logout_view(request):
 def dashboard(request):
 
     user = request.user
-
-    is_student = user.groups.filter(
-        name='Students'
-    ).exists()
-
-    is_teacher = user.groups.filter(
-        name='Teachers'
-    ).exists()
-
-    is_parent = user.groups.filter(
-        name='Parents'
-    ).exists()
-
+    is_student = user.groups.filter(name='Students').exists()
+    is_teacher = user.groups.filter(name='Teachers').exists()
+    is_parent = user.groups.filter(name='Parents').exists()
     context = {
         'is_student': is_student,
         'is_teacher': is_teacher,
