@@ -12,7 +12,6 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
-import django_heroku
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -148,4 +147,3 @@ CSRF_TRUSTED_ORIGINS = [
     'https://school-project-t3y9.onrender.com',
 ]
 
-django_heroku.settings(locals())
