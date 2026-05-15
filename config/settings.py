@@ -12,6 +12,8 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+import django_heroku
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -26,7 +28,7 @@ SECRET_KEY = 'django-insecure-p7^^ioh8zml-7p85v&%j)80!3d&6_%t3#*@==@9-8met&zt58h
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -141,3 +143,5 @@ LOGOUT_REDIRECT_URL = 'home'
 CSRF_TRUSTED_ORIGINS = [
     'https://school-project-t3y9.onrender.com',
 ]
+
+django_heroku.settings(locals())
