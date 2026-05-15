@@ -56,3 +56,4 @@ def dashboard(request):
         'accounts/dashboard.html',
         context
     )
+    

@@ -1,7 +1,9 @@
 from django.urls import path
 
 from .views import create_assignment, assignment_list, record_grade, record_attendance, student_dashboard, parent_dashboard
-    
+
+app_name = 'academics'
+
 urlpatterns = [
     path('', assignment_list, name='assignment_list' ),
     path('create/',create_assignment,name='create_assignment'),

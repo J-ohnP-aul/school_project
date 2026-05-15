@@ -2,56 +2,119 @@
 
 {% block content %}
 
-<h1 class="mb-4">
-    Student Dashboard
-</h1>
+<section class="dashboard-section">
 
-<h4>
-    Welcome {{ student.user.username }}
-</h4>
+<div class="container">
 
-<hr>
+    <!-- HEADER -->
 
-<h3>
-    Recent Assignments
-</h3>
+    <div class="dashboard-header">
 
-<ul>
+        <div>
 
-{% for assignment in assignments %}
+            <h1 class="dashboard-title">
 
-    <li>
-        {{ assignment.title }}
-        -
-        Due {{ assignment.due_date }}
-    </li>
+                Student Dashboard
 
-{% endfor %}
+            </h1>
 
-</ul>
+            <p class="dashboard-subtitle">
 
-<hr>
+                Welcome back,
+                {{ student.user.username }}
 
-<h3>
-    Grades
-</h3>
-<div class="row mb-4">
+            </p>
 
-    <div class="col-md-4">
+        </div>
 
-        <div class="card">
+    </div>
 
-            <div class="card-body">
 
-                <h5>
-                    Average Score
-                </h5>
+    <!-- STATS -->
 
-                <h2>
+    <div class="row g-4 mb-5">
 
-                    {{ average_score|default:"0" }}
+        <div class="col-md-4">
 
-                </h2>
+            <div class="dashboard-stat-card">
+
+                <div class="stat-icon blue">
+
+                    📊
+
+                </div>
+
+                <div>
+
+                    <h2>
+
+                        {{ average_score|default:"0" }}
+
+                    </h2>
+
+                    <p>
+                        Average Score
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="dashboard-stat-card">
+
+                <div class="stat-icon green">
+
+                    📝
+
+                </div>
+
+                <div>
+
+                    <h2>
+
+                        {{ grades.count }}
+
+                    </h2>
+
+                    <p>
+                        Total Grades
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="col-md-4">
+
+            <div class="dashboard-stat-card">
+
+                <div class="stat-icon yellow">
+
+                    📅
+
+                </div>
+
+                <div>
+
+                    <h2>
+
+                        {{ attendance.count }}
+
+                    </h2>
+
+                    <p>
+                        Attendance Records
+                    </p>
+
+                </div>
 
             </div>
 
@@ -59,45 +122,191 @@
 
     </div>
 
-    <div class="col-md-4">
 
-        <div class="card">
+    <!-- ASSIGNMENTS -->
 
-            <div class="card-body">
+    <div class="dashboard-card mb-5">
 
-                <h5>
-                    Total Grades
-                </h5>
+        <div class="section-header">
 
-                <h2>
+            <h3>
+                Recent Assignments
+            </h3>
 
-                    {{ grades.count }}
+        </div>
 
-                </h2>
+        <div class="assignment-list">
+
+            {% for assignment in assignments %}
+
+            <div class="assignment-item">
+
+                <div>
+
+                    <h5>
+
+                        {{ assignment.title }}
+
+                    </h5>
+
+                    <small>
+
+                        Due:
+                        {{ assignment.due_date }}
+
+                    </small>
+
+                </div>
+
+                <span class="assignment-badge">
+
+                    Pending
+
+                </span>
 
             </div>
+
+            {% empty %}
+
+            <p>
+                No assignments available.
+            </p>
+
+            {% endfor %}
 
         </div>
 
     </div>
 
-    <div class="col-md-4">
 
-        <div class="card">
+    <!-- GRADES -->
 
-            <div class="card-body">
+    <div class="dashboard-card mb-5">
 
-                <h5>
-                    Attendance Records
-                </h5>
+        <div class="section-header">
 
-                <h2>
+            <h3>
+                Grades
+            </h3>
 
-                    {{ attendance.count }}
+        </div>
 
-                </h2>
+        <div class="table-responsive">
 
-            </div>
+            <table class="table custom-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Assignment
+                        </th>
+
+                        <th>
+                            Score
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for grade in grades %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ grade.assignment.title }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="score-badge">
+
+                                {{ grade.score }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+
+    <!-- ATTENDANCE -->
+
+    <div class="dashboard-card">
+
+        <div class="section-header">
+
+            <h3>
+                Attendance
+            </h3>
+
+        </div>
+
+        <div class="table-responsive">
+
+            <table class="table custom-table">
+
+                <thead>
+
+                    <tr>
+
+                        <th>
+                            Date
+                        </th>
+
+                        <th>
+                            Status
+                        </th>
+
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    {% for record in attendance %}
+
+                    <tr>
+
+                        <td>
+
+                            {{ record.date }}
+
+                        </td>
+
+                        <td>
+
+                            <span class="attendance-badge">
+
+                                {{ record.status }}
+
+                            </span>
+
+                        </td>
+
+                    </tr>
+
+                    {% endfor %}
+
+                </tbody>
+
+            </table>
 
         </div>
 
@@ -105,60 +314,6 @@
 
 </div>
 
-<table class="table">
-
-    <tr>
-        <th>Assignment</th>
-        <th>Score</th>
-    </tr>
-
-    {% for grade in grades %}
-
-    <tr>
-
-        <td>
-            {{ grade.assignment.title }}
-        </td>
-
-        <td>
-            {{ grade.score }}
-        </td>
-
-    </tr>
-
-    {% endfor %}
-
-</table>
-
-<hr>
-
-<h3>
-    Attendance
-</h3>
-
-<table class="table">
-
-    <tr>
-        <th>Date</th>
-        <th>Status</th>
-    </tr>
-
-    {% for record in attendance %}
-
-    <tr>
-
-        <td>
-            {{ record.date }}
-        </td>
-
-        <td>
-            {{ record.status }}
-        </td>
-
-    </tr>
-
-    {% endfor %}
-
-</table>
+</section>
 
 {% endblock %}

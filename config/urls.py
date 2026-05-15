@@ -25,8 +25,8 @@ urlpatterns = [
     path('news/', include('news.urls')),
     path('admissions/', include('admissions.urls')),
     path('accounts/', include('accounts.urls')),
-    path('academics/', include('academics.urls')),
+    path('academics/', include('academics.urls', namespace='academics')),
 ]
 
-if settings.DEBUG:
+if settings.DEBUG: 
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

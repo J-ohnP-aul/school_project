@@ -1,7 +1,5 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -16,6 +14,13 @@ def teacher_check(user):
 
     return user.groups.filter(
         name='Teachers'
+    ).exists()
+
+
+def parent_check(user):
+
+    return user.groups.filter(
+        name='Parents'
     ).exists()
 
 @login_required
@@ -141,7 +146,8 @@ def record_attendance(request):
 @login_required
 def student_dashboard(request):
 
-    student = StudentProfile.objects.get(
+    student = get_object_or_404(
+        StudentProfile,
         user=request.user
     )
 
@@ -179,9 +185,16 @@ def student_dashboard(request):
 @login_required
 def parent_dashboard(request):
 
-    parent = ParentProfile.objects.get(
+    parent = ParentProfile.objects.filter(
         user=request.user
-    )
+    ).first()
+
+    if parent is None:
+        messages.error(
+            request,
+            'No parent profile found for your account. Please create one or ask an admin to link your user.'
+        )
+        return redirect('dashboard')
 
     students = parent.students.all()
 
