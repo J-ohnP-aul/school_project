@@ -2,26 +2,220 @@
 
 {% block content %}
 
-<h1 class="mb-4">
-    Parent Dashboard
-</h1>
+<section class="dashboard-section">
 
-<h3>
-    Linked Students
-</h3>
+<div class="container">
 
-<ul>
+    <!-- HEADER -->
 
-{% for student in students %}
+    <div class="dashboard-header">
 
-    <li>
-        {{ student.user.username }}
-        -
-        {{ student.grade }}
-    </li>
+        <div>
 
-{% endfor %}
+            <h1 class="dashboard-title">
 
-</ul>
+                Parent Dashboard
+
+            </h1>
+
+            <p class="dashboard-subtitle">
+
+                Monitor your child's academic progress
+                and school activities.
+
+            </p>
+
+        </div>
+
+    </div>
+
+
+    <!-- STUDENTS -->
+
+    <div class="row g-4">
+
+        {% for student in students %}
+
+        <div class="col-lg-6">
+
+            <div class="parent-student-card">
+
+                <!-- TOP -->
+
+                <div class="student-top">
+
+                    <div class="student-avatar">
+
+                        {{ student.user.username|slice:":1" }}
+
+                    </div>
+
+                    <div>
+
+                        <h3>
+
+                            {{ student.user.username }}
+
+                        </h3>
+
+                        <p>
+
+                            Grade:
+                            {{ student.grade }}
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- INFO GRID -->
+
+                <div class="student-info-grid">
+
+                    <div class="info-box">
+
+                        <h4>
+
+                            92%
+
+                        </h4>
+
+                        <p>
+
+                            Attendance
+
+                        </p>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <h4>
+
+                            B+
+
+                        </h4>
+
+                        <p>
+
+                            Average Grade
+
+                        </p>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <h4>
+
+                            5
+
+                        </h4>
+
+                        <p>
+
+                            Assignments
+
+                        </p>
+
+                    </div>
+
+                    <div class="info-box">
+
+                        <h4>
+
+                            Good
+
+                        </h4>
+
+                        <p>
+
+                            Performance
+
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+                <!-- RECENT ACTIVITY -->
+
+                <div class="recent-box">
+
+                    <h5>
+
+                        Recent Activity
+
+                    </h5>
+
+                    <ul>
+
+                        <li>
+                            Submitted Mathematics Assignment
+                        </li>
+
+                        <li>
+                            Present on Monday
+                        </li>
+
+                        <li>
+                            Science CAT score updated
+                        </li>
+
+                    </ul>
+
+                </div>
+
+
+                <!-- BUTTONS -->
+
+                <div class="parent-actions">
+
+                    <a href="#"
+                       class="dashboard-btn">
+
+                        View Full Report
+
+                    </a>
+
+                    <a href="#"
+                       class="dashboard-btn secondary-btn">
+
+                        Contact Teacher
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        {% empty %}
+
+        <div class="col-12">
+
+            <div class="dashboard-card">
+
+                <p>
+
+                    No linked students found.
+
+                </p>
+
+            </div>
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+</div>
+
+</section>
 
 {% endblock %}

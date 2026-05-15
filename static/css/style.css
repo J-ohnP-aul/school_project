@@ -1350,3 +1350,183 @@ h1,h2,h3,h4,h5{
 
     font-weight:600;
 }
+
+/* =========================
+   PARENT DASHBOARD
+========================= */
+
+.parent-student-card{
+
+    background:white;
+
+    border-radius:24px;
+
+    padding:30px;
+
+    box-shadow:
+        0 8px 24px rgba(0,0,0,0.06);
+
+    height:100%;
+}
+
+
+/* TOP PROFILE */
+
+.student-top{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:18px;
+
+    margin-bottom:30px;
+}
+
+.student-avatar{
+
+    width:70px;
+
+    height:70px;
+
+    border-radius:50%;
+
+    background:#DCFCE7;
+
+    display:flex;
+
+    align-items:center;
+
+    justify-content:center;
+
+    font-size:2rem;
+
+    font-weight:800;
+
+    color:#166534;
+}
+
+.student-top h3{
+
+    margin:0;
+
+    font-size:1.4rem;
+
+    font-weight:700;
+
+    color:#1B4332;
+}
+
+.student-top p{
+
+    margin-top:5px;
+
+    color:#64748b;
+}
+
+
+/* INFO GRID */
+
+.student-info-grid{
+
+    display:grid;
+
+    grid-template-columns:
+        repeat(2,1fr);
+
+    gap:16px;
+
+    margin-bottom:30px;
+}
+
+.info-box{
+
+    background:#f8fafc;
+
+    border-radius:18px;
+
+    padding:20px;
+
+    text-align:center;
+}
+
+.info-box h4{
+
+    font-size:1.5rem;
+
+    font-weight:800;
+
+    color:#1B4332;
+
+    margin-bottom:6px;
+}
+
+.info-box p{
+
+    color:#64748b;
+
+    margin:0;
+}
+
+
+/* RECENT ACTIVITY */
+
+.recent-box{
+
+    background:#f8fafc;
+
+    border-radius:18px;
+
+    padding:22px;
+
+    margin-bottom:25px;
+}
+
+.recent-box h5{
+
+    font-weight:700;
+
+    margin-bottom:15px;
+
+    color:#1B4332;
+}
+
+.recent-box ul{
+
+    padding-left:18px;
+
+    margin:0;
+}
+
+.recent-box li{
+
+    margin-bottom:10px;
+
+    color:#475569;
+}
+
+
+/* BUTTONS */
+
+.parent-actions{
+
+    display:flex;
+
+    gap:12px;
+
+    flex-wrap:wrap;
+}
+
+.secondary-btn{
+
+    background:#e2e8f0;
+
+    color:#1e293b;
+}
+
+.secondary-btn:hover{
+
+    background:#cbd5e1;
+
+    color:#0f172a;
+}
