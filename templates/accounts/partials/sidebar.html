@@ -1,52 +1,79 @@
-<!-- templates/dashboard/partials/sidebar.html -->
+
+<!-- templates/accounts/partials/sidebar.html -->
 
 <div class="sidebar">
 
-    <div class="sidebar-brand">
-        <h2>EduAdmin</h2>
+  <!-- Brand -->
+  <a href="{% url 'admin_dashboard' %}" class="sidebar-brand" style="text-decoration:none;">
+    <div class="sidebar-brand-icon">GA</div>
+    <div>
+      <h2>EduAdmin</h2>
+      <span>Greenacre Academy</span>
     </div>
+  </a>
 
-    <ul class="sidebar-links">
+  <!-- Nav -->
+  <p class="sidebar-section-label">Main Menu</p>
 
-        <li>
-            <a href="{% url 'admin_dashboard' %}">
-                Dashboard
-            </a>
-        </li>
-        <li>
-            <a href="{% url 'users_list' %}">
-                User Management
-            </a>
-        </li>
+  <ul class="sidebar-links">
+    <li>
+      <a href="{% url 'admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+        <span class="nav-icon">🏠</span>
+        Dashboard
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'users_list' %}" class="{% if request.resolver_match.url_name == 'users_list' %}active{% endif %}">
+        <span class="nav-icon">👥</span>
+        User Management
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'applicant_list' %}" class="{% if request.resolver_match.url_name == 'applicant_list' %}active{% endif %}">
+        <span class="nav-icon">📋</span>
+        Applicants
+        {% comment %} Optional badge: <span class="nav-badge">3</span> {% endcomment %}
+      </a>
+    </li>
+    <li>
+      <a href="{% url 'create_user' %}" class="{% if request.resolver_match.url_name == 'create_user' %}active{% endif %}">
+        <span class="nav-icon">➕</span>
+        Create User
+      </a>
+    </li>
+  </ul>
 
-        <li>
-            <a href="{% url 'applicant_list' %}">
-                Applicants
-            </a>
-        </li>
+  <p class="sidebar-section-label">Content</p>
 
-        <li>
-            <a href="/news/">
-                News
-            </a>
-        </li>
+  <ul class="sidebar-links">
+    <li>
+      <a href="/news/">
+        <span class="nav-icon">📰</span>
+        News
+      </a>
+    </li>
+    <li>
+      <a href="/gallery/">
+        <span class="nav-icon">🖼️</span>
+        Gallery
+      </a>
+    </li>
+    <li>
+      <a href="#">
+        <span class="nav-icon">⚙️</span>
+        Settings
+      </a>
+    </li>
+  </ul>
 
-        <li>
-            <a href="/gallery/">
-                Gallery
-            </a>
-        </li>
-
-        <li>
-            <a href="#">
-                Settings
-            </a>
-        </li>
-
-    </ul>
-
-    <div class="sidebar-footer">
-        <p>Admin Panel</p>
+  <!-- Footer -->
+  <div class="sidebar-footer" style="margin-top:auto;">
+    <div class="sidebar-footer-avatar">AD</div>
+    <div class="sidebar-footer-info">
+      <div class="sidebar-footer-name">{{ request.user.username|title }}</div>
+      <div class="sidebar-footer-role">Administrator</div>
     </div>
+    <a href="/logout/" class="sidebar-footer-logout" title="Log out">↪</a>
+  </div>
 
 </div>

@@ -1,35 +1,73 @@
+
+<!-- templates/accounts/create_user.html -->
+
 {% extends 'accounts/base_dashboard.html' %}
 
-{% block content %}
-<section class="auth-section" style="padding: 40px 0;">
-  <div class="container">
-    <div class="row justify-content-center">
-      <div class="col-lg-8">
-        <div class="auth-card">
-          <div class="auth-header text-center">
-            <h1>Create User</h1>
-            <p>Add a new student, teacher, or parent account.</p>
-          </div>
+{% block title %}Create User — EduAdmin{% endblock %}
+{% block page_label %}Create User{% endblock %}
 
-          <form method="POST" class="auth-form">
-            {% csrf_token %}
-            {% for field in form %}
-              <div class="auth-group">
-                <label class="auth-label">{{ field.label }}</label>
-                {{ field }}
-                {% if field.help_text %}
-                  <small class="auth-help">{{ field.help_text }}</small>
-                {% endif %}
-                {% if field.errors %}
-                  <div class="auth-error">{{ field.errors }}</div>
-                {% endif %}
-              </div>
-            {% endfor %}
-            <button type="submit" class="auth-btn">Create User</button>
-          </form>
-        </div>
-      </div>
+{% block content %}
+
+<div class="dashboard-section">
+
+  <!-- Page Header -->
+  <div class="dashboard-page-header">
+    <div class="dashboard-page-header-left">
+      <h2>Create User</h2>
+      <p>Add a new student, teacher, or parent account to the system.</p>
+    </div>
+    <div class="header-actions">
+      <a href="{% url 'users_list' %}" class="dashboard-btn outline">← Back to Users</a>
     </div>
   </div>
-</section>
+
+  <!-- Form Card -->
+  <div style="max-width:680px;">
+    <div class="dashboard-card">
+
+      <div class="card-header" style="margin-bottom:24px;">
+        <h3 class="card-title">Account Details</h3>
+        <span style="font-size:.75rem;color:var(--text-muted);">All fields marked * are required</span>
+      </div>
+
+      <form method="POST" class="auth-form">
+        {% csrf_token %}
+
+        {% for field in form %}
+        <div class="auth-group" style="margin-bottom:20px;">
+
+          <label class="auth-label" for="{{ field.id_for_label }}">
+            {{ field.label }}{% if field.field.required %} <span style="color:var(--red);">*</span>{% endif %}
+          </label>
+
+          {{ field }}
+
+          {% if field.help_text %}
+          <small class="auth-help">{{ field.help_text }}</small>
+          {% endif %}
+
+          {% if field.errors %}
+          <div class="auth-error">{{ field.errors }}</div>
+          {% endif %}
+
+        </div>
+        {% endfor %}
+
+        <!-- Actions -->
+        <div style="display:flex;gap:10px;margin-top:28px;padding-top:24px;border-top:1px solid var(--border);">
+          <button type="submit" class="dashboard-btn" style="flex:1;justify-content:center;">
+            ✓ Create User
+          </button>
+          <a href="{% url 'users_list' %}" class="dashboard-btn outline" style="flex:1;justify-content:center;text-align:center;">
+            Cancel
+          </a>
+        </div>
+
+      </form>
+
+    </div>
+  </div>
+
+</div>
+
 {% endblock %}
