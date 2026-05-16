@@ -12,7 +12,11 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+<<<<<<< HEAD
 
+=======
+import dj_database_url
+>>>>>>> 98156b0e80f6dd51cc7271bafd471ef3a891a95b
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -81,6 +85,7 @@ WSGI_APPLICATION = 'config.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
+<<<<<<< HEAD
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
@@ -88,10 +93,15 @@ DATABASES = {
     }
 }
 
+=======
+>>>>>>> 98156b0e80f6dd51cc7271bafd471ef3a891a95b
 if os.environ.get('RENDER'):
-       DB_DIR = '/data'
+    DB_DIR = '/data'
 else:
-       DB_DIR = BASE_DIR
+    DB_DIR = BASE_DIR
+
+# Create the database directory if it doesn't exist
+os.makedirs(DB_DIR, exist_ok=True)
 
 
 # Password validation
@@ -147,4 +157,7 @@ LOGOUT_REDIRECT_URL = 'home'
 CSRF_TRUSTED_ORIGINS = [
     'https://school-project-t3y9.onrender.com',
 ]
+<<<<<<< HEAD
 
+=======
+>>>>>>> 98156b0e80f6dd51cc7271bafd471ef3a891a95b

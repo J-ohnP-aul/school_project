@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # Exported from Render on 2026-05-15T21:56:26Z
 version: "1"
 services:
@@ -10,3 +11,21 @@ services:
   buildCommand: poetry install && python manage.py collectstatic --no-input
   startCommand: gunicorn config.wsgi:application
   autoDeployTrigger: commit
+=======
+services:
+  - type: web
+    name: school-project
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt && python manage.py collectstatic --noinput
+    startCommand: python manage.py migrate && gunicorn config.wsgi:application
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11
+      - key: RENDER
+        value: true
+    disks:
+      - name: data
+        mountPath: /data
+        sizeGB: 1
+>>>>>>> 98156b0e80f6dd51cc7271bafd471ef3a891a95b
