@@ -86,9 +86,6 @@ if os.environ.get('RENDER'):
 else:
     DB_DIR = BASE_DIR
 
-# Create the database directory if it doesn't exist
-os.makedirs(DB_DIR, exist_ok=True)
-
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
