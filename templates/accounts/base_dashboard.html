@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}Dashboard{% endblock %}</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+</head>
+<body>
+
+<div class="dashboard-wrapper">
+    <div id="sidebar">
+        {% include 'accounts/partials/sidebar.html' %}
+    </div>
+    <div class="main-content">
+        {% include 'accounts/partials/topbar.html' %}
+        <main class="content-area">
+            {% block content %}
+            {% endblock %}
+        </main>
+
+    </div>
+
+</div>
+<script>
+    const sidebar = document.getElementById('sidebar');
+
+    function toggleSidebar(){
+        sidebar.classList.toggle('show-sidebar');
+    }
+
+        // const sidebar = document.getElementById('sidebar');
+
+        document.addEventListener('click', function(e){
+
+            const toggle = document.querySelector('.sidebar-toggle');
+
+            // OPEN
+            if(toggle.contains(e.target)){
+                sidebar.style.left = '0';
+            }
+
+            // CLOSE WHEN CLICKING OUTSIDE
+            else if(!sidebar.contains(e.target)){
+                sidebar.style.left = '-260px';
+            }
+
+        });
+
+
+</script>
+</body>
+</html>

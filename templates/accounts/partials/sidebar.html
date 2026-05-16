@@ -1,0 +1,52 @@
+<!-- templates/dashboard/partials/sidebar.html -->
+
+<div class="sidebar">
+
+    <div class="sidebar-brand">
+        <h2>EduAdmin</h2>
+    </div>
+
+    <ul class="sidebar-links">
+
+        <li>
+            <a href="{% url 'admin_dashboard' %}">
+                Dashboard
+            </a>
+        </li>
+        <li>
+            <a href="{% url 'users_list' %}">
+                User Management
+            </a>
+        </li>
+
+        <li>
+            <a href="{% url 'applicant_list' %}">
+                Applicants
+            </a>
+        </li>
+
+        <li>
+            <a href="/news/">
+                News
+            </a>
+        </li>
+
+        <li>
+            <a href="/gallery/">
+                Gallery
+            </a>
+        </li>
+
+        <li>
+            <a href="#">
+                Settings
+            </a>
+        </li>
+
+    </ul>
+
+    <div class="sidebar-footer">
+        <p>Admin Panel</p>
+    </div>
+
+</div>

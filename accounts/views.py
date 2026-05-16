@@ -4,6 +4,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
 from .forms import RegisterForm 
+from admissions.models import Applicant
+from django.contrib.auth.models import User
 
 # Create your views here.
 def register_view(request):
@@ -56,4 +58,24 @@ def dashboard(request):
         'accounts/dashboard.html',
         context
     )
-    
+ 
+# admin dashboard and functionalities
+
+context = {
+    'users': User.objects.all(),
+    'students': User.objects.filter(groups__name='Students').distinct(),
+    'teachers': User.objects.filter(groups__name='Teachers').distinct(),
+    'parents':  User.objects.filter(groups__name='Parents').distinct(),
+}
+ 
+@login_required   
+def admin_dashboard(request):
+    return render(request, 'accounts/admin_dashboard.html', context)
+
+@login_required
+def users_list(request):
+    return render(request, 'accounts/partials/users_list.html', context)
+
+def aplicant_list(request):
+    applicants = Applicant.objects.all()
+    return render(request, 'accounts/partials/applicant_list.html', {'applicants': applicants})

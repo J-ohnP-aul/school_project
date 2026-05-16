@@ -1,0 +1,45 @@
+{% extends 'accounts/base_dashboard.html' %}
+
+{% block content %}
+<div class="dashboard-section">
+    <div class="section-header">
+        <h4>Users by Group</h4>
+    </div>
+
+    <div class="group-lists">
+        <div class="group-list">
+            <h5>Students : {{ students.count }}</h5>
+            <ul>
+                {% for s in students|slice:":10" %}
+                <li>{{ s.username }}</li>
+                {% empty %}
+                <li>No students found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="group-list">
+            <h5>Teachers : {{ teachers.count }}</h5>
+            <ul>
+                {% for t in teachers|slice:":10" %}
+                <li>{{ t.username }}</li>
+                {% empty %}
+                <li>No teachers found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+
+        <div class="group-list">
+            <h5>Parents : {{ parents.count }}</h5>
+            <ul>
+                {% for p in parents|slice:":10" %}
+                <li>{{ p.username }}</li>
+                {% empty %}
+                <li>No parents found.</li>
+                {% endfor %}
+            </ul>
+        </div>
+    </div>
+
+</div>
+{% endblock %}

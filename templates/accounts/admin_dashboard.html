@@ -1,0 +1,57 @@
+<!-- templates/dashboard/admin_dashboard.html -->
+
+{% extends 'accounts/base_dashboard.html' %}
+
+{% block title %}
+Admin Dashboard
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-cards">
+
+    <div class="dashboard-card">
+        <h3>{{ users.count }}</h3>
+        <p>Total Users</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>{{ students.count }}</h3>
+        <p>Total Students</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>{{ teachers.count }}</h3>
+        <p>Total Teachers</p>
+    </div>
+
+    <div class="dashboard-card">
+        <h3>{{ parents.count }}</h3>
+        <p>Total Parents</p>
+    </div>
+
+</div>
+
+    <div class="dashboard-card">
+        <h3>{{ ungrouped.count }}</h3>
+        <p>Unspecified Users</p>
+    </div>
+
+
+<div class="dashboard-section">
+
+    <div class="section-header">
+        <h4>Recent Activity</h4>
+    </div>
+
+    <div class="activity-box">
+        <p>• New admission submitted</p>
+        <p>• Mathematics assignment uploaded</p>
+        <p>• School news updated</p>
+    </div>
+
+</div>
+
+
+
+{% endblock %}

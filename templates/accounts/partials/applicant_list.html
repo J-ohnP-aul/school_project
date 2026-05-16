@@ -1,0 +1,20 @@
+{% extends 'accounts/base_dashboard.html' %}
+
+{% block content %}
+<div class="dashboard-section">
+    <div class="section-header">
+        <h4>Applicants</h4>
+    </div>
+
+    <div class="applicant-list">
+        <ul>
+            {% for applicant in applicants %}
+            <li>
+                {{ applicant.first_name }} {{ applicant.last_name }} - {{ applicant.email }}
+            </li>
+            {% empty %}
+            <li>No applicants found.</li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock %}

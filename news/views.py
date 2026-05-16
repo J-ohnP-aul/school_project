@@ -1,5 +1,6 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import redirect, render, get_object_or_404
 from .models import NewsPost
+from django.contrib.auth.decorators import login_required
 
 # Create your views here.
 
@@ -17,3 +18,9 @@ def news_detail(request, slug):
     return render(request, 'news/news_detail.html', {
         'post': post
     })
+#admin
+@login_required
+def news_del(request, pk):
+    post = get_object_or_404(NewsPost, id=pk)
+    post.delete()
+    return redirect('news_list')

@@ -43,8 +43,7 @@
         {% elif user.teacherprofile %}
           <li><a href="{% url 'academics:teacher_dashboard' %}" class="{% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">Teacher Dashboard</a></li>
         {% elif user.is_staff %}
-          <li><a href="/admin/" class="{% if '/admin/' in request.path %}active{% endif %}">Admin Panel</a></li>
-        {% endif %}
+          <li><a href="{% url 'admin_dashboard' %}" class="{% if '/admin_dashboard/' in request.path %}active{% endif %}">Admin Panel</a></li>        {% endif %}
         <li><a href="/accounts/logout/">Logout</a></li>
       {% else %}
         <li><a href="/accounts/login/" class="{% if '/login/' in request.path %}active{% endif %}">Login</a></li>
@@ -83,7 +82,7 @@
           {% elif user.teacherprofile %}
             <li><a href="{% url 'academics:teacher_dashboard' %}" class="{% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">Teacher Dashboard</a></li>
           {% elif user.is_staff %}
-            <li><a href="/admin/" class="{% if '/admin/' in request.path %}active{% endif %}">Admin Panel</a></li>
+                      <li><a href="{% url 'admin_dashboard' %}" class="{% if '/admin_dashboard/' in request.path %}active{% endif %}">Admin Panel</a></li>
           {% endif %}
           <li><a href="/accounts/logout/">Logout</a></li>
         {% else %}
@@ -99,7 +98,7 @@
   </div>
 
   <div class="ga-drawer-backdrop" id="ga-drawer-backdrop"></div>
-</nav>>
+</nav>
 <div class="container mt-4">
     {% if messages %}
         {% for message in messages %}

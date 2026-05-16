@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from .models import SchoolInfo, Staff, Facility, GalleryImage
 from news.models import NewsPost
 
@@ -31,3 +31,9 @@ def contact(request):
 def gallery_view(request):
     images = GalleryImage.objects.all().order_by('-uploaded_at')
     return render(request, 'core/gallery.html', {'images': images})
+
+# admin gallery delete view
+def gallery_del(request, pk):
+    image = GalleryImage.objects.get(id=pk)
+    image.delete()
+    return redirect('gallery')
