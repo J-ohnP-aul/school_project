@@ -145,11 +145,15 @@ def record_attendance(request):
 
 @login_required
 def student_dashboard(request):
+    # ensure student profile exists; if not, prompt user to complete profile
+    student = StudentProfile.objects.filter(user=request.user).first()
 
-    student = get_object_or_404(
-        StudentProfile,
-        user=request.user
-    )
+    if student is None:
+        messages.error(
+            request,
+            'No student profile found for your account. Please complete your student profile before accessing the student dashboard.'
+        )
+        return redirect('dashboard')
 
     grades = Grade.objects.filter(
         student=student

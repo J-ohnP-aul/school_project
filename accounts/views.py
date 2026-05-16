@@ -5,7 +5,7 @@ from django.contrib import messages
 
 from .forms import RegisterForm 
 from admissions.models import Applicant
-from django.contrib.auth.models import User
+from django.contrib.auth.models import User, Group
 
 # Create your views here.
 def register_view(request):
@@ -13,6 +13,19 @@ def register_view(request):
         form = RegisterForm(request.POST)
         if form.is_valid():
             user = form.save()
+
+            # assign user to group based on selected role
+            role = form.cleaned_data.get('role')
+            group_map = {
+                'student': 'Students',
+                'teacher': 'Teachers',
+                'parent': 'Parents',
+            }
+            group_name = group_map.get(role)
+            if group_name:
+                group, _ = Group.objects.get_or_create(name=group_name)
+                user.groups.add(group)
+
             login(request, user)
             messages.success(request, 'Registration successful. You can now log in.')
             return redirect('dashboard')
