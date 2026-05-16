@@ -2,55 +2,197 @@
 
 {% block content %}
 
-<div class="row justify-content-center">
+<!-- =========================
+     APPLICATION HERO
+========================= -->
 
-<div class="col-md-8">
+<section class="application-hero">
 
-<div class="card">
+  <div class="container text-center">
 
-<div class="card-body">
+    <span class="application-badge">
+      Admissions Open
+    </span>
 
-<h1 class="mb-4 text-center">
-    Student Application
-</h1>
+    <h1 class="application-title">
+      Begin Your Child’s Journey
+    </h1>
 
-<form method="POST"
-      enctype="multipart/form-data">
+    <p class="application-text">
+      Complete the admission application below and our admissions team
+      will contact you shortly with the next steps.
+    </p>
 
-    {% csrf_token %}
+  </div>
 
-    {% for field in form %}
+</section>
 
-        <div class="mb-3">
+<!-- =========================
+     WHY CHOOSE US
+========================= -->
 
-            <label class="form-label">
-                {{ field.label }}
-            </label>
+<section class="application-features">
 
-            {{ field }}
+  <div class="container">
 
-            {% if field.errors %}
-                <div class="text-danger">
-                    {{ field.errors }}
+    <div class="row g-4">
+
+      <div class="col-md-3">
+        <div class="feature-card">
+          <div class="feature-icon">🎓</div>
+          <h4>Quality Education</h4>
+          <p>
+            Competency-based learning with experienced educators.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="feature-card">
+          <div class="feature-icon">🛡️</div>
+          <h4>Safe Environment</h4>
+          <p>
+            A secure and supportive environment for every learner.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="feature-card">
+          <div class="feature-icon">⚽</div>
+          <h4>Co-Curricular</h4>
+          <p>
+            Sports, clubs, music, arts and leadership opportunities.
+          </p>
+        </div>
+      </div>
+
+      <div class="col-md-3">
+        <div class="feature-card">
+          <div class="feature-icon">💻</div>
+          <h4>Modern Learning</h4>
+          <p>
+            Technology-supported learning for future-ready students.
+          </p>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>
+
+<!-- =========================
+     APPLICATION FORM
+========================= -->
+
+<section class="application-section">
+
+  <div class="container">
+
+    <div class="row justify-content-center">
+
+      <div class="col-lg-9">
+
+        <div class="application-card">
+
+          <div class="application-card-header">
+
+            <h2>
+              Student Application Form
+            </h2>
+
+            <p>
+              Please fill in all required information carefully.
+            </p>
+
+          </div>
+
+          <form method="POST"
+                enctype="multipart/form-data"
+                class="application-form">
+
+            {% csrf_token %}
+
+            <!-- Student Information -->
+            <div class="application-group">
+
+              <div class="application-group-title">
+                Student Information
+              </div>
+
+              <div class="row g-3">
+
+                {% for field in form %}
+
+                  <div class="col-md-6">
+
+                    <label class="application-label">
+                      {{ field.label }}
+                    </label>
+
+                    {{ field }}
+
+                    {% if field.errors %}
+                      <div class="application-error">
+                        {{ field.errors }}
+                      </div>
+                    {% endif %}
+
+                  </div>
+
+                {% endfor %}
+
+              </div>
+
+            </div>
+
+            <!-- Process -->
+            <div class="application-process">
+
+              <h4>Application Process</h4>
+
+              <div class="process-steps">
+
+                <div class="process-step">
+                  <span>1</span>
+                  Submit application
                 </div>
-            {% endif %}
+
+                <div class="process-step">
+                  <span>2</span>
+                  Admissions review
+                </div>
+
+                <div class="process-step">
+                  <span>3</span>
+                  Parent contact
+                </div>
+
+                <div class="process-step">
+                  <span>4</span>
+                  Enrollment confirmation
+                </div>
+
+              </div>
+
+            </div>
+
+            <button class="application-btn">
+              Submit Application
+            </button>
+
+          </form>
 
         </div>
 
-    {% endfor %}
+      </div>
 
-    <button class="btn btn-dark w-100">
-        Submit Application
-    </button>
+    </div>
 
-</form>
+  </div>
 
-</div>
-
-</div>
-
-</div>
-
-</div>
+</section>
 
 {% endblock %}

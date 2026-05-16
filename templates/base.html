@@ -31,6 +31,8 @@
       <li><a href="/academics/" class="{% if request.path == '/academics/' %}active{% endif %}">Academics</a></li>
       <li><a href="/gallery/" class="{% if '/gallery/' in request.path %}active{% endif %}">Gallery</a></li>
       <li><a href="/news/" class="{% if request.path == '/news/' %}active{% endif %}">News</a></li>
+      <li><a href="/contact/" class="{% if '/contact/' in request.path %}active{% endif %}">Contact</a></li>
+
       
       {% if user.is_authenticated %}
         <!-- Role-based dashboard links -->
