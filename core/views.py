@@ -1,6 +1,8 @@
 from django.shortcuts import redirect, render
+from django.contrib.auth.decorators import login_required
 from .models import SchoolInfo, Staff, Facility, GalleryImage
 from news.models import NewsPost
+from .forms import GalleryImgForm
 
 
 # Create your views here.
@@ -37,3 +39,14 @@ def gallery_del(request, pk):
     image = GalleryImage.objects.get(id=pk)
     image.delete()
     return redirect('gallery')
+
+@login_required
+def gallery_create(request):
+    if request.method == 'POST':
+        form = GalleryImgForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return redirect('gallery')
+    else:
+        form = GalleryImgForm()
+    return render(request, 'core/gallery_create.html', {'form': form})

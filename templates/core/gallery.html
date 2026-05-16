@@ -7,6 +7,11 @@
     
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px;">
         {% if request.user.is_superuser %}
+        <div class="col-md-12 mb-4">
+            <a href="{% url 'gallery_create' %}" class="btn btn-primary">
+                Add New Image
+            </a>
+        </div>
             {% for image in images %}
             <div style="border-radius: 10px; overflow: hidden; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
                 <img src="{{ image.image.url }}" alt="{{ image.title }}" style="width: 100%; height: 250px; object-fit: cover;">

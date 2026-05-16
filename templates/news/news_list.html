@@ -6,6 +6,11 @@
 
 <div class="row">
     {% if request.user.is_superuser %}
+        <div class="col-md-12 mb-4">
+            <a href="{% url 'news_create' %}" class="btn btn-primary">
+                Create News Post
+            </a>
+        </div>
         {% for post in posts %}
             <div class="col-md-4 mb-4">
                 <div class="card h-100">
@@ -22,7 +27,7 @@
                             <a href="{% url 'news_detail' post.slug %}" class="btn btn-dark">
                                 Read More
                             </a>
-                            </a class=" btn btn-danger">
+                            <a href="{% url 'news_del' post.id %}" class="btn btn-danger">
                                 delete
                             </a>                            
                         </div>
