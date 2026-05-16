@@ -182,9 +182,29 @@ def delete_user(request, pk):
     messages.success(request, f'User {user.username} has been deleted.')
     return redirect('users_list')
 
+@login_required
 def aplicant_list(request):
+    if not request.user.is_staff and not request.user.is_superuser:
+        messages.error(request, 'You do not have permission to view applicants.')
+        return redirect('dashboard')
+
     applicants = Applicant.objects.all()
     return render(request, 'accounts/partials/applicant_list.html', {'applicants': applicants})
+
+
+@login_required
+def delete_applicant(request, pk):
+    if not request.user.is_staff and not request.user.is_superuser:
+        messages.error(request, 'You do not have permission to delete applicants.')
+        return redirect('applicant_list')
+
+    if request.method != 'POST':
+        return redirect('applicant_list')
+
+    applicant = get_object_or_404(Applicant, pk=pk)
+    applicant.delete()
+    messages.success(request, f'Applicant {applicant.first_name} {applicant.last_name} has been deleted.')
+    return redirect('applicant_list')
 
 
 @login_required

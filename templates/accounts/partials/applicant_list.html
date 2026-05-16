@@ -70,8 +70,8 @@
 
           <!-- Date applied -->
           <td style="color:var(--text-muted);font-size:.8rem;">
-            {% if applicant.created_at %}
-              {{ applicant.created_at|date:"M d, Y" }}
+            {% if applicant.submitted_at %}
+              {{ applicant.submitted_at|date:"M d, Y" }}
             {% else %}
               —
             {% endif %}
@@ -102,7 +102,7 @@
               </a>
               {% endif %}
 
-              <form method="post" action="#" style="display:inline;">
+              <form method="post" action="{% url 'delete_applicant' applicant.pk %}" style="display:inline;">
                 {% csrf_token %}
                 <button type="submit"
                         class="dashboard-btn delete-btn"
