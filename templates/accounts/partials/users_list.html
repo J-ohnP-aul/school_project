@@ -6,40 +6,96 @@
         <h4>Users by Group</h4>
     </div>
 
-    <div class="group-lists">
-        <div class="group-list">
-            <h5>Students : {{ students.count }}</h5>
-            <ul>
-                {% for s in students|slice:":10" %}
-                <li>{{ s.username }}</li>
-                {% empty %}
-                <li>No students found.</li>
-                {% endfor %}
-            </ul>
+    <div class="dashboard-section user-table-section">
+        <div class="section-header">
+            <h4>User Management</h4>
         </div>
+        <table class="user-table">
+            <thead>
+                <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Role</th>
+                    <th class="text-right">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr class="group-row">
+                    <td colspan="4">Students ({{ students.count }})</td>
+                </tr>
+                {% for user in students %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email|default:'—' }}</td>
+                    <td>Student</td>
+                    <td class="text-right">
+                        {% if user != request.user %}
+                        <form method="post" action="{% url 'delete_user' user.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dashboard-btn delete-btn">Delete</button>
+                        </form>
+                        {% else %}
+                        <span class="muted">Current user</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="4">No students found.</td>
+                </tr>
+                {% endfor %}
 
-        <div class="group-list">
-            <h5>Teachers : {{ teachers.count }}</h5>
-            <ul>
-                {% for t in teachers|slice:":10" %}
-                <li>{{ t.username }}</li>
+                <tr class="group-row">
+                    <td colspan="4">Teachers ({{ teachers.count }})</td>
+                </tr>
+                {% for user in teachers %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email|default:'—' }}</td>
+                    <td>Teacher</td>
+                    <td class="text-right">
+                        {% if user != request.user %}
+                        <form method="post" action="{% url 'delete_user' user.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dashboard-btn delete-btn">Delete</button>
+                        </form>
+                        {% else %}
+                        <span class="muted">Current user</span>
+                        {% endif %}
+                    </td>
+                </tr>
                 {% empty %}
-                <li>No teachers found.</li>
+                <tr>
+                    <td colspan="4">No teachers found.</td>
+                </tr>
                 {% endfor %}
-            </ul>
-        </div>
 
-        <div class="group-list">
-            <h5>Parents : {{ parents.count }}</h5>
-            <ul>
-                {% for p in parents|slice:":10" %}
-                <li>{{ p.username }}</li>
+                <tr class="group-row">
+                    <td colspan="4">Parents ({{ parents.count }})</td>
+                </tr>
+                {% for user in parents %}
+                <tr>
+                    <td>{{ user.username }}</td>
+                    <td>{{ user.email|default:'—' }}</td>
+                    <td>Parent</td>
+                    <td class="text-right">
+                        {% if user != request.user %}
+                        <form method="post" action="{% url 'delete_user' user.pk %}">
+                            {% csrf_token %}
+                            <button type="submit" class="dashboard-btn delete-btn">Delete</button>
+                        </form>
+                        {% else %}
+                        <span class="muted">Current user</span>
+                        {% endif %}
+                    </td>
+                </tr>
                 {% empty %}
-                <li>No parents found.</li>
+                <tr>
+                    <td colspan="4">No parents found.</td>
+                </tr>
                 {% endfor %}
-            </ul>
-        </div>
+            </tbody>
+        </table>
     </div>
-
 </div>
 {% endblock %}

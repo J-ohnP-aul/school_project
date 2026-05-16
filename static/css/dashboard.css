@@ -142,6 +142,61 @@ body{
     color: #6b7280;
 }
 
+.user-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.user-table th,
+.user-table td {
+    padding: 14px 16px;
+    border-bottom: 1px solid #e5e7eb;
+    text-align: left;
+    color: #334155;
+}
+
+.user-table th {
+    font-weight: 700;
+    font-size: 0.95rem;
+    background: #f8fafc;
+}
+
+.user-table tbody tr:hover {
+    background: #f8fafc;
+}
+
+.group-row td {
+    background: #eef2ff;
+    color: #1e293b;
+    font-weight: 700;
+    padding-top: 18px;
+    padding-bottom: 18px;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.delete-btn {
+    background: #ef4444;
+    border: none;
+    color: white;
+    padding: 10px 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: 0.2s ease;
+}
+
+.delete-btn:hover {
+    background: #dc2626;
+}
+
+.muted {
+    color: #6b7280;
+    font-size: 0.95rem;
+}
+
 /* RECENT ACTIVITY */
 
 .dashboard-section{

@@ -1,0 +1,35 @@
+{% extends 'accounts/base_dashboard.html' %}
+
+{% block content %}
+<section class="auth-section" style="padding: 40px 0;">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <div class="auth-card">
+          <div class="auth-header text-center">
+            <h1>Create User</h1>
+            <p>Add a new student, teacher, or parent account.</p>
+          </div>
+
+          <form method="POST" class="auth-form">
+            {% csrf_token %}
+            {% for field in form %}
+              <div class="auth-group">
+                <label class="auth-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.help_text %}
+                  <small class="auth-help">{{ field.help_text }}</small>
+                {% endif %}
+                {% if field.errors %}
+                  <div class="auth-error">{{ field.errors }}</div>
+                {% endif %}
+              </div>
+            {% endfor %}
+            <button type="submit" class="auth-btn">Create User</button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+{% endblock %}

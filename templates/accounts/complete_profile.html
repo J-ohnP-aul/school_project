@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="auth-section">
+  <div class="container">
+    <div class="row justify-content-center">
+      <div class="col-lg-6">
+        <div class="auth-card">
+          <div class="auth-header text-center">
+            <h2>Complete {{ role|capfirst }} Profile</h2>
+            <p>Provide the required information to finish setting up your account.</p>
+          </div>
+
+          <form method="POST" enctype="multipart/form-data" class="auth-form">
+            {% csrf_token %}
+
+            {% if role == 'parent' %}
+
+              <div class="auth-group">
+                <label class="auth-label">{{ form.phone.label }}</label>
+                {{ form.phone }}
+                {% if form.phone.help_text %}
+                  <small class="auth-help">{{ form.phone.help_text }}</small>
+                {% endif %}
+                {% if form.phone.errors %}
+                  <div class="auth-error">{{ form.phone.errors }}</div>
+                {% endif %}
+              </div>
+
+              <div class="auth-group">
+                <label class="auth-label">Search for your child</label>
+                <input id="student-search" type="search" placeholder="Search by name or admission number" class="form-control" autocomplete="off" />
+                <div id="search-results" style="border:1px solid #ddd; max-height:160px; overflow:auto; margin-top:6px; display:none;"></div>
+                <div id="selected-children" style="margin-top:8px; display:flex; gap:6px; flex-wrap:wrap;"></div>
+                {{ form.students }} {# hidden select used to submit selected student ids #}
+              </div>
+
+            {% else %}
+
+              {% for field in form %}
+                <div class="auth-group">
+                  <label class="auth-label">{{ field.label }}</label>
+                  {{ field }}
+                  {% if field.help_text %}
+                    <small class="auth-help">{{ field.help_text }}</small>
+                  {% endif %}
+                  {% if field.errors %}
+                    <div class="auth-error">{{ field.errors }}</div>
+                  {% endif %}
+                </div>
+              {% endfor %}
+
+            {% endif %}
+
+            <button type="submit" class="auth-btn">Save Profile</button>
+          </form>
+
+          <script>
+          (function(){
+            if ('{{ role }}' !== 'parent') return;
+
+            const searchInput = document.getElementById('student-search');
+            const resultsBox = document.getElementById('search-results');
+            const selectedBox = document.getElementById('selected-children');
+            const hiddenSelect = document.getElementById('id_students');
+
+            let timeout = null;
+
+            function renderResults(items){
+              resultsBox.innerHTML = '';
+              if(!items.length){ resultsBox.style.display='none'; return; }
+              resultsBox.style.display='block';
+              items.forEach(it =>{
+                const el = document.createElement('div');
+                el.style.padding='6px';
+                el.style.cursor='pointer';
+                el.textContent = it.text;
+                el.dataset.id = it.id;
+                el.addEventListener('click', ()=> addStudent(it.id, it.text));
+                resultsBox.appendChild(el);
+              })
+            }
+
+            function addStudent(id, text){
+              // avoid duplicates
+              if(Array.from(hiddenSelect.options).some(o=>o.value==id)) return;
+              const opt = document.createElement('option');
+              opt.value = id; opt.selected = true; opt.text = text;
+              hiddenSelect.appendChild(opt);
+
+              const chip = document.createElement('div');
+              chip.style.padding='6px 8px'; chip.style.border='1px solid #ccc'; chip.style.borderRadius='12px'; chip.style.display='inline-flex'; chip.style.alignItems='center';
+              chip.textContent = text;
+              const btn = document.createElement('button'); btn.type='button'; btn.style.marginLeft='8px'; btn.textContent='×';
+              btn.addEventListener('click', ()=>{
+                // remove option
+                const optToRemove = Array.from(hiddenSelect.options).find(o=>o.value==id);
+                if(optToRemove) hiddenSelect.removeChild(optToRemove);
+                selectedBox.removeChild(chip);
+              });
+              chip.appendChild(btn);
+              selectedBox.appendChild(chip);
+            }
+
+            async function doSearch(q){
+              if(!q) return renderResults([]);
+              try{
+                const res = await fetch(`/accounts/search-students/?q=${encodeURIComponent(q)}`);
+                const data = await res.json();
+                renderResults(data.results || []);
+              }catch(e){ console.error(e); }
+            }
+
+            searchInput.addEventListener('input', (e)=>{
+              clearTimeout(timeout);
+              timeout = setTimeout(()=> doSearch(e.target.value.trim()), 250);
+            });
+
+            // hide results when clicking outside
+            document.addEventListener('click', (e)=>{
+              if(!resultsBox.contains(e.target) && e.target !== searchInput) resultsBox.style.display='none';
+            });
+
+          })();
+          </script>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

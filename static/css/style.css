@@ -854,6 +854,48 @@ h1,h2,h3,h4,h5{
   box-shadow: 0 0 0 4px rgba(82,183,136,0.12);
 }
 
+.auth-role-options {
+  margin-bottom: 22px;
+}
+
+.auth-role-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+}
+
+.auth-role-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 16px;
+  border-radius: 18px;
+  border: 1px solid #dbe2ea;
+  background: #f8fafc;
+  cursor: pointer;
+  transition: 0.2s ease;
+}
+
+.auth-role-option:hover {
+  border-color: var(--green-accent);
+  background: rgba(82,183,136,0.08);
+}
+
+.auth-role-option input {
+  accent-color: var(--green-accent);
+  width: 18px;
+  height: 18px;
+}
+
+.auth-role-option span {
+  font-weight: 600;
+  color: #334155;
+}
+
+.auth-role-option input:checked + span {
+  color: var(--green-deep);
+}
+
 /* Help text */
 .auth-help {
   display: block;
