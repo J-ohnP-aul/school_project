@@ -95,7 +95,7 @@
             <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center;">
 
               {% if applicant.pk %}
-              <a href="#"
+              <a href="{% url 'applicant_detail' applicant.pk %}"
                  class="dashboard-btn outline"
                  style="padding:5px 12px;font-size:.75rem;">
                 View

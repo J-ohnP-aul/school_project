@@ -115,12 +115,24 @@ def admin_dashboard(request):
     parents = users.filter(groups__name='Parents').distinct()
     ungrouped = users.filter(groups__isnull=True).distinct()
 
+    # Applicant stats
+    applicants = Applicant.objects.all()
+    applicants_pending = applicants.filter(status='pending').count()
+    applicants_reviewed = applicants.filter(status='reviewed').count()
+    applicants_accepted = applicants.filter(status='accepted').count()
+    applicants_rejected = applicants.filter(status='rejected').count()
+
     return render(request, 'accounts/admin_dashboard.html', {
         'users': users,
         'students': students,
         'teachers': teachers,
         'parents': parents,
         'ungrouped': ungrouped,
+        'applicants': applicants,
+        'applicants_pending': applicants_pending,
+        'applicants_reviewed': applicants_reviewed,
+        'applicants_accepted': applicants_accepted,
+        'applicants_rejected': applicants_rejected,
     })
 
 
@@ -205,6 +217,24 @@ def delete_applicant(request, pk):
     applicant.delete()
     messages.success(request, f'Applicant {applicant.first_name} {applicant.last_name} has been deleted.')
     return redirect('applicant_list')
+
+
+@login_required
+def applicant_detail(request, pk):
+    if not request.user.is_staff and not request.user.is_superuser:
+        messages.error(request, 'You do not have permission to view applicant details.')
+        return redirect('dashboard')
+
+    applicant = get_object_or_404(Applicant, pk=pk)
+    
+    if request.method == 'POST':
+        status = request.POST.get('status')
+        if status in dict(Applicant.STATUS_CHOICES):
+            applicant.status = status
+            applicant.save()
+            messages.success(request, f'Applicant status updated to {status}.')
+    
+    return render(request, 'accounts/applicant_detail.html', {'applicant': applicant})
 
 
 @login_required

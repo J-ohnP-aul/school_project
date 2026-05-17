@@ -79,6 +79,20 @@
       </div>
     </div>
 
+    <div class="stat-card stat-red">
+      <div class="stat-card-top">
+        <span class="stat-card-label">Applicants</span>
+        <div class="stat-card-icon">📋</div>
+      </div>
+      <div class="stat-card-value">{{ applicants.count }}</div>
+      <div class="stat-card-meta">Pending applications</div>
+      <div class="stat-card-bar">
+        <div class="stat-card-bar-fill"
+             style="--fill: {% widthratio applicants_pending applicants.count 100 %};">
+        </div>
+      </div>
+    </div>
+
   </div>
 
   <!-- Unassigned Alert -->
@@ -125,7 +139,31 @@
       </div>
     </div>
 
-    <!-- Recent Activity -->
+    <!-- Application Status Breakdown -->
+    <div class="dashboard-card">
+      <div class="card-header">
+        <h3 class="card-title">Application Status</h3>
+        <a href="{% url 'applicant_list' %}" class="card-action">View all →</a>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-item">
+          <span>Pending</span>
+          <strong>{{ applicants_pending }}</strong>
+        </div>
+        <div class="metric-item">
+          <span>Reviewed</span>
+          <strong>{{ applicants_reviewed }}</strong>
+        </div>
+        <div class="metric-item">
+          <span>Accepted</span>
+          <strong>{{ applicants_accepted }}</strong>
+        </div>
+        <div class="metric-item">
+          <span>Rejected</span>
+          <strong>{{ applicants_rejected }}</strong>
+        </div>
+      </div>
+    </div>
     <div class="dashboard-card">
       <div class="card-header">
         <h3 class="card-title">Recent Activity</h3>
