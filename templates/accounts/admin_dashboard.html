@@ -1,0 +1,221 @@
+
+<!-- templates/accounts/admin_dashboard.html -->
+
+{% extends 'accounts/base_dashboard.html' %}
+
+{% block title %}Admin Dashboard — EduAdmin{% endblock %}
+{% block page_label %}Admin Dashboard{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-section">
+
+  <!-- Page Header -->
+  <div class="dashboard-page-header">
+    <div class="dashboard-page-header-left">
+      <h2>Good morning 👋</h2>
+      <p>Here's what's happening at Greenacre Academy today.</p>
+    </div>
+    <div class="header-actions">
+      <a href="{% url 'users_list' %}" class="dashboard-btn outline">Manage Users</a>
+      <a href="{% url 'create_user' %}" class="dashboard-btn">+ Create User</a>
+    </div>
+  </div>
+
+  <!-- Stat Cards -->
+  <div class="stats-grid">
+
+    <div class="stat-card stat-blue">
+      <div class="stat-card-top">
+        <span class="stat-card-label">Total Users</span>
+        <div class="stat-card-icon">👤</div>
+      </div>
+      <div class="stat-card-value">{{ users.count }}</div>
+      <div class="stat-card-meta">All active system accounts</div>
+      <div class="stat-card-bar">
+        <div class="stat-card-bar-fill" style="width:100%"></div>
+      </div>
+    </div>
+
+    <div class="stat-card stat-green">
+      <div class="stat-card-top">
+        <span class="stat-card-label">Students</span>
+        <div class="stat-card-icon">🎓</div>
+      </div>
+      <div class="stat-card-value">{{ students.count }}</div>
+      <div class="stat-card-meta">Enrolled student accounts</div>
+      <div class="stat-card-bar">
+        <div class="stat-card-bar-fill"
+             style="--fill: {% widthratio students.count users.count 100 %};">
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card stat-amber">
+      <div class="stat-card-top">
+        <span class="stat-card-label">Teachers</span>
+        <div class="stat-card-icon">📚</div>
+      </div>
+      <div class="stat-card-value">{{ teachers.count }}</div>
+      <div class="stat-card-meta">Active teaching staff</div>
+      <div class="stat-card-bar">
+        <div class="stat-card-bar-fill"
+             style="--fill: {% widthratio teachers.count users.count 100 %};">
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card stat-purple">
+      <div class="stat-card-top">
+        <span class="stat-card-label">Parents</span>
+        <div class="stat-card-icon">👨‍👩‍👧</div>
+      </div>
+      <div class="stat-card-value">{{ parents.count }}</div>
+      <div class="stat-card-meta">Connected parent accounts</div>
+      <div class="stat-card-bar">
+        <div class="stat-card-bar-fill"
+             style="--fill: {% widthratio parents.count users.count 100 %};">
+        </div>
+      </div>
+    </div>
+
+    <div class="stat-card stat-red">
+      <div class="stat-card-top">
+        <span class="stat-card-label">Applicants</span>
+        <div class="stat-card-icon">📋</div>
+      </div>
+      <div class="stat-card-value">{{ applicants.count }}</div>
+      <div class="stat-card-meta">Pending applications</div>
+      <div class="stat-card-bar">
+        <div class="stat-card-bar-fill"
+             style="--fill: {% widthratio applicants_pending applicants.count 100 %};">
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Unassigned Alert -->
+  {% if ungrouped.count > 0 %}
+  <div class="unassigned-card">
+    <div class="unassigned-icon">⚠️</div>
+    <div class="unassigned-text">
+      <h4>Unassigned Accounts</h4>
+      <p>These users have no role or group assigned. Review and assign roles.</p>
+    </div>
+    <div class="unassigned-count">{{ ungrouped.count }}</div>
+    <a href="{% url 'users_list' %}" class="dashboard-btn" style="margin-left:16px; flex-shrink:0;">
+      Review →
+    </a>
+  </div>
+  {% endif %}
+
+  <!-- Grid: Summary + Activity -->
+  <div class="dashboard-grid">
+
+    <!-- Quick Summary -->
+    <div class="dashboard-card">
+      <div class="card-header">
+        <h3 class="card-title">Role Breakdown</h3>
+        <a href="{% url 'users_list' %}" class="card-action">View all →</a>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-item">
+          <span>Students</span>
+          <strong>{{ students.count }}</strong>
+        </div>
+        <div class="metric-item">
+          <span>Teachers</span>
+          <strong>{{ teachers.count }}</strong>
+        </div>
+        <div class="metric-item">
+          <span>Parents</span>
+          <strong>{{ parents.count }}</strong>
+        </div>
+        <div class="metric-item">
+          <span>Unassigned</span>
+          <strong>{{ ungrouped.count }}</strong>
+        </div>
+      </div>
+    </div>
+
+    <!-- Application Status Breakdown -->
+    <div class="dashboard-card">
+      <div class="card-header">
+        <h3 class="card-title">Application Status</h3>
+        <a href="{% url 'applicant_list' %}" class="card-action">View all →</a>
+      </div>
+      <div class="metric-grid">
+        <div class="metric-item">
+          <span>Pending</span>
+          <strong>{{ applicants_pending }}</strong>
+        </div>
+        <div class="metric-item">
+          <span>Reviewed</span>
+          <strong>{{ applicants_reviewed }}</strong>
+        </div>
+        <div class="metric-item">
+          <span>Accepted</span>
+          <strong>{{ applicants_accepted }}</strong>
+        </div>
+        <div class="metric-item">
+          <span>Rejected</span>
+          <strong>{{ applicants_rejected }}</strong>
+        </div>
+      </div>
+    </div>
+    <div class="dashboard-card">
+      <div class="card-header">
+        <h3 class="card-title">Recent Activity</h3>
+        <a href="#" class="card-action">View log →</a>
+      </div>
+      <div class="activity-box">
+        <div class="activity-item">
+          <div class="activity-dot"></div>
+          <div>
+            <div class="activity-text">New admission submitted</div>
+            <div class="activity-time">2 minutes ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot blue"></div>
+          <div>
+            <div class="activity-text">Mathematics assignment uploaded</div>
+            <div class="activity-time">1 hour ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot amber"></div>
+          <div>
+            <div class="activity-text">School news article updated</div>
+            <div class="activity-time">3 hours ago</div>
+          </div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot purple"></div>
+          <div>
+            <div class="activity-text">Teacher profile updated</div>
+            <div class="activity-time">Yesterday</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Quick Actions -->
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h3 class="card-title">Quick Actions</h3>
+    </div>
+    <div style="display:flex; gap:10px; flex-wrap:wrap;">
+      <a href="{% url 'create_user' %}"     class="dashboard-btn">+ New User</a>
+      <a href="{% url 'applicant_list' %}"  class="dashboard-btn outline">View Applicants</a>
+      <a href="/news/"                       class="dashboard-btn outline">Manage News</a>
+      <a href="/gallery/"                    class="dashboard-btn outline">Gallery</a>
+    </div>
+  </div>
+
+</div>
+
+{% endblock %}

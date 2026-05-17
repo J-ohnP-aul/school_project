@@ -1,0 +1,43 @@
+
+<!-- templates/accounts/partials/topbar.html -->
+
+<div class="topbar">
+
+  <div class="topbar-left">
+
+    <button class="sidebar-toggle" onclick="toggleSidebar()" aria-label="Toggle menu">
+      ☰
+    </button>
+
+    <a href="javascript:history.back()" class="back-btn" title="Go back">←</a>
+
+    <!-- Breadcrumb -->
+    <div class="breadcrumb-bar" style="margin-bottom:0;">
+      <a href="{% url 'admin_dashboard' %}">Home</a>
+      <span class="breadcrumb-sep">/</span>
+      <span class="breadcrumb-current">{% block page_label %}Dashboard{% endblock %}</span>
+    </div>
+
+  </div>
+
+  <div class="topbar-actions">
+
+    <input type="text"
+           placeholder="Search users, applicants…"
+           class="search-input"
+           aria-label="Search">
+
+    <!-- Notification button -->
+    <a href="#" class="topbar-icon-btn" title="Notifications">
+      🔔
+      <span class="topbar-badge">3</span>
+    </a>
+
+    <div class="profile-box">
+      <span class="profile-dot"></span>
+      {{ request.user.username|title|default:"Admin" }}
+    </div>
+
+  </div>
+
+</div>

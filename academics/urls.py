@@ -1,7 +1,9 @@
 from django.urls import path
 
-from .views import create_assignment, assignment_list, record_grade, record_attendance, student_dashboard, parent_dashboard
-    
+from .views import create_assignment, assignment_list, record_grade, record_attendance, student_dashboard, parent_dashboard, teacher_dashboard
+
+app_name = 'academics'
+
 urlpatterns = [
     path('', assignment_list, name='assignment_list' ),
     path('create/',create_assignment,name='create_assignment'),
@@ -9,4 +11,5 @@ urlpatterns = [
     path('record-attendance/', record_attendance, name='record_attendance'),
     path('student-dashboard/', student_dashboard, name='student_dashboard'),
     path('parent-dashboard/', parent_dashboard, name='parent_dashboard'),
+    path('teacher-dashboard/', teacher_dashboard, name='teacher_dashboard'),
 ]

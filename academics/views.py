@@ -1,7 +1,5 @@
-from django.shortcuts import render
-
-# Create your views here.
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
+from django.contrib import messages
 
 from django.contrib.auth.decorators import login_required, user_passes_test
 
@@ -17,6 +15,15 @@ def teacher_check(user):
     return user.groups.filter(
         name='Teachers'
     ).exists()
+
+
+def parent_check(user):
+
+    return user.groups.filter(
+        name='Parents'
+    ).exists()
+    
+
 
 @login_required
 @user_passes_test(teacher_check)
@@ -90,7 +97,7 @@ def record_grade(request):
 
             form.save()
 
-            return redirect('assignment_list')
+            return redirect('academics:assignment_list')
 
     else:
 
@@ -124,7 +131,7 @@ def record_attendance(request):
 
             attendance.save()
 
-            return redirect('assignment_list')
+            return redirect('academics:assignment_list')
 
     else:
 
@@ -140,10 +147,15 @@ def record_attendance(request):
 
 @login_required
 def student_dashboard(request):
+    # ensure student profile exists; if not, prompt user to complete profile
+    student = StudentProfile.objects.filter(user=request.user).first()
 
-    student = StudentProfile.objects.get(
-        user=request.user
-    )
+    if student is None:
+        messages.error(
+            request,
+            'No student profile found for your account. Please complete your student profile before accessing the student dashboard.'
+        )
+        return redirect('dashboard')
 
     grades = Grade.objects.filter(
         student=student
@@ -179,9 +191,16 @@ def student_dashboard(request):
 @login_required
 def parent_dashboard(request):
 
-    parent = ParentProfile.objects.get(
+    parent = ParentProfile.objects.filter(
         user=request.user
-    )
+    ).first()
+
+    if parent is None:
+        messages.error(
+            request,
+            'No parent profile found for your account. Please create one or ask an admin to link your user.'
+        )
+        return redirect('dashboard')
 
     students = parent.students.all()
 
@@ -192,3 +211,61 @@ def parent_dashboard(request):
             'students': students
         }
     )
+# ── Replace your teacher_dashboard view with this ──────────────────────────
+
+@login_required
+@user_passes_test(teacher_check)
+def teacher_dashboard(request):
+    teacher = TeacherProfile.objects.get(user=request.user)
+
+    # Assignments this teacher created
+    assignments = Assignment.objects.filter(
+        teacher=teacher
+    ).order_by('-created_at')
+
+    # Recent grades recorded on this teacher's assignments
+    recent_grades = Grade.objects.filter(
+        assignment__teacher=teacher
+    ).select_related('student', 'assignment').order_by('-id')[:10]
+
+    # Recent attendance recorded by this teacher
+    recent_attendance = Attendance.objects.filter(
+        recorded_by=teacher
+    ).select_related('student').order_by('-date')[:10]
+
+    # Stats
+    total_assignments = assignments.count()
+
+    total_grades = Grade.objects.filter(
+        assignment__teacher=teacher
+    ).count()
+
+    avg_score = Grade.objects.filter(
+        assignment__teacher=teacher
+    ).aggregate(Avg('score'))['score__avg']
+
+    present_count = Attendance.objects.filter(
+        recorded_by=teacher,
+        status='Present'
+    ).count()
+
+    total_attendance = Attendance.objects.filter(
+        recorded_by=teacher
+    ).count()
+
+    attendance_rate = round(
+        (present_count / total_attendance * 100), 1
+    ) if total_attendance > 0 else 0
+
+    context = {
+        'teacher':           teacher,
+        'assignments':       assignments[:6],
+        'recent_grades':     recent_grades,
+        'recent_attendance': recent_attendance,
+        'total_assignments': total_assignments,
+        'total_grades':      total_grades,
+        'avg_score':         round(avg_score, 1) if avg_score else 0,
+        'attendance_rate':   attendance_rate,
+    }
+
+    return render(request, 'academics/teacher_dashboard.html', context)

@@ -1,33 +1,127 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
 
-<h1 class="mb-4">
-    Record Grade
-</h1>
+<section class="td-page">
+  <div class="td-wrap" style="max-width: 680px;">
 
-<form method="POST">
+    <!-- Header -->
+    <div class="td-hero" style="margin-bottom: 32px;">
+      <div>
+        <div class="td-greeting-label">🏆 Grades</div>
+        <h1 class="td-greeting-name" style="font-size: 2rem;">Record Grade</h1>
+        <p class="td-greeting-sub">Assign a score to a student for a specific assignment.</p>
+      </div>
+      <a href="javascript:history.back()" class="td-btn td-btn-outline">← Back</a>
+    </div>
 
-    {% csrf_token %}
+    <div class="td-card">
+      <form method="POST" novalidate>
+        {% csrf_token %}
 
-    {% for field in form %}
-
-        <div class="mb-3">
-
-            <label class="form-label">
-                {{ field.label }}
+        <div class="ca-form-grid">
+          {% for field in form %}
+          <div class="ca-group ca-full">
+            <label class="ca-label" for="{{ field.id_for_label }}">
+              {{ field.label }}
+              {% if field.field.required %}<span class="ca-required">*</span>{% endif %}
             </label>
-
             {{ field }}
-
+            {% if field.help_text %}
+              <span class="ca-help">{{ field.help_text }}</span>
+            {% endif %}
+            {% if field.errors %}
+              {% for error in field.errors %}
+                <span class="ca-error">⚠ {{ error }}</span>
+              {% endfor %}
+            {% endif %}
+          </div>
+          {% endfor %}
         </div>
 
-    {% endfor %}
+        <!-- Score visual hint -->
+        <div class="rg-score-hint">
+          <span class="td-pill green">0 – 49 &nbsp;Fail</span>
+          <span class="td-pill amber">50 – 69 &nbsp;Pass</span>
+          <span class="td-pill blue">70 – 84 &nbsp;Credit</span>
+          <span class="td-pill purple">85 – 100 &nbsp;Distinction</span>
+        </div>
 
-    <button class="btn btn-dark">
-        Save Grade
-    </button>
+        <div class="ca-actions">
+          <a href="javascript:history.back()" class="td-btn td-btn-outline">Cancel</a>
+          <button type="submit" class="td-btn td-btn-primary">🏆 Save Grade</button>
+        </div>
+      </form>
+    </div>
 
-</form>
+  </div>
+</section>
+
+<style>
+  .ca-form-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 24px;
+  }
+  .ca-label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 0.88rem;
+    font-weight: 600;
+    color: #334155;
+  }
+  .ca-required { color: #ef4444; margin-left: 3px; }
+  .ca-form-grid input,
+  .ca-form-grid select,
+  .ca-form-grid textarea {
+    width: 100%;
+    padding: 13px 16px;
+    border-radius: 14px;
+    border: 1px solid var(--border);
+    font-size: 0.93rem;
+    font-family: 'Segoe UI', sans-serif;
+    color: var(--ink);
+    background: var(--surface);
+    transition: border-color 0.2s, box-shadow 0.2s;
+    outline: none;
+  }
+  .ca-form-grid input:focus,
+  .ca-form-grid select:focus,
+  .ca-form-grid textarea:focus {
+    border-color: var(--sage);
+    background: #fff;
+    box-shadow: 0 0 0 4px rgba(82,183,136,0.12);
+  }
+  .ca-form-grid textarea { min-height: 110px; resize: vertical; }
+  .ca-form-grid select {
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%2364748b' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: right 16px center;
+    padding-right: 40px;
+  }
+  .ca-help  { display: block; margin-top: 6px; font-size: 0.77rem; color: var(--muted); }
+  .ca-error { display: block; margin-top: 6px; font-size: 0.8rem; color: #dc2626; font-weight: 500; }
+
+  .rg-score-hint {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    padding: 18px;
+    background: var(--surface);
+    border-radius: 14px;
+    margin-bottom: 28px;
+  }
+
+  .ca-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 12px;
+    padding-top: 24px;
+    border-top: 1px solid var(--border);
+  }
+</style>
 
 {% endblock %}

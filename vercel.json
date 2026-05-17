@@ -1,11 +1,20 @@
 {
-  "builds": [
-    {
-      "src": "config/wsgi.py",
-      "use": "@vercel/python"
+  "buildCommand": "pip install -r requirements.txt && python manage.py collectstatic --noinput",
+  "outputDirectory": "staticfiles",
+  "env": {
+    "PYTHONUNBUFFERED": "1"
+  },
+  "functions": {
+    "config/wsgi.py": {
+      "memory": 3008,
+      "maxDuration": 30
     }
-  ],
+  },
   "routes": [
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    },
     {
       "src": "/(.*)",
       "dest": "config/wsgi.py"

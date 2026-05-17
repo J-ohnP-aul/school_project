@@ -2,42 +2,250 @@
 
 {% block content %}
 
-<h1 class="mb-4">
-    Dashboard
-</h1>
+<section class="dashboard-section">
 
-<h4>
-    Welcome {{ request.user.username }}
-</h4>
+<div class="container">
 
-<hr>
+    <!-- Header -->
 
-{% if is_student %}
+    <div class="dashboard-header">
 
-    <div class="alert alert-primary">
+        <div>
 
-        Student Dashboard
+            <h1 class="dashboard-title">
 
-    </div>
-{% endif %}
+                Dashboard
 
-{% if is_teacher %}
-    <div class="alert alert-success">
-        Teacher Dashboard
+            </h1>
 
-    </div>
+            <p class="dashboard-subtitle">
 
-{% endif %}
+                Welcome back,
+                {{ request.user.username }}
 
+            </p>
 
-{% if is_parent %}
-
-    <div class="alert alert-warning">
-
-        Parent Dashboard
+        </div>
 
     </div>
 
-{% endif %}
+    <!-- Role Cards -->
+
+    <div class="row g-4 mt-2">
+
+        {% if is_student %}
+
+        <div class="col-md-4">
+
+            <div class="dashboard-card student-card">
+
+                <div class="dashboard-icon">
+
+                    🎓
+
+                </div>
+
+                <h3>
+
+                    Student Portal
+
+                </h3>
+
+                <p>
+
+                    View grades, assignments,
+                    attendance and announcements.
+
+                </p>
+
+                <a href="{% url 'academics:student_dashboard' %}"
+                   class="dashboard-btn">
+
+                    Open Portal
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        {% if is_teacher %}
+
+        <div class="col-md-4">
+
+            <div class="dashboard-card teacher-card">
+
+                <div class="dashboard-icon">
+
+                    👨‍🏫
+
+                </div>
+
+                <h3>
+
+                    Teacher Dashboard
+
+                </h3>
+
+                <p>
+
+                    Manage assignments,
+                    grades and student records.
+
+                </p>
+
+                <a href="{% url 'academics:teacher_dashboard' %}"
+                   class="dashboard-btn">
+
+                    Manage Classes
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        {% if is_parent %}
+
+        <div class="col-md-4">
+
+            <div class="dashboard-card parent-card">
+
+                <div class="dashboard-icon">
+
+                    👨‍👩‍👧
+
+                </div>
+
+                <h3>
+
+                    Parent Portal
+
+                </h3>
+
+                <p>
+
+                    Monitor attendance,
+                    performance and school updates.
+
+                </p>
+
+                <a href="{% url 'academics:parent_dashboard' %}"
+                   class="dashboard-btn">
+
+                    View Child Progress
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+
+        {% if request.user.is_superuser %}
+
+        <div class="col-md-4">
+
+            <div class="dashboard-card admin-card">
+
+                <div class="dashboard-icon">
+
+                    ⚙️
+                </div>
+
+                <h3>
+
+                    Admin Dashboard
+
+                </h3>
+
+                <p>
+
+                    Manage users, admissions,
+                    news and school content.
+
+                </p>
+
+                <a href="{% url 'admin_dashboard' %}"
+                   class="dashboard-btn">
+
+                    Open Admin Panel
+
+                </a>
+
+            </div>
+
+        </div>
+
+        {% endif %}
+
+    </div>
+
+
+    <!-- Quick Stats -->
+
+    <div class="row g-4 mt-4">
+
+        <div class="col-md-3">
+
+            <div class="mini-stat-card">
+
+                <h2>1200+</h2>
+
+                <p>Students</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="mini-stat-card">
+
+                <h2>85+</h2>
+
+                <p>Teachers</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="mini-stat-card">
+
+                <h2>25+</h2>
+
+                <p>Programs</p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-3">
+
+            <div class="mini-stat-card">
+
+                <h2>15+</h2>
+
+                <p>Years Excellence</p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+</section>
 
 {% endblock %}

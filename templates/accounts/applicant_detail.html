@@ -1,0 +1,219 @@
+<!-- templates/accounts/applicant_detail.html -->
+
+{% extends 'accounts/base_dashboard.html' %}
+
+{% block title %}Applicant Details — EduAdmin{% endblock %}
+{% block page_label %}Applicant Details{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-section">
+
+  <!-- Page Header -->
+  <div class="dashboard-page-header">
+    <div class="dashboard-page-header-left">
+      <h2>{{ applicant.first_name }} {{ applicant.last_name }}</h2>
+      <p>Review applicant information and update status.</p>
+    </div>
+    <div class="header-actions">
+      <a href="{% url 'applicant_list' %}" class="dashboard-btn outline">← Back to Applicants</a>
+    </div>
+  </div>
+
+  <!-- Main Content Grid -->
+  <div class="dashboard-grid">
+
+    <!-- Applicant Information Card -->
+    <div class="dashboard-card">
+      <div class="card-header">
+        <h3 class="card-title">Applicant Information</h3>
+      </div>
+
+      <div class="info-grid">
+        
+        <!-- Name -->
+        <div class="info-item">
+          <div class="info-label">Full Name</div>
+          <div class="info-value">{{ applicant.first_name }} {{ applicant.last_name }}</div>
+        </div>
+
+        <!-- Email -->
+        <div class="info-item">
+          <div class="info-label">Email Address</div>
+          <div class="info-value">
+            <a href="mailto:{{ applicant.email }}" style="color:var(--primary);">{{ applicant.email }}</a>
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="info-item">
+          <div class="info-label">Phone Number</div>
+          <div class="info-value">
+            <a href="tel:{{ applicant.phone }}" style="color:var(--primary);">{{ applicant.phone }}</a>
+          </div>
+        </div>
+
+        <!-- Date of Birth -->
+        <div class="info-item">
+          <div class="info-label">Date of Birth</div>
+          <div class="info-value">{{ applicant.date_of_birth|date:"F d, Y" }}</div>
+        </div>
+
+        <!-- Applying Grade -->
+        <div class="info-item">
+          <div class="info-label">Applying for Grade</div>
+          <div class="info-value">{{ applicant.applying_grade }}</div>
+        </div>
+
+        <!-- Previous School -->
+        <div class="info-item">
+          <div class="info-label">Previous School</div>
+          <div class="info-value">{{ applicant.previous_school }}</div>
+        </div>
+
+        <!-- Application Date -->
+        <div class="info-item">
+          <div class="info-label">Application Submitted</div>
+          <div class="info-value">
+            {% if applicant.submitted_at %}
+              {{ applicant.submitted_at|date:"F d, Y — g:i A" }}
+            {% else %}
+              —
+            {% endif %}
+          </div>
+        </div>
+
+        <!-- Current Status -->
+        <div class="info-item">
+          <div class="info-label">Current Status</div>
+          <div class="info-value">
+            {% if applicant.status == 'accepted' %}
+              <span class="role-badge role-teacher">✓ Accepted</span>
+            {% elif applicant.status == 'reviewed' %}
+              <span class="role-badge role-admin">● Reviewed</span>
+            {% elif applicant.status == 'rejected' %}
+              <span class="role-badge" style="background:var(--red-bg);color:var(--red);">✕ Rejected</span>
+            {% else %}
+              <span class="role-badge role-parent">○ Pending</span>
+            {% endif %}
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Update Status Card -->
+    <div class="dashboard-card">
+      <div class="card-header">
+        <h3 class="card-title">Update Application Status</h3>
+      </div>
+
+      <form method="post" style="display:flex;flex-direction:column;gap:16px;">
+        {% csrf_token %}
+        
+        <div style="display:flex;flex-direction:column;gap:8px;">
+          <label for="status" style="font-size:.85rem;font-weight:600;color:var(--text-primary);">
+            Application Status
+          </label>
+          <select name="status" id="status" style="padding:10px;border:1px solid var(--border-color);border-radius:6px;font-size:.9rem;">
+            <option value="pending" {% if applicant.status == 'pending' %}selected{% endif %}>○ Pending</option>
+            <option value="reviewed" {% if applicant.status == 'reviewed' %}selected{% endif %}>● Reviewed</option>
+            <option value="accepted" {% if applicant.status == 'accepted' %}selected{% endif %}>✓ Accepted</option>
+            <option value="rejected" {% if applicant.status == 'rejected' %}selected{% endif %}>✕ Rejected</option>
+          </select>
+        </div>
+
+        <button type="submit" class="dashboard-btn" style="align-self:flex-start;">
+          Update Status
+        </button>
+      </form>
+    </div>
+
+  </div>
+
+  <!-- Statement Card -->
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h3 class="card-title">Statement of Intent</h3>
+    </div>
+    <div style="padding:16px;background:var(--bg-secondary);border-radius:6px;line-height:1.6;color:var(--text-primary);">
+      {{ applicant.statement }}
+    </div>
+  </div>
+
+  <!-- Documents Card -->
+  <div class="dashboard-card">
+    <div class="card-header">
+      <h3 class="card-title">Supporting Document</h3>
+    </div>
+    
+    {% if applicant.document %}
+      <div style="display:flex;align-items:center;gap:12px;padding:16px;background:var(--bg-secondary);border-radius:6px;">
+        <div style="font-size:2rem;">📄</div>
+        <div style="flex:1;">
+          <div style="font-weight:600;color:var(--text-primary);">{{ applicant.document.name|default:"Untitled Document" }}</div>
+          <div style="font-size:.8rem;color:var(--text-muted);">
+            {% if applicant.document.size %}
+              {{ applicant.document.size|filesizeformat }}
+            {% endif %}
+          </div>
+        </div>
+        <a href="{{ applicant.document.url }}" target="_blank" class="dashboard-btn outline">
+          Download
+        </a>
+      </div>
+    {% else %}
+      <div style="text-align:center;padding:32px;color:var(--text-muted);">
+        <div style="font-size:2rem;margin-bottom:8px;">📭</div>
+        <div>No document uploaded</div>
+      </div>
+    {% endif %}
+  </div>
+
+  <!-- Actions Footer -->
+  <div style="display:flex;gap:10px;flex-wrap:wrap;margin-top:20px;">
+    <a href="{% url 'applicant_list' %}" class="dashboard-btn outline">
+      Back to List
+    </a>
+    <form method="post" action="{% url 'delete_applicant' applicant.pk %}" style="display:inline;">
+      {% csrf_token %}
+      <button type="submit"
+              class="dashboard-btn delete-btn"
+              onclick="return confirm('Are you sure you want to delete {{ applicant.first_name }} {{ applicant.last_name }}?')">
+        Delete Applicant
+      </button>
+    </form>
+  </div>
+
+</div>
+
+<style>
+  .info-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    padding: 16px 0;
+  }
+
+  .info-item {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+  }
+
+  .info-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    color: var(--text-muted);
+  }
+
+  .info-value {
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    word-break: break-word;
+  }
+</style>
+
+{% endblock %}

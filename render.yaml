@@ -1,3 +1,17 @@
+<<<<<<< HEAD
+# Exported from Render on 2026-05-15T21:56:26Z
+version: "1"
+services:
+- type: web
+  name: school_project-1
+  runtime: python
+  repo: https://github.com/J-ohnP-aul/school_project
+  plan: free
+  region: virginia
+  buildCommand: poetry install && python manage.py collectstatic --no-input
+  startCommand: gunicorn config.wsgi:application
+  autoDeployTrigger: commit
+=======
 services:
   - type: web
     name: school-project
@@ -14,3 +28,4 @@ services:
       - name: data
         mountPath: /data
         sizeGB: 1
+>>>>>>> 98156b0e80f6dd51cc7271bafd471ef3a891a95b

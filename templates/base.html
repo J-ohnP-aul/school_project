@@ -24,42 +24,70 @@
       </div>
     </a>
 
-    <!-- Dl -->
+    <!-- Desktop Navigation -->
     <ul class="ga-nav-links">
-      <li><a href="/">Home</a></li>
-      <li><a href="/about/">About</a></li>
-      <li><a href="/academics/">Academics</a></li>
-      <li><a href="/news/">News</a></li>
+      <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+      <li><a href="/about/" class="{% if request.path == '/about/' %}active{% endif %}">About</a></li>
+      <li><a href="/academics/" class="{% if request.path == '/academics/' %}active{% endif %}">Academics</a></li>
+      <li><a href="/gallery/" class="{% if '/gallery/' in request.path %}active{% endif %}">Gallery</a></li>
+      <li><a href="/news/" class="{% if request.path == '/news/' %}active{% endif %}">News</a></li>
+      <li><a href="/contact/" class="{% if '/contact/' in request.path %}active{% endif %}">Contact</a></li>
+
+      
+      {% if user.is_authenticated %}
+        <!-- Role-based dashboard links -->
+        {% if user.studentprofile %}
+          <li><a href="{% url 'academics:student_dashboard' %}" class="{% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">Student Dashboard</a></li>
+        {% elif user.parentprofile %}
+          <li><a href="{% url 'academics:parent_dashboard' %}" class="{% if request.resolver_match.url_name == 'parent_dashboard' %}active{% endif %}">Parent Dashboard</a></li>
+        {% elif user.teacherprofile %}
+          <li><a href="{% url 'academics:teacher_dashboard' %}" class="{% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">Teacher Dashboard</a></li>
+        {% elif user.is_staff %}
+          <li><a href="{% url 'admin_dashboard' %}" class="{% if '/admin_dashboard/' in request.path %}active{% endif %}">Admin Panel</a></li>        {% endif %}
+        <li><a href="/accounts/logout/">Logout</a></li>
+      {% else %}
+        <li><a href="/accounts/login/" class="{% if '/login/' in request.path %}active{% endif %}">Login</a></li>
+        <li><a href="/accounts/register/" class="{% if '/register/' in request.path %}active{% endif %}">Register</a></li>
+      {% endif %}
       <li><a href="/admissions/" class="ga-nav-cta">Apply Now</a></li>
     </ul>
 
-    <!-- Mobt-->
+    <!-- Mobile Toggler -->
     <button class="ga-toggler" id="ga-toggler" aria-label="Toggle menu">
       <span></span><span></span><span></span>
     </button>
 
   </div>
 
-  <!-- Drawer -->
+  <!-- Mobile Drawer -->
   <div class="ga-drawer" id="ga-drawer">
     <div class="ga-drawer-inner">
       <ul class="ga-drawer-nav">
-        <li><a href="/">Home</a></li>
-        <li><a href="/about/">About Us</a></li>
-        <li><a href="/academics/">Academics</a></li>
-        <li><a href="/admissions/">Admissions</a></li>
-        <li><a href="/news/">News & Events</a></li>
-        <li><a href="/news/">Gallery</a></li>
-        <li><a href="/contact/">Contact</a></li>
+        <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
+        <li><a href="/about/" class="{% if request.path == '/about/' %}active{% endif %}">About Us</a></li>
+        <li><a href="/academics/" class="{% if request.path == '/academics/' %}active{% endif %}">Academics</a></li>
+        <li><a href="/admissions/" class="{% if '/admissions/' in request.path %}active{% endif %}">Admissions</a></li>
+        <li><a href="/news/" class="{% if '/news/' in request.path %}active{% endif %}">News & Events</a></li>
+        <li><a href="/gallery/" class="{% if '/gallery/' in request.path %}active{% endif %}">Gallery</a></li>
+        <li><a href="/contact/" class="{% if '/contact/' in request.path %}active{% endif %}">Contact</a></li>
 
         <li class="ga-drawer-divider"></li>
 
         {% if user.is_authenticated %}
-          <li><a href="/accounts/dashboard/">Dashboard</a></li>
+          <!-- Role-based dashboard in mobile -->
+          {% if user.studentprofile %}
+          <li><a href="{% url 'academics:student_dashboard' %}" class="{% if request.resolver_match.url_name == 'student_dashboard' %}active{% endif %}">Student Dashboard</a></li>
+          {% elif user.parentprofile %}
+         <li><a href="{% url 'academics:parent_dashboard' %}" class="{% if request.resolver_match.url_name == 'parent_dashboard' %}active{% endif %}">Parent Dashboard</a></li>
+          {% elif user.teacherprofile %}
+            <li><a href="{% url 'academics:teacher_dashboard' %}" class="{% if request.resolver_match.url_name == 'teacher_dashboard' %}active{% endif %}">Teacher Dashboard</a></li>
+          {% elif user.is_staff %}
+                      <li><a href="{% url 'admin_dashboard' %}" class="{% if '/admin_dashboard/' in request.path %}active{% endif %}">Admin Panel</a></li>
+          {% endif %}
           <li><a href="/accounts/logout/">Logout</a></li>
         {% else %}
-          <li><a href="/accounts/login/">Login</a></li>
-          <li><a href="/accounts/register/">Register</a></li>
+          <li><a href="/accounts/login/" class="{% if '/login/' in request.path %}active{% endif %}">Login</a></li>
+          <li><a href="/accounts/register/" class="{% if '/register/' in request.path %}active{% endif %}">Register</a></li>
         {% endif %}
       </ul>
 

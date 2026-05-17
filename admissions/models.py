@@ -33,6 +33,18 @@ class Applicant(models.Model):
 
     submitted_at = models.DateTimeField(auto_now_add=True)
 
+    STATUS_CHOICES = [
+        ('pending', 'Pending'),
+        ('reviewed', 'Reviewed'),
+        ('accepted', 'Accepted'),
+        ('rejected', 'Rejected'),
+    ]
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='pending'
+    )
+
     def __str__(self):
         return f'{self.first_name} {self.last_name}'
 

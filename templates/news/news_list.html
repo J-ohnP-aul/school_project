@@ -5,34 +5,58 @@
 <h1 class="mb-4">School News</h1>
 
 <div class="row">
-
-{% for post in posts %}
-
-<div class="col-md-4 mb-4">
-
-    <div class="card h-100">
-
-        <img src="{{ post.image.url }}" class="card-img-top">
-
-        <div class="card-body">
-
-            <h5>{{ post.title }}</h5>
-
-            <p>
-                {{ post.content|truncatewords:20 }}
-            </p>
-
-            <a href="{% url 'news_detail' post.slug %}" class="btn btn-dark">
-                Read More
+    {% if request.user.is_superuser %}
+        <div class="col-md-12 mb-4">
+            <a href="{% url 'news_create' %}" class="btn btn-primary">
+                Create News Post
             </a>
-
         </div>
-
-    </div>
-
-</div>
-
-{% endfor %}
+        {% for post in posts %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="{{ post.image.url }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5>{{ post.title }}</h5>
+                        <p>
+                            {{ post.content|truncatewords:20 }}
+                        </p>
+                        <div style="display: flex;
+                            flex-direction: row;
+                            justify-content: space-evenly;
+                            ">
+                            <a href="{% url 'news_detail' post.slug %}" class="btn btn-dark">
+                                Read More
+                            </a>
+                            <a href="{% url 'news_del' post.id %}" class="btn btn-danger">
+                                delete
+                            </a>                            
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No news posts available.</p>
+        {% endfor %}
+    {% else %}
+        {% for post in posts %}
+            <div class="col-md-4 mb-4">
+                <div class="card h-100">
+                    <img src="{{ post.image.url }}" class="card-img-top">
+                    <div class="card-body">
+                        <h5>{{ post.title }}</h5>
+                        <p>
+                            {{ post.content|truncatewords:20 }}
+                        </p>
+                        <a href="{% url 'news_detail' post.slug %}" class="btn btn-dark">
+                            Read More
+                        </a>
+                    </div>
+                </div>
+            </div>
+            {% empty %}
+            <p>No news posts available.</p>
+        {% endfor %}
+    {% endif %}
 
 </div>
 
