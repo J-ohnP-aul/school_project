@@ -58,6 +58,9 @@
 
   --transition: 0.2s ease;
 }
+html {
+  scroll-behavior: smooth;
+}
 
 body {
   font-family: var(--font-main);

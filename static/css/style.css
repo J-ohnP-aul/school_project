@@ -32,6 +32,9 @@
   --border:     #e8f0eb;
   --r:          20px;
 }
+html {
+  scroll-behavior: smooth;
+}
 body{
     background-color: var(--light);
 
@@ -2574,4 +2577,3 @@ h1,h2,h3,h4,h5{
   }
 
 
-  
