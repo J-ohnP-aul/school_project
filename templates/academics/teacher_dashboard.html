@@ -1,8 +1,213 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
 
-    <h1 class="dashboard-title">
-        Teacher Dashboard
-    </h1>
-{% endblock content %}
+<section class="td-page">
+  <div class="td-wrap">
+
+    <!-- Header -->
+    <div class="td-hero">
+      <div>
+        <div class="td-greeting-label">📚 Teacher Portal</div>
+        <h1 class="td-greeting-name">
+          Good morning,<br>
+          {{ request.user.get_full_name|default:request.user.username }} 👋
+        </h1>
+        <p class="td-greeting-sub">{% now "l, N j, Y" %}</p>
+      </div>
+      <div class="td-hero-actions">
+        <a href="{% url 'academics:record_attendance' %}" class="td-btn td-btn-outline">✅ Attendance</a>
+        <a href="{% url 'academics:record_grade' %}" class="td-btn td-btn-outline">🏆 Record Grade</a>
+        <a href="{% url 'academics:create_assignment' %}" class="td-btn td-btn-primary">+ Assignment</a>
+      </div>
+    </div>
+
+    <!-- Stats -->
+    <div class="td-stats">
+      <div class="td-stat-card">
+        <div class="td-stat-icon green">📋</div>
+        <div>
+          <div class="td-stat-val">{{ total_assignments }}</div>
+          <div class="td-stat-label">My Assignments</div>
+        </div>
+      </div>
+      <div class="td-stat-card">
+        <div class="td-stat-icon blue">🏆</div>
+        <div>
+          <div class="td-stat-val">{{ total_grades }}</div>
+          <div class="td-stat-label">Grades Recorded</div>
+        </div>
+      </div>
+      <div class="td-stat-card">
+        <div class="td-stat-icon amber">📊</div>
+        <div>
+          <div class="td-stat-val">{{ avg_score }}%</div>
+          <div class="td-stat-label">Average Score</div>
+        </div>
+      </div>
+      <div class="td-stat-card">
+        <div class="td-stat-icon purple">✅</div>
+        <div>
+          <div class="td-stat-val">{{ attendance_rate }}%</div>
+          <div class="td-stat-label">Attendance Rate</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="td-grid">
+
+      <!-- LEFT -->
+      <div class="td-col-left">
+
+        <!-- My Assignments -->
+        <div class="td-card">
+          <div class="td-card-header">
+            <h2 class="td-card-title">My Assignments</h2>
+            <a href="{% url 'academics:assignment_list' %}" class="td-card-link">View all →</a>
+          </div>
+          <table class="td-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for assignment in assignments %}
+              <tr>
+                <td><strong>{{ assignment.title }}</strong></td>
+                <td>{{ assignment.due_date }}</td>
+                <td>
+                  <a href="{% url 'academics:record_grade' %}?assignment={{ assignment.pk }}"
+                     class="td-pill blue" style="text-decoration:none;">
+                    Grade
+                  </a>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="3" style="text-align:center; color:var(--muted); padding:30px;">
+                  No assignments yet.
+                  <a href="{% url 'academics:create_assignment' %}" class="td-card-link">Create one →</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- Recent Grades -->
+        <div class="td-card">
+          <div class="td-card-header">
+            <h2 class="td-card-title">Recent Grades</h2>
+            <a href="{% url 'academics:record_grade' %}" class="td-card-link">Record Grade →</a>
+          </div>
+          <table class="td-table">
+            <thead>
+              <tr>
+                <th>Student</th>
+                <th>Assignment</th>
+                <th>Score</th>
+                <th>Remarks</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for grade in recent_grades %}
+              <tr>
+                <td>{{ grade.student.user.get_full_name|default:grade.student.user.username }}</td>
+                <td>{{ grade.assignment.title }}</td>
+                <td>
+                  <span class="td-pill {% if grade.score >= 85 %}green{% elif grade.score >= 70 %}blue{% elif grade.score >= 50 %}amber{% else %}red{% endif %}">
+                    {{ grade.score }}
+                  </span>
+                </td>
+                <td style="color:var(--muted); font-size:0.85rem;">
+                  {{ grade.remarks|truncatewords:6|default:"—" }}
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="4" style="text-align:center; color:var(--muted); padding:30px;">
+                  No grades recorded yet.
+                  <a href="{% url 'academics:record_grade' %}" class="td-card-link">Record one →</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+      </div><!-- /left -->
+
+      <!-- RIGHT -->
+      <div class="td-col-right">
+
+        <!-- Quick Actions -->
+        <div class="td-card">
+          <div class="td-card-header">
+            <h2 class="td-card-title">Quick Actions</h2>
+          </div>
+          <div class="td-quick-grid">
+            <a href="{% url 'academics:create_assignment' %}" class="td-quick-btn">
+              <span class="td-quick-icon">📋</span>
+              <span class="td-quick-label">New Assignment</span>
+            </a>
+            <a href="{% url 'academics:record_grade' %}" class="td-quick-btn">
+              <span class="td-quick-icon">🏆</span>
+              <span class="td-quick-label">Record Grade</span>
+            </a>
+            <a href="{% url 'academics:record_attendance' %}" class="td-quick-btn">
+              <span class="td-quick-icon">✅</span>
+              <span class="td-quick-label">Attendance</span>
+            </a>
+            <a href="{% url 'academics:assignment_list' %}" class="td-quick-btn">
+              <span class="td-quick-icon">📝</span>
+              <span class="td-quick-label">Assignments</span>
+            </a>
+          </div>
+        </div>
+
+        <!-- Recent Attendance -->
+        <div class="td-card">
+          <div class="td-card-header">
+            <h2 class="td-card-title">Recent Attendance</h2>
+            <a href="{% url 'academics:record_attendance' %}" class="td-card-link">Record →</a>
+          </div>
+          <div class="td-assignment-list">
+            {% for record in recent_attendance %}
+            <div class="td-assignment-item">
+              <div class="td-asn-icon" style="background:{% if record.status == 'Present' %}var(--sage-light){% else %}#fee2e2{% endif %};">
+                {% if record.status == 'Present' %}✅{% else %}❌{% endif %}
+              </div>
+              <div>
+                <div class="td-asn-title">
+                  {{ record.student.user.get_full_name|default:record.student.user.username }}
+                </div>
+                <div class="td-asn-meta">{{ record.date }}</div>
+              </div>
+              <div class="td-asn-right">
+                <span class="td-pill {% if record.status == 'Present' %}green{% else %}red{% endif %}">
+                  {{ record.status }}
+                </span>
+              </div>
+            </div>
+            {% empty %}
+            <div style="text-align:center; color:var(--muted); padding:30px 0; font-size:0.9rem;">
+              No attendance records yet.
+              <br>
+              <a href="{% url 'academics:record_attendance' %}" class="td-card-link">Record now →</a>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+
+      </div><!-- /right -->
+    </div><!-- /grid -->
+
+  </div>
+</section>
+
+{% endblock %}

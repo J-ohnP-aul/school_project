@@ -16,6 +16,12 @@
   <p class="sidebar-section-label">Main Menu</p>
 
   <ul class="sidebar-links">
+     <li>
+      <a href="/" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+        <span class="nav-icon">⏪</span>
+        exit Dashboard
+      </a>
+    </li>
     <li>
       <a href="{% url 'admin_dashboard' %}" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
         <span class="nav-icon">🏠</span>
