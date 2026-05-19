@@ -8,22 +8,43 @@
      GALLERY HERO
 ======================================== -->
 <section class="gal-hero">
+  <div class="gal-hero-bg">
+    <div class="gal-hero-orb gal-hero-orb--1"></div>
+    <div class="gal-hero-orb gal-hero-orb--2"></div>
+    <div class="gal-hero-grid"></div>
+  </div>
   <div class="container">
     <div class="gal-hero-inner">
       <div class="gal-hero-text">
-        <span class="contact-badge">📸 School Life</span>
-        <h1 class="gal-hero-title">Our <span class="gal-title-accent">Gallery</span></h1>
+        <span class="gal-hero-eyebrow">
+          <span class="gal-eyebrow-dot"></span>
+          School Life
+        </span>
+        <h1 class="gal-hero-title">
+          Our <em>Gallery</em>
+        </h1>
         <p class="gal-hero-sub">A window into the vibrant life at our school — from classroom breakthroughs to championship moments and everything in between.</p>
+        <div class="gal-hero-meta">
+          <div class="gal-meta-chip">
+            <span class="gal-meta-icon">🖼️</span>
+            <span>{{ images|length }} Photo{{ images|length|pluralize }}</span>
+          </div>
+          <div class="gal-meta-chip">
+            <span class="gal-meta-icon">✨</span>
+            <span>Always updating</span>
+          </div>
+        </div>
       </div>
 
       {% if request.user.is_superuser %}
-      <div class="gal-admin-bar">
+      <div class="gal-admin-panel">
         <div class="gal-admin-badge">
-          <span class="gal-admin-dot"></span>
-          Admin Mode
+          <span class="gal-admin-pulse"></span>
+          Admin Mode Active
         </div>
-        <a href="{% url 'gallery_create' %}" class="fac-add-btn">
-          <span>＋</span> Add New Image
+        <a href="{% url 'gallery_create' %}" class="gal-add-btn">
+          <span class="gal-add-btn-icon">＋</span>
+          <span>Add New Image</span>
         </a>
       </div>
       {% endif %}
@@ -34,86 +55,133 @@
 <!-- ========================================
      GALLERY GRID
 ======================================== -->
-<section class="gal-main-section ga-section">
+<section class="gal-main-section">
   <div class="container">
 
     {% if images %}
 
+    <!-- Toolbar -->
+    <div class="gal-toolbar">
+      <p class="gal-toolbar-count">Showing <strong>{{ images|length }}</strong> image{{ images|length|pluralize }}</p>
+      {% if request.user.is_superuser %}
+      <a href="{% url 'gallery_create' %}" class="gal-add-btn gal-add-btn--sm">
+        <span>＋</span> Add Image
+      </a>
+      {% endif %}
+    </div>
+
+    <!-- Masonry Grid -->
     <div class="gal-grid">
-
       {% for image in images %}
-      <div class="gal-card {% if request.user.is_superuser %}gal-card--admin{% endif %}">
+      <div class="gal-card {% if request.user.is_superuser %}gal-card--admin{% endif %}" style="animation-delay: {{ forloop.counter0 }}00ms">
 
-        <!-- Image wrap -->
-        <div class="gal-img-wrap" {% if not request.user.is_superuser %}onclick="openLightbox('{{ image.image.url }}', '{{ image.title }}')"{% endif %}>
+        <!-- Image wrapper -->
+        <div class="gal-img-wrap"
+          {% if not request.user.is_superuser %}
+            onclick="openLightbox('{{ image.image.url }}', '{{ image.title }}')"
+            title="Click to view"
+          {% endif %}>
 
           {% if image.image %}
-            <img src="{{ image.image.url }}" alt="{{ image.title }}" class="gal-img">
+            <img src="{{ image.image.url }}" alt="{{ image.title }}" class="gal-img" loading="lazy">
           {% else %}
             <div class="gal-img-placeholder">
-              <span class="gal-placeholder-icon">🖼️</span>
-              <span class="gal-placeholder-text">No image yet</span>
+              <span>🖼️</span>
+              <span>No image</span>
             </div>
           {% endif %}
 
-          <!-- Public zoom hint -->
+          <!-- Public: zoom overlay -->
           {% if not request.user.is_superuser %}
-          <div class="gal-zoom-hint">🔍 View</div>
+          <div class="gal-view-overlay">
+            <div class="gal-view-icon">
+              <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+                <line x1="11" y1="8" x2="11" y2="14"/><line x1="8" y1="11" x2="14" y2="11"/>
+              </svg>
+            </div>
+            <span>View Full Size</span>
+          </div>
           {% endif %}
 
-          <!-- Admin hover overlay -->
+          <!-- Admin: action overlay (desktop hover) -->
           {% if request.user.is_superuser %}
-          <div class="gal-card-overlay">
-            <a href="{% url 'gallery_update' image.id %}" class="fac-overlay-btn fac-overlay-btn--edit">✏️ Edit</a>
+          <div class="gal-admin-overlay">
+            <a href="{% url 'gallery_update' image.id %}" class="gal-ov-btn gal-ov-btn--edit">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/>
+                <path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/>
+              </svg>
+              Edit
+            </a>
             <a href="{% url 'gallery_del' image.id %}"
-               class="fac-overlay-btn fac-overlay-btn--delete"
-               onclick="return confirm('Delete «{{ image.title }}»? This cannot be undone.')">🗑️ Delete</a>
+               class="gal-ov-btn gal-ov-btn--delete"
+               onclick="return confirm('Delete «{{ image.title }}»? This cannot be undone.')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+                <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4h6v2"/>
+              </svg>
+              Delete
+            </a>
           </div>
-          <div class="fac-card-admin-tag">Admin</div>
+          {% endif %}
+
+          <!-- Admin tag badge -->
+          {% if request.user.is_superuser %}
           {% endif %}
 
         </div>
 
-        <!-- Card body -->
+        <!-- Card footer -->
         <div class="gal-card-body">
           <h3 class="gal-card-title">{{ image.title }}</h3>
           {% if image.description %}
-          <p class="gal-card-desc">{{ image.description }}</p>
+          <p class="gal-card-desc">{{ image.description|truncatewords:12 }}</p>
+          {% endif %}
+
+          <!-- Admin mobile actions (always visible on mobile) -->
+          {% if request.user.is_superuser %}
+          <div class="gal-card-actions">
+            <a href="{% url 'gallery_update' image.id %}" class="gal-action-btn gal-action-btn--edit">
+              ✏️ Edit
+            </a>
+            <a href="{% url 'gallery_del' image.id %}"
+               class="gal-action-btn gal-action-btn--delete"
+               onclick="return confirm('Delete «{{ image.title }}»?')">
+              🗑 Delete
+            </a>
+          </div>
           {% endif %}
         </div>
-
-        <!-- Admin footer (always visible — critical on mobile) -->
-        {% if request.user.is_superuser %}
-        <div class="fac-card-footer">
-          <a href="{% url 'gallery_update' image.id %}" class="fac-footer-btn fac-footer-btn--edit">✏️ Edit</a>
-          <a href="{% url 'gallery_del' image.id %}"
-             class="fac-footer-btn fac-footer-btn--delete"
-             onclick="return confirm('Delete «{{ image.title }}»? This cannot be undone.')">🗑️ Delete</a>
-        </div>
-        {% endif %}
 
       </div>
       {% endfor %}
 
-      <!-- Add card (admin) -->
+      <!-- Admin add card -->
       {% if request.user.is_superuser %}
-      <a href="{% url 'gallery_create' %}" class="fac-add-card">
-        <span class="fac-add-card-icon">＋</span>
-        <span class="fac-add-card-label">Add Image</span>
+      <a href="{% url 'gallery_create' %}" class="gal-add-card">
+        <div class="gal-add-card-inner">
+          <div class="gal-add-card-icon">＋</div>
+          <span class="gal-add-card-label">Add Image</span>
+        </div>
       </a>
       {% endif %}
-
     </div>
 
     {% else %}
 
-    <div class="fac-empty">
-      <span class="fac-empty-icon">📷</span>
-      <h3 class="fac-empty-title">No images yet</h3>
-      <p class="fac-empty-text">Gallery photos will appear here once they've been uploaded.</p>
+    <!-- Empty state -->
+    <div class="gal-empty">
+      <div class="gal-empty-visual">
+        <div class="gal-empty-ring gal-empty-ring--1"></div>
+        <div class="gal-empty-ring gal-empty-ring--2"></div>
+        <span class="gal-empty-icon">📷</span>
+      </div>
+      <h3 class="gal-empty-title">No images yet</h3>
+      <p class="gal-empty-text">Gallery photos will appear here once they've been uploaded.</p>
       {% if request.user.is_superuser %}
-      <a href="{% url 'gallery_create' %}" class="fac-add-btn" style="margin-top:20px;display:inline-flex">
-        ＋ Upload First Image
+      <a href="{% url 'gallery_create' %}" class="gal-add-btn" style="margin-top: 28px; display: inline-flex;">
+        <span>＋</span> Upload First Image
       </a>
       {% endif %}
     </div>
@@ -124,10 +192,14 @@
 </section>
 
 <!-- ========================================
-     LIGHTBOX (public users only)
+     LIGHTBOX
 ======================================== -->
 <div class="gal-lightbox" id="lightbox" onclick="closeLightbox()">
-  <button class="gal-lb-close" onclick="closeLightbox()">✕</button>
+  <button class="gal-lb-close" onclick="closeLightbox()" aria-label="Close">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
+    </svg>
+  </button>
   <div class="gal-lb-inner" onclick="event.stopPropagation()">
     <img src="" alt="" class="gal-lb-img" id="lb-img">
     <div class="gal-lb-caption" id="lb-caption"></div>
@@ -136,164 +208,348 @@
 
 
 <!-- ========================================
-     PAGE STYLES
+     STYLES
 ======================================== -->
 <style>
 
-/* ---- HERO ---- */
+/* =========================================
+   HERO
+========================================= */
 .gal-hero {
-  padding: 100px 0 60px;
-  background: linear-gradient(160deg, rgba(10,31,24,0.04) 0%, rgba(82,183,136,0.06) 100%);
+  position: relative;
+  padding: 110px 0 72px;
+  overflow: hidden;
+  background: var(--forest);
+}
+
+.gal-hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.gal-hero-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(72px);
+  opacity: 0.18;
+}
+
+.gal-hero-orb--1 {
+  width: 520px; height: 520px;
+  background: var(--sage);
+  top: -160px; right: -100px;
+}
+
+.gal-hero-orb--2 {
+  width: 380px; height: 380px;
+  background: var(--amber);
+  bottom: -120px; left: -80px;
+  opacity: 0.12;
+}
+
+.gal-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(82,183,136,0.06) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(82,183,136,0.06) 1px, transparent 1px);
+  background-size: 48px 48px;
 }
 
 .gal-hero-inner {
+  position: relative;
   display: flex;
   align-items: flex-end;
   justify-content: space-between;
-  gap: 32px;
+  gap: 40px;
   flex-wrap: wrap;
 }
 
-.gal-hero-title {
-  font-size: 3rem;
-  font-weight: 800;
-  color: var(--green-deep);
-  line-height: 1.15;
-  margin: 16px 0 14px;
+/* Eyebrow */
+.gal-hero-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(82,183,136,0.18);
+  color: var(--sage);
+  border: 1px solid rgba(82,183,136,0.3);
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  backdrop-filter: blur(6px);
 }
 
-.gal-title-accent { color: var(--green-accent); }
+.gal-eyebrow-dot {
+  width: 6px; height: 6px;
+  background: var(--sage);
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.4; transform:scale(0.6); }
+}
+
+.gal-hero-title {
+  font-size: 3.6rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin: 18px 0 16px;
+  letter-spacing: -0.02em;
+}
+
+.gal-hero-title em {
+  font-style: normal;
+  color: var(--sage);
+  position: relative;
+}
+
+.gal-hero-title em::after {
+  content: '';
+  position: absolute;
+  left: 0; bottom: 2px;
+  width: 100%; height: 3px;
+  background: var(--sage);
+  border-radius: 2px;
+  opacity: 0.5;
+}
 
 .gal-hero-sub {
-  font-size: 1.05rem;
-  color: #64748b;
-  line-height: 1.8;
-  max-width: 560px;
+  font-size: 1rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.85;
+  max-width: 520px;
+  margin-bottom: 28px;
 }
 
-.gal-admin-bar {
+/* Meta chips */
+.gal-hero-meta {
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.gal-meta-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 7px 15px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+  backdrop-filter: blur(6px);
+}
+
+/* Admin panel */
+.gal-admin-panel {
   display: flex;
   flex-direction: column;
   align-items: flex-end;
-  gap: 12px;
+  gap: 14px;
   flex-shrink: 0;
 }
 
 .gal-admin-badge {
   display: inline-flex;
   align-items: center;
-  gap: 7px;
-  background: rgba(220,38,38,0.08);
-  color: #dc2626;
-  padding: 6px 14px;
+  gap: 8px;
+  background: rgba(239,68,68,0.15);
+  color: #fca5a5;
+  border: 1px solid rgba(239,68,68,0.3);
+  padding: 7px 16px;
   border-radius: 999px;
-  font-size: 0.78rem;
+  font-size: 0.75rem;
   font-weight: 700;
-  letter-spacing: 0.04em;
+  letter-spacing: 0.06em;
   text-transform: uppercase;
 }
 
-.gal-admin-dot {
+.gal-admin-pulse {
   width: 7px; height: 7px;
+  background: #f87171;
   border-radius: 50%;
-  background: #dc2626;
-  animation: pulse-dot 1.5s ease-in-out infinite;
+  animation: pulse-dot 1.4s ease-in-out infinite;
 }
 
-@keyframes pulse-dot {
-  0%,100% { opacity:1; transform:scale(1); }
-  50%      { opacity:0.5; transform:scale(0.7); }
+/* Add button */
+.gal-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  background: var(--sage);
+  color: var(--forest);
+  padding: 13px 26px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: all 0.22s ease;
+  box-shadow: 0 4px 20px rgba(82,183,136,0.35);
 }
 
-/* ---- MAIN SECTION ---- */
+.gal-add-btn:hover {
+  background: #6fcf97;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(82,183,136,0.45);
+  color: var(--forest);
+}
+
+.gal-add-btn--sm {
+  padding: 10px 20px;
+  font-size: 0.84rem;
+}
+
+.gal-add-btn-icon {
+  font-size: 1.1rem;
+  line-height: 1;
+}
+
+/* =========================================
+   MAIN SECTION
+========================================= */
 .gal-main-section {
-  padding: 60px 0 90px;
-  background: #f8fafc;
+  padding: 56px 0 100px;
+  background: #f1f5f2;
+  min-height: 400px;
 }
 
-/* ---- MASONRY GRID ---- */
+/* Toolbar */
+.gal-toolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 36px;
+  padding-bottom: 20px;
+  border-bottom: 1px solid #dde8e2;
+}
+
+.gal-toolbar-count {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+.gal-toolbar-count strong {
+  color: var(--forest);
+  font-weight: 700;
+}
+
+/* =========================================
+   MASONRY GRID
+========================================= */
 .gal-grid {
   columns: 3;
-  column-gap: 22px;
+  column-gap: 20px;
 }
 
+/* =========================================
+   CARD
+========================================= */
 .gal-card {
   break-inside: avoid;
-  margin-bottom: 22px;
+  margin-bottom: 20px;
   background: #fff;
-  border-radius: 20px;
+  border-radius: 18px;
   overflow: hidden;
-  border: 1px solid #e8f0eb;
-  box-shadow: 0 4px 18px rgba(0,0,0,0.05);
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  border: 1px solid #e2ebe4;
+  box-shadow: 0 2px 12px rgba(10,31,24,0.05);
+  transition: transform 0.28s cubic-bezier(0.34,1.56,0.64,1), box-shadow 0.28s ease;
   display: flex;
   flex-direction: column;
+  animation: cardReveal 0.5s ease-out both;
+}
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(24px); }
+  to   { opacity: 1; transform: translateY(0); }
 }
 
 .gal-card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 18px 48px rgba(0,0,0,0.1);
+  transform: translateY(-7px) scale(1.005);
+  box-shadow: 0 20px 52px rgba(10,31,24,0.11);
 }
 
-.gal-card--admin { border-color: rgba(220,38,38,0.12); }
+.gal-card--admin {
+  border-color: rgba(239,68,68,0.15);
+}
 
-/* ---- IMAGE ---- */
+/* ---- Image ---- */
 .gal-img-wrap {
   position: relative;
   overflow: hidden;
-  cursor: pointer;
 }
 
 .gal-img {
   width: 100%;
   display: block;
-  transition: transform 0.4s ease;
+  transition: transform 0.45s ease;
 }
 
-.gal-card:hover .gal-img { transform: scale(1.04); }
+.gal-card:hover .gal-img {
+  transform: scale(1.05);
+}
 
 .gal-img-placeholder {
-  width: 100%;
   height: 200px;
-  background: linear-gradient(135deg, #e8f5ee, #d8f3dc);
+  background: linear-gradient(135deg, #e4f0e8, #d1e8d6);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   gap: 10px;
+  font-size: 2.4rem;
+  color: #64748b;
 }
 
-.gal-placeholder-icon { font-size: 2.8rem; }
-.gal-placeholder-text { font-size: 0.82rem; color: #64748b; font-weight: 500; }
-
-/* Public zoom hint */
-.gal-zoom-hint {
-  position: absolute;
-  bottom: 12px; right: 12px;
-  background: rgba(10,31,24,0.72);
-  color: #fff;
-  font-size: 0.75rem;
-  font-weight: 700;
-  padding: 5px 12px;
-  border-radius: 999px;
-  opacity: 0;
-  transform: translateY(6px);
-  transition: opacity 0.2s ease, transform 0.2s ease;
-  backdrop-filter: blur(4px);
-  pointer-events: none;
-}
-
-.gal-card:hover .gal-zoom-hint {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Admin hover overlay */
-.gal-card-overlay {
+/* Public view overlay */
+.gal-view-overlay {
   position: absolute;
   inset: 0;
-  background: rgba(10,31,24,0.65);
-  backdrop-filter: blur(3px);
+  background: linear-gradient(160deg, rgba(10,31,24,0.0) 40%, rgba(10,31,24,0.72) 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  color: #fff;
+  font-size: 0.82rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  cursor: pointer;
+}
+
+.gal-view-icon {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  border: 2px solid rgba(255,255,255,0.8);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.12);
+  backdrop-filter: blur(4px);
+  transition: transform 0.22s ease;
+}
+
+.gal-card:hover .gal-view-overlay { opacity: 1; }
+.gal-card:hover .gal-view-icon    { transform: scale(1.1); }
+
+/* Admin overlay */
+.gal-admin-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,31,24,0.7);
+  backdrop-filter: blur(4px);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -302,35 +558,227 @@
   transition: opacity 0.25s ease;
 }
 
-.gal-card:hover .gal-card-overlay { opacity: 1; }
+.gal-card:hover .gal-admin-overlay { opacity: 1; }
 
-/* ---- CARD BODY ---- */
+.gal-ov-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+  border: 2px solid transparent;
+}
+
+.gal-ov-btn--edit {
+  background: rgba(255,255,255,0.15);
+  color: #fff;
+  border-color: rgba(255,255,255,0.3);
+}
+
+.gal-ov-btn--edit:hover {
+  background: var(--sage);
+  color: var(--forest);
+  border-color: var(--sage);
+}
+
+.gal-ov-btn--delete {
+  background: rgba(239,68,68,0.15);
+  color: #fca5a5;
+  border-color: rgba(239,68,68,0.35);
+}
+
+.gal-ov-btn--delete:hover {
+  background: #ef4444;
+  color: #fff;
+  border-color: #ef4444;
+}
+
+/* Admin tag */
+
+
+/* ---- Card body ---- */
 .gal-card-body {
-  padding: 18px 20px 14px;
+  padding: 16px 18px 14px;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
 }
 
 .gal-card-title {
-  font-size: 1rem;
-  font-weight: 800;
-  color: var(--green-deep);
-  margin-bottom: 5px;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--forest);
+  margin: 0;
+  line-height: 1.4;
 }
 
 .gal-card-desc {
-  font-size: 0.85rem;
-  color: #64748b;
-  line-height: 1.65;
+  font-size: 0.82rem;
+  color: var(--muted);
   margin: 0;
+  line-height: 1.6;
 }
 
-/* ---- LIGHTBOX ---- */
+/* Admin card actions (mobile-always-visible) */
+.gal-card-actions {
+  display: none;
+  gap: 8px;
+  margin-top: 10px;
+}
+
+.gal-action-btn {
+  flex: 1;
+  text-align: center;
+  padding: 9px 12px;
+  border-radius: 10px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.gal-action-btn--edit {
+  background: var(--sage-light);
+  color: var(--forest);
+}
+
+.gal-action-btn--edit:hover {
+  background: var(--sage);
+  color: var(--forest);
+}
+
+.gal-action-btn--delete {
+  background: #fee2e2;
+  color: #b91c1c;
+}
+
+.gal-action-btn--delete:hover {
+  background: #fca5a5;
+  color: #7f1d1d;
+}
+
+/* ---- Add card ---- */
+.gal-add-card {
+  break-inside: avoid;
+  margin-bottom: 20px;
+  min-height: 180px;
+  border-radius: 18px;
+  border: 2px dashed #b2d4bc;
+  background: rgba(82,183,136,0.04);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.gal-add-card:hover {
+  border-color: var(--sage);
+  background: rgba(82,183,136,0.10);
+  transform: translateY(-4px);
+}
+
+.gal-add-card-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.gal-add-card-icon {
+  width: 52px; height: 52px;
+  border-radius: 50%;
+  background: rgba(82,183,136,0.15);
+  color: var(--sage);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 300;
+  transition: all 0.22s ease;
+}
+
+.gal-add-card:hover .gal-add-card-icon {
+  background: var(--sage);
+  color: var(--forest);
+  transform: rotate(90deg) scale(1.1);
+}
+
+.gal-add-card-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: var(--sage);
+  letter-spacing: 0.04em;
+}
+
+/* =========================================
+   EMPTY STATE
+========================================= */
+.gal-empty {
+  text-align: center;
+  padding: 100px 20px;
+}
+
+.gal-empty-visual {
+  position: relative;
+  width: 120px;
+  height: 120px;
+  margin: 0 auto 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.gal-empty-ring {
+  position: absolute;
+  border-radius: 50%;
+  border: 2px solid var(--sage);
+  opacity: 0.2;
+  animation: ring-pulse 3s ease-in-out infinite;
+}
+
+.gal-empty-ring--1 { inset: 0; animation-delay: 0s; }
+.gal-empty-ring--2 { inset: -18px; opacity: 0.10; animation-delay: 0.6s; }
+
+@keyframes ring-pulse {
+  0%,100% { transform: scale(1); opacity: 0.2; }
+  50%      { transform: scale(1.08); opacity: 0.1; }
+}
+
+.gal-empty-icon {
+  font-size: 3.4rem;
+  filter: grayscale(0.2);
+}
+
+.gal-empty-title {
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: var(--forest);
+  margin-bottom: 10px;
+}
+
+.gal-empty-text {
+  color: var(--muted);
+  font-size: 0.95rem;
+  max-width: 340px;
+  margin: 0 auto;
+  line-height: 1.7;
+}
+
+/* =========================================
+   LIGHTBOX
+========================================= */
 .gal-lightbox {
   display: none;
   position: fixed;
   inset: 0;
-  background: rgba(10,31,24,0.92);
-  backdrop-filter: blur(8px);
+  background: rgba(10,31,24,0.94);
+  backdrop-filter: blur(12px);
   z-index: 2000;
   align-items: center;
   justify-content: center;
@@ -338,7 +786,7 @@
 
 .gal-lightbox.open {
   display: flex;
-  animation: lb-fade 0.22s ease;
+  animation: lb-fade 0.2s ease;
 }
 
 @keyframes lb-fade {
@@ -347,71 +795,82 @@
 }
 
 .gal-lb-inner {
-  max-width: 90vw;
-  max-height: 90vh;
+  max-width: 92vw;
+  max-height: 92vh;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 16px;
-  animation: lb-pop 0.28s cubic-bezier(0.34,1.56,0.64,1);
+  gap: 18px;
+  animation: lb-pop 0.3s cubic-bezier(0.34,1.56,0.64,1);
 }
 
 @keyframes lb-pop {
-  from { transform: scale(0.88); opacity: 0; }
+  from { transform: scale(0.86); opacity: 0; }
   to   { transform: scale(1);    opacity: 1; }
 }
 
 .gal-lb-img {
   max-width: 90vw;
-  max-height: 80vh;
-  border-radius: 16px;
+  max-height: 82vh;
+  border-radius: 18px;
   object-fit: contain;
-  box-shadow: 0 30px 80px rgba(0,0,0,0.5);
+  box-shadow: 0 40px 100px rgba(0,0,0,0.6);
 }
 
 .gal-lb-caption {
-  color: rgba(255,255,255,0.8);
-  font-size: 0.95rem;
+  color: rgba(255,255,255,0.75);
+  font-size: 0.92rem;
   font-weight: 600;
   text-align: center;
+  letter-spacing: 0.02em;
 }
 
 .gal-lb-close {
   position: fixed;
-  top: 24px; right: 28px;
-  background: rgba(255,255,255,0.12);
-  color: #fff;
-  border: none;
-  width: 44px; height: 44px;
+  top: 22px; right: 26px;
+  width: 46px; height: 46px;
   border-radius: 50%;
-  font-size: 1.1rem;
-  cursor: pointer;
-  transition: background 0.2s ease;
+  background: rgba(255,255,255,0.1);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  color: #fff;
   display: flex;
   align-items: center;
   justify-content: center;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  backdrop-filter: blur(6px);
 }
 
-.gal-lb-close:hover { background: rgba(255,255,255,0.25); }
+.gal-lb-close:hover {
+  background: rgba(255,255,255,0.22);
+  transform: scale(1.08) rotate(90deg);
+}
 
-/* ---- RESPONSIVE ---- */
+/* =========================================
+   RESPONSIVE
+========================================= */
 @media (max-width: 992px) {
   .gal-grid       { columns: 2; }
-  .gal-hero-title { font-size: 2.4rem; }
+  .gal-hero-title { font-size: 2.8rem; }
 }
 
 @media (max-width: 640px) {
-  .gal-hero       { padding: 80px 0 40px; }
-  .gal-hero-inner { flex-direction: column; align-items: flex-start; }
-  .gal-admin-bar  { align-items: flex-start; }
-  .gal-hero-title { font-size: 2rem; }
+  .gal-hero       { padding: 90px 0 48px; }
+  .gal-hero-inner { flex-direction: column; align-items: flex-start; gap: 28px; }
+  .gal-admin-panel { align-items: flex-start; }
+  .gal-hero-title { font-size: 2.2rem; }
   .gal-grid       { columns: 1; }
-  /* Hover overlay unreachable on touch — footer handles it */
-  .gal-card-overlay { display: none; }
+
+  /* Show card action buttons on mobile (hover not accessible) */
+  .gal-card--admin .gal-card-actions { display: flex; }
+  .gal-admin-overlay { display: none; }
 }
 
 </style>
 
+<!-- ========================================
+     SCRIPT
+======================================== -->
 <script>
 function openLightbox(url, title) {
   if (!url) return;
@@ -426,7 +885,7 @@ function closeLightbox() {
   document.body.style.overflow = '';
 }
 
-document.addEventListener('keydown', function(e) {
+document.addEventListener('keydown', e => {
   if (e.key === 'Escape') closeLightbox();
 });
 </script>

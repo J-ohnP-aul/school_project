@@ -1,14 +1,87 @@
+
 {% extends 'base.html' %}
 {% block content %}
 
 {% if request.user.is_superuser %}
-    <h1 class="mb-4">Create Facility</h1>
-    <form method="post" enctype="multipart/form-data">
+
+<div class="td-page">
+  <div class="td-wrap" style="max-width: 860px;">
+
+    <!-- Page Header -->
+    <div class="td-hero" style="margin-bottom: 32px;">
+      <div>
+        <p class="td-greeting-label">Admin Panel</p>
+        <h1 class="td-greeting-name">Create Facility</h1>
+        <p class="td-greeting-sub">Add a new facility to the school listing.</p>
+      </div>
+      <div class="td-hero-actions">
+        <a href="javascript:history.back()" class="td-btn td-btn-outline">
+          ← Back
+        </a>
+      </div>
+    </div>
+
+    <!-- Form Card -->
+    <div class="td-card">
+      <form method="post" enctype="multipart/form-data">
         {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="btn btn-primary">Create</button>
-    </form>
+
+        <div class="ca-form-grid">
+          {% for field in form %}
+            <div class="{% if field.field.widget.attrs.rows or 'description' in field.html_name or 'content' in field.html_name %}ca-full{% endif %}">
+              <label class="ca-label" for="{{ field.id_for_label }}">
+                {{ field.label }}
+                {% if field.field.required %}<span class="ca-required">*</span>{% endif %}
+              </label>
+
+              {{ field }}
+
+              {% if field.help_text %}
+                <span class="ca-help">{{ field.help_text }}</span>
+              {% endif %}
+
+              {% for error in field.errors %}
+                <span class="ca-error">{{ error }}</span>
+              {% endfor %}
+            </div>
+          {% endfor %}
+        </div>
+
+        <!-- Non-field errors -->
+        {% if form.non_field_errors %}
+          <div style="margin-bottom: 20px;">
+            {% for error in form.non_field_errors %}
+              <span class="ca-error">{{ error }}</span>
+            {% endfor %}
+          </div>
+        {% endif %}
+
+        <!-- Actions -->
+        <div class="ca-actions">
+          <a href="javascript:history.back()" class="td-btn td-btn-outline">Cancel</a>
+          <button type="submit" class="td-btn td-btn-primary">
+            ✦ Create Facility
+          </button>
+        </div>
+
+      </form>
+    </div>
+
+  </div>
+</div>
+
 {% else %}
-    <p>You do not have permission to create facilities.</p>
+
+<div class="td-page">
+  <div class="td-wrap" style="max-width: 560px; padding-top: 80px; text-align: center;">
+    <div class="td-card">
+      <div style="font-size: 3rem; margin-bottom: 18px;">🔒</div>
+      <h2 style="color: var(--forest); margin-bottom: 12px;">Access Denied</h2>
+      <p style="color: var(--muted);">You do not have permission to create facilities.</p>
+      <a href="javascript:history.back()" class="td-btn td-btn-outline" style="margin-top: 24px; display: inline-flex;">← Go Back</a>
+    </div>
+  </div>
+</div>
+
 {% endif %}
 {% endblock content %}
