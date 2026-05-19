@@ -2996,3 +2996,18 @@ h1,h2,h3,h4,h5{
     opacity: 0.6;
     color: var(--green-deep, #0a1f18);
 }
+/* Smooth transitions */
+.transition-slow {
+    transition: all 0.3s ease-in-out;
+}
+
+.hover-scale:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 1rem 2rem rgba(0,0,0,0.1) !important;
+}
+
+/* Card image fix */
+.card-img-top {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+}

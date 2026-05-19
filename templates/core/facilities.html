@@ -1,50 +1,573 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
 
-<section class="py-5">
-    <div class="container">
-        <h1>Our Facilities</h1>
-        <p class="lead">Explore the facilities that support our students' learning, growth, and wellness.</p>
-        
-        <div class="row mt-4">
-            {% if request.user.is_superuser %}
-                <div class="col-12 mb-3">
-                    <a href="{% url 'facility_create' %}" class="btn btn-primary">
-                        Add New Facility
-                    </a>
-                </div>
-            {% endif %}
-            
-            {% for facility in facilities %}
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        {% if facility.image %}
-                            <img src="{{ facility.image.url }}" class="card-img-top" alt="{{ facility.title }}">
-                        {% else %}
-                            <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
-                                <span>No Image Available</span>
-                            </div>
-                        {% endif %}
-                        <div class="card-body">
-                            <h3>{{ facility.title }}</h3>
-                            <p>{{ facility.description }}</p>
-                        </div>
-                        {% if request.user.is_superuser %}
-                            <div class="card-footer d-flex gap-2">
-                                <a href="{% url 'facility_update' facility.id %}" class="btn btn-primary btn-sm">Edit</a>
-                                <a href="{% url 'facility_del' facility.id %}" class="btn btn-danger btn-sm">Delete</a>
-                            </div>
-                        {% endif %}
-                    </div>
-                </div>
-            {% empty %}
-                <div class="col-12">
-                    <p>No facilities are published yet.</p>
-                </div>
-            {% endfor %}
+<!-- ========================================
+     FACILITIES HERO
+======================================== -->
+<section class="fac-hero">
+  <div class="container">
+    <div class="fac-hero-inner">
+
+      <div class="fac-hero-text">
+        <span class="contact-badge">🏗️ Our Campus</span>
+        <h1 class="fac-hero-title">World-Class <span class="fac-title-accent">Facilities</span></h1>
+        <p class="fac-hero-sub">Every space on our campus is purposefully designed to inspire curiosity, support wellbeing, and unlock each learner's full potential.</p>
+      </div>
+
+      {% if request.user.is_superuser %}
+      <div class="fac-admin-bar">
+        <div class="fac-admin-badge">
+          <span class="fac-admin-dot"></span>
+          Admin Mode
         </div>
+        <a href="{% url 'facility_create' %}" class="fac-add-btn">
+          <span>＋</span> Add New Facility
+        </a>
+      </div>
+      {% endif %}
+
     </div>
+  </div>
 </section>
+
+<!-- ========================================
+     FACILITIES GRID
+======================================== -->
+<section class="fac-main-section ga-section">
+  <div class="container">
+
+    {% if facilities %}
+
+    <div class="fac-grid">
+      {% for facility in facilities %}
+      <div class="fac-card {% if request.user.is_superuser %}fac-card--admin{% endif %}">
+
+        <!-- Image -->
+        <div class="fac-card-img-wrap">
+          {% if facility.image %}
+            <img src="{{ facility.image.url }}" alt="{{ facility.title }}" class="fac-card-img">
+          {% else %}
+            <div class="fac-card-img-placeholder">
+              <span class="fac-placeholder-icon">🏛️</span>
+              <span class="fac-placeholder-text">No image yet</span>
+            </div>
+          {% endif %}
+
+          <!-- Admin overlay actions (hover) -->
+          {% if request.user.is_superuser %}
+          <div class="fac-card-overlay">
+            <a href="{% url 'facility_update' facility.id %}" class="fac-overlay-btn fac-overlay-btn--edit">
+              ✏️ Edit
+            </a>
+            <a href="{% url 'facility_del' facility.id %}" class="fac-overlay-btn fac-overlay-btn--delete"
+               onclick="return confirm('Delete « {{ facility.title }} »? This cannot be undone.')">
+              🗑️ Delete
+            </a>
+          </div>
+          {% endif %}
+
+          <!-- Admin badge on card -->
+          {% if request.user.is_superuser %}
+          <!-- <div class="fac-card-admin-tag">Admin</div> -->
+          {% endif %}
+        </div>
+
+        <!-- Body -->
+        <div class="fac-card-body">
+          <h3 class="fac-card-title">{{ facility.title }}</h3>
+          <p class="fac-card-desc">{{ facility.description }}</p>
+        </div>
+
+        <!-- Admin footer (always visible for admin, cleaner than overlay only) -->
+        {% if request.user.is_superuser %}
+        <div class="fac-card-footer">
+          <a href="{% url 'facility_update' facility.id %}" class="fac-footer-btn fac-footer-btn--edit">
+            ✏️ Edit
+          </a>
+          <a href="{% url 'facility_del' facility.id %}" class="fac-footer-btn fac-footer-btn--delete"
+             onclick="return confirm('Delete « {{ facility.title }} »? This cannot be undone.')">
+            🗑️ Delete
+          </a>
+        </div>
+        {% endif %}
+
+      </div>
+      {% endfor %}
+
+      <!-- Add card (admin only) -->
+      {% if request.user.is_superuser %}
+      <a href="{% url 'facility_create' %}" class="fac-add-card">
+        <span class="fac-add-card-icon">＋</span>
+        <span class="fac-add-card-label">Add Facility</span>
+      </a>
+      {% endif %}
+
+    </div>
+
+    {% else %}
+
+    <!-- Empty state -->
+    <div class="fac-empty">
+      <span class="fac-empty-icon">🏗️</span>
+      <h3 class="fac-empty-title">No facilities listed yet</h3>
+      <p class="fac-empty-text">Facilities will appear here once they have been added.</p>
+      {% if request.user.is_superuser %}
+      <a href="{% url 'facility_create' %}" class="fac-add-btn" style="margin-top:20px">
+        ＋ Add First Facility
+      </a>
+      {% endif %}
+    </div>
+
+    {% endif %}
+
+  </div>
+</section>
+
+<!-- ========================================
+     CTA STRIP
+======================================== -->
+<section class="fac-cta-section">
+  <div class="container">
+    <div class="fac-cta-inner">
+      <div>
+        <h2 class="fac-cta-title">Want to see these spaces in person?</h2>
+        <p class="fac-cta-sub">Book a campus tour and experience the Sunshine Academy environment first-hand.</p>
+      </div>
+      <div class="fac-cta-actions">
+        <a href="{% url 'contact' %}" class="about-cta-btn about-cta-btn--primary">📅 Book a Tour</a>
+        <a href="{% url 'apply' %}" class="about-cta-btn about-cta-btn--ghost">📋 Apply Now →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================================
+     PAGE STYLES
+======================================== -->
+<style>
+
+/* ---- HERO ---- */
+.fac-hero {
+  padding: 100px 0 60px;
+  background: linear-gradient(160deg, rgba(10,31,24,0.04) 0%, rgba(82,183,136,0.06) 100%);
+}
+
+.fac-hero-inner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  flex-wrap: wrap;
+}
+
+.fac-hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  line-height: 1.15;
+  margin: 16px 0 14px;
+}
+
+.fac-title-accent { color: var(--green-accent); }
+
+.fac-hero-sub {
+  font-size: 1.05rem;
+  color: #64748b;
+  line-height: 1.8;
+  max-width: 560px;
+}
+
+/* Admin bar */
+.fac-admin-bar {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 12px;
+  flex-shrink: 0;
+}
+
+.fac-admin-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(220,38,38,0.08);
+  color: #dc2626;
+  padding: 6px 14px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+.fac-admin-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: #dc2626;
+  animation: pulse-dot 1.5s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: 0.5; transform: scale(0.7); }
+}
+
+.fac-add-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 13px 26px;
+  background: var(--green-deep);
+  color: #fff;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.92rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.fac-add-btn:hover {
+  background: var(--green-accent);
+  color: var(--green-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(10,31,24,0.18);
+}
+
+/* ---- MAIN SECTION ---- */
+.fac-main-section {
+  padding: 60px 0 90px;
+  background: #f8fafc;
+}
+
+/* ---- GRID ---- */
+.fac-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+/* ---- CARD ---- */
+.fac-card {
+  background: #fff;
+  border-radius: 24px;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid #e8f0eb;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.fac-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+/* subtle red border hint for admin cards */
+.fac-card--admin {
+  border-color: rgba(220,38,38,0.12);
+}
+
+/* ---- CARD IMAGE ---- */
+.fac-card-img-wrap {
+  position: relative;
+  overflow: hidden;
+  height: 220px;
+  flex-shrink: 0;
+}
+
+.fac-card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.4s ease;
+}
+
+.fac-card:hover .fac-card-img {
+  transform: scale(1.05);
+}
+
+.fac-card-img-placeholder {
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(135deg, #e8f5ee, #d8f3dc);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.fac-placeholder-icon { font-size: 3rem; }
+.fac-placeholder-text {
+  font-size: 0.82rem;
+  color: #64748b;
+  font-weight: 500;
+}
+
+
+
+/* Hover overlay (desktop only shortcut) */
+.fac-card-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(10,31,24,0.65);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.fac-card:hover .fac-card-overlay {
+  opacity: 1;
+}
+
+.fac-overlay-btn {
+  padding: 10px 20px;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: transform 0.2s ease;
+}
+
+.fac-overlay-btn:hover { transform: scale(1.05); }
+
+.fac-overlay-btn--edit {
+  background: #fff;
+  color: var(--green-deep);
+}
+
+.fac-overlay-btn--delete {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* ---- CARD BODY ---- */
+.fac-card-body {
+  padding: 26px 28px 20px;
+  flex: 1;
+}
+
+.fac-card-title {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+}
+
+.fac-card-desc {
+  font-size: 0.9rem;
+  color: #64748b;
+  line-height: 1.75;
+  margin: 0;
+}
+
+/* ---- ADMIN FOOTER ---- */
+.fac-card-footer {
+  display: flex;
+  gap: 10px;
+  padding: 16px 28px;
+  border-top: 1px solid #f1f5f9;
+  background: #fafcfb;
+}
+
+.fac-footer-btn {
+  flex: 1;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 9px 16px;
+  border-radius: 10px;
+  font-size: 0.83rem;
+  font-weight: 700;
+  text-decoration: none;
+  transition: all 0.2s ease;
+}
+
+.fac-footer-btn--edit {
+  background: rgba(82,183,136,0.1);
+  color: var(--green-deep);
+}
+
+.fac-footer-btn--edit:hover {
+  background: var(--green-deep);
+  color: #fff;
+}
+
+.fac-footer-btn--delete {
+  background: rgba(220,38,38,0.08);
+  color: #dc2626;
+}
+
+.fac-footer-btn--delete:hover {
+  background: #dc2626;
+  color: #fff;
+}
+
+/* ---- ADD CARD ---- */
+.fac-add-card {
+  background: transparent;
+  border: 2.5px dashed #c8d9ce;
+  border-radius: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  text-decoration: none;
+  min-height: 320px;
+  transition: all 0.25s ease;
+  cursor: pointer;
+}
+
+.fac-add-card:hover {
+  border-color: var(--green-accent);
+  background: rgba(82,183,136,0.04);
+  transform: translateY(-4px);
+}
+
+.fac-add-card-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: rgba(82,183,136,0.1);
+  color: var(--green-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  font-weight: 300;
+  transition: background 0.2s ease;
+}
+
+.fac-add-card:hover .fac-add-card-icon {
+  background: var(--green-accent);
+  color: #fff;
+}
+
+.fac-add-card-label {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #94a3b8;
+  transition: color 0.2s ease;
+}
+
+.fac-add-card:hover .fac-add-card-label {
+  color: var(--green-accent);
+}
+
+/* ---- EMPTY STATE ---- */
+.fac-empty {
+  text-align: center;
+  padding: 80px 20px;
+}
+
+.fac-empty-icon { font-size: 4rem; display: block; margin-bottom: 18px; }
+
+.fac-empty-title {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+}
+
+.fac-empty-text {
+  color: #94a3b8;
+  font-size: 0.97rem;
+}
+
+/* ---- CTA ---- */
+.fac-cta-section {
+  padding: 70px 0;
+  background: #fff;
+}
+
+.fac-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 32px;
+  background: linear-gradient(135deg, var(--green-deep) 0%, #1a3b2f 100%);
+  border-radius: 28px;
+  padding: 48px 52px;
+  box-shadow: 0 20px 60px rgba(10,31,24,0.18);
+  flex-wrap: wrap;
+}
+
+.fac-cta-title {
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: #fff;
+  margin-bottom: 8px;
+}
+
+.fac-cta-sub {
+  font-size: 0.95rem;
+  color: rgba(255,255,255,0.65);
+  line-height: 1.7;
+  max-width: 460px;
+}
+
+.fac-cta-actions {
+  display: flex;
+  gap: 14px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+/* override about-cta-btn colours for dark bg */
+.fac-cta-section .about-cta-btn--primary {
+  background: var(--green-accent);
+  color: var(--green-deep);
+}
+.fac-cta-section .about-cta-btn--primary:hover {
+  background: #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.15);
+}
+.fac-cta-section .about-cta-btn--ghost {
+  border-color: rgba(255,255,255,0.25);
+  color: #fff;
+}
+.fac-cta-section .about-cta-btn--ghost:hover {
+  border-color: #fff;
+  color: #fff;
+  background: rgba(255,255,255,0.08);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 992px) {
+  .fac-grid { grid-template-columns: repeat(2, 1fr); }
+  .fac-hero-title { font-size: 2.4rem; }
+  .fac-cta-inner { flex-direction: column; text-align: center; padding: 36px 28px; }
+  .fac-cta-actions { justify-content: center; }
+  .fac-cta-sub { max-width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .fac-hero { padding: 80px 0 40px; }
+  .fac-hero-inner { flex-direction: column; align-items: flex-start; }
+  .fac-admin-bar { align-items: flex-start; }
+  .fac-hero-title { font-size: 2rem; }
+  .fac-grid { grid-template-columns: 1fr; gap: 20px; }
+  .fac-card-img-wrap { height: 200px; }
+  /* On mobile always show the edit/delete footer, hide hover overlay */
+  .fac-card-overlay { display: none; }
+  .fac-cta-title { font-size: 1.5rem; }
+  .fac-cta-actions { flex-direction: column; width: 100%; }
+  .about-cta-btn { justify-content: center; }
+}
+
+</style>
 
 {% endblock %}

@@ -1,54 +1,904 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
 
-<h1>About Our School</h1>
-
-<h2>Mission</h2>
-<p>{{ school.mission }}</p>
-
-<h2>Vision</h2>
-<p>{{ school.vision }}</p>
-
-<h2>History</h2>
-<p>{{ school.history }}</p>
-
-<hr>
-
-<h2>Our Staff</h2>
-
-<div class="row">
-
-{% for member in staff %}
-
-    <div class="col-md-4 mb-4">
-
-        <div class="card h-100">
-
-            <img src="{{ member.photo.url }}">
-
-            <div class="card-body">
-
-                <h4>{{ member.name }}</h4>
-
-                <p class="text-primary">
-                    {{ member.position }}
-                </p>
-
-                <p>{{ member.bio }}</p>
-
-            </div>
-
+<!-- ========================================
+     ABOUT HERO
+======================================== -->
+<section class="about-hero">
+  <div class="container">
+    <div class="about-hero-inner">
+      <div class="about-hero-text">
+        <span class="contact-badge">🏫 Est. 2010</span>
+        <h1 class="about-hero-title">Shaping <span class="about-title-accent">Minds</span>,<br>Building <span class="about-title-accent">Futures</span></h1>
+        <p class="about-hero-sub">Excellence, character, and leadership have guided us for over a decade. We are more than a school — we are a community committed to every learner's potential.</p>
+        <div class="about-hero-stats">
+          <div class="about-stat">
+            <span class="about-stat-num">15+</span>
+            <span class="about-stat-label">Years of Excellence</span>
+          </div>
+          <div class="about-stat-divider"></div>
+          <div class="about-stat">
+            <span class="about-stat-num">1,200+</span>
+            <span class="about-stat-label">Students Enrolled</span>
+          </div>
+          <div class="about-stat-divider"></div>
+          <div class="about-stat">
+            <span class="about-stat-num">98%</span>
+            <span class="about-stat-label">Pass Rate</span>
+          </div>
         </div>
+      </div>
+      <div class="about-hero-visual">
+        <div class="about-hero-card about-hero-card--main">
+          <span class="ahc-emoji">🎓</span>
+          <span class="ahc-label">Graduates Every Year</span>
+          <span class="ahc-num">240+</span>
+        </div>
+        <div class="about-hero-card about-hero-card--secondary">
+          <span class="ahc-emoji">⭐</span>
+          <span class="ahc-label">Award-Winning School</span>
+          <span class="ahc-num">12 Awards</span>
+        </div>
+        <div class="about-hero-blob"></div>
+      </div>
+    </div>
+  </div>
+</section>
 
+<!-- ========================================
+     MISSION / VISION / HISTORY
+======================================== -->
+<section class="about-mvh-section ga-section">
+  <div class="container">
+
+    <div class="about-section-header text-center">
+      <span class="contact-badge">Our Foundation</span>
+      <h2 class="about-section-title">Who We Are</h2>
+      <p class="about-section-sub">The values and story that define everything we do</p>
     </div>
 
-{% endfor %}
+    <div class="about-mvh-grid">
 
-</div>
+      <!-- Mission -->
+      <div class="about-mvh-card">
+        <div class="about-mvh-icon" style="background: rgba(82,183,136,0.12)">🎯</div>
+        <div class="about-mvh-tag" style="color: var(--green-accent); background: rgba(82,183,136,0.1)">Mission</div>
+        <h3 class="about-mvh-title">Our Mission</h3>
+        <p class="about-mvh-text">{{ school.mission }}</p>
+        <div class="about-mvh-footer">
+          <span class="about-mvh-dot" style="background: var(--green-accent)"></span>
+          <span class="about-mvh-dot" style="background: var(--green-accent); opacity:0.4"></span>
+          <span class="about-mvh-dot" style="background: var(--green-accent); opacity:0.2"></span>
+        </div>
+      </div>
 
-<hr>
+      <!-- Vision -->
+      <div class="about-mvh-card about-mvh-card--featured">
+        <div class="about-mvh-icon" style="background: rgba(255,255,255,0.15)">🔭</div>
+        <div class="about-mvh-tag" style="color: #fff; background: rgba(255,255,255,0.15)">Vision</div>
+        <h3 class="about-mvh-title" style="color:#fff">Our Vision</h3>
+        <p class="about-mvh-text" style="color:rgba(255,255,255,0.8)">{{ school.vision }}</p>
+        <div class="about-mvh-footer">
+          <span class="about-mvh-dot" style="background: #fff"></span>
+          <span class="about-mvh-dot" style="background: #fff; opacity:0.4"></span>
+          <span class="about-mvh-dot" style="background: #fff; opacity:0.2"></span>
+        </div>
+      </div>
 
-<p><a href="{% url 'facilities' %}" class="btn btn-outline-dark">View Our Facilities →</a></p>
+      <!-- History -->
+      <div class="about-mvh-card">
+        <div class="about-mvh-icon" style="background: rgba(244,162,97,0.12)">📖</div>
+        <div class="about-mvh-tag" style="color: var(--amber); background: rgba(244,162,97,0.12)">History</div>
+        <h3 class="about-mvh-title">Our History</h3>
+        <p class="about-mvh-text">{{ school.history }}</p>
+        <div class="about-mvh-footer">
+          <span class="about-mvh-dot" style="background: var(--amber)"></span>
+          <span class="about-mvh-dot" style="background: var(--amber); opacity:0.4"></span>
+          <span class="about-mvh-dot" style="background: var(--amber); opacity:0.2"></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     CORE VALUES STRIP
+======================================== -->
+<section class="about-values-section ga-section">
+  <div class="container">
+    <div class="about-values-grid">
+      <div class="about-value-item">
+        <span class="about-value-icon">💡</span>
+        <span class="about-value-label">Innovation</span>
+      </div>
+      <div class="about-value-item">
+        <span class="about-value-icon">🤝</span>
+        <span class="about-value-label">Integrity</span>
+      </div>
+      <div class="about-value-item">
+        <span class="about-value-icon">🌱</span>
+        <span class="about-value-label">Growth</span>
+      </div>
+      <div class="about-value-item">
+        <span class="about-value-icon">🎨</span>
+        <span class="about-value-label">Creativity</span>
+      </div>
+      <div class="about-value-item">
+        <span class="about-value-icon">🌍</span>
+        <span class="about-value-label">Community</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     STAFF SECTION
+======================================== -->
+<section class="about-staff-section ga-section">
+  <div class="container">
+
+    <div class="about-section-header text-center">
+      <span class="contact-badge">Our People</span>
+      <h2 class="about-section-title">Meet Our Staff</h2>
+      <p class="about-section-sub">Dedicated educators and administrators who make it all happen</p>
+    </div>
+
+    <div class="about-staff-grid">
+      {% for member in staff %}
+      <div class="about-staff-card">
+        <!-- Photo -->
+        <div class="about-staff-photo-wrap">
+          {% if member.photo %}
+            <img src="{{ member.photo.url }}" alt="{{ member.name }}" class="about-staff-photo">
+          {% else %}
+            <div class="about-staff-photo-placeholder">
+              <span>{{ member.name|first }}</span>
+            </div>
+          {% endif %}
+          <div class="about-staff-photo-ring"></div>
+        </div>
+
+        <!-- Info -->
+        <div class="about-staff-info">
+          <h4 class="about-staff-name">{{ member.name }}</h4>
+          <span class="about-staff-role">{{ member.position }}</span>
+          <p class="about-staff-bio">{{ member.bio|truncatewords:22 }}</p>
+          <a href="mailto:{{ member.email|default:'staff@school.com' }}" class="about-staff-email">
+            <span class="about-staff-email-icon">✉️</span>
+            {{ member.email|default:"staff@school.com" }}
+          </a>
+        </div>
+      </div>
+      {% empty %}
+      <div class="about-staff-empty">
+        <span class="about-staff-empty-icon">👥</span>
+        <p>Staff profiles coming soon.</p>
+      </div>
+      {% endfor %}
+    </div>
+
+  </div>
+</section>
+
+<!-- ========================================
+     WHY CHOOSE US
+======================================== -->
+<section class="about-why-section ga-section">
+  <div class="container">
+    <div class="about-why-inner">
+
+      <div class="about-why-left">
+        <span class="contact-badge">Why Us</span>
+        <h2 class="about-section-title" style="margin-top:14px">Why Families Choose Us</h2>
+        <p class="about-section-sub" style="text-align:left; margin-bottom:32px">We go beyond curriculum to develop confident, well-rounded individuals ready for the world.</p>
+
+        <div class="about-why-list">
+          <div class="about-why-item">
+            <div class="about-why-check">✓</div>
+            <div>
+              <strong>Small Class Sizes</strong>
+              <p>Maximum 25 pupils per class ensures every child gets personal attention.</p>
+            </div>
+          </div>
+          <div class="about-why-item">
+            <div class="about-why-check">✓</div>
+            <div>
+              <strong>Experienced Faculty</strong>
+              <p>Our teachers average 12 years of classroom experience, with ongoing development.</p>
+            </div>
+          </div>
+          <div class="about-why-item">
+            <div class="about-why-check">✓</div>
+            <div>
+              <strong>Modern Facilities</strong>
+              <p>Science labs, ICT suites, sports pitches, and a fully stocked library.</p>
+            </div>
+          </div>
+          <div class="about-why-item">
+            <div class="about-why-check">✓</div>
+            <div>
+              <strong>Holistic Development</strong>
+              <p>Arts, sports, and leadership programmes alongside strong academics.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-why-right">
+        <div class="about-why-visual">
+          <div class="about-why-big-stat">
+            <span class="about-why-num">98%</span>
+            <span class="about-why-desc">of our students proceed to top secondary schools</span>
+          </div>
+          <div class="about-why-small-stats">
+            <div class="about-why-small">
+              <span class="awy-num">50+</span>
+              <span class="awy-label">Qualified Staff</span>
+            </div>
+            <div class="about-why-small">
+              <span class="awy-num">30+</span>
+              <span class="awy-label">Co-curriculars</span>
+            </div>
+            <div class="about-why-small">
+              <span class="awy-num">12</span>
+              <span class="awy-label">National Awards</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ========================================
+     CALL TO ACTION
+======================================== -->
+<section class="about-cta-section">
+  <div class="container">
+    <div class="about-cta-inner">
+      <div class="about-cta-text">
+        <h2 class="about-cta-title">Ready to Join Our Community?</h2>
+        <p class="about-cta-sub">See our facilities in person or start your application today. We'd love to meet you.</p>
+      </div>
+      <div class="about-cta-actions">
+        <a href="{% url 'facilities' %}" class="about-cta-btn about-cta-btn--primary">
+          🏗️ View Facilities
+        </a>
+        <a href="{% url 'apply' %}" class="about-cta-btn about-cta-btn--ghost">
+          📋 Apply Now →
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================================
+     PAGE-SPECIFIC STYLES
+======================================== -->
+<style>
+
+/* ---- HERO ---- */
+.about-hero {
+  padding: 100px 0 70px;
+  background: linear-gradient(160deg, rgba(10,31,24,0.04) 0%, rgba(82,183,136,0.06) 100%);
+  overflow: hidden;
+}
+
+.about-hero-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-hero-title {
+  font-size: 3.2rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  line-height: 1.15;
+  margin: 16px 0 18px;
+}
+
+.about-title-accent {
+  color: var(--green-accent);
+  position: relative;
+}
+
+.about-hero-sub {
+  font-size: 1.05rem;
+  color: #64748b;
+  line-height: 1.8;
+  max-width: 480px;
+  margin-bottom: 36px;
+}
+
+.about-hero-stats {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+  flex-wrap: wrap;
+}
+
+.about-stat { text-align: center; }
+
+.about-stat-num {
+  display: block;
+  font-size: 1.8rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  line-height: 1;
+}
+
+.about-stat-label {
+  display: block;
+  font-size: 0.75rem;
+  color: #64748b;
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.about-stat-divider {
+  width: 1px;
+  height: 40px;
+  background: #e2e8f0;
+  flex-shrink: 0;
+}
+
+/* Hero visual side */
+.about-hero-visual {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+}
+
+.about-hero-blob {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  background: radial-gradient(circle, rgba(82,183,136,0.12) 0%, transparent 70%);
+  border-radius: 50%;
+  top: -40px;
+  right: -60px;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.about-hero-card {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  background: #fff;
+  border-radius: 20px;
+  padding: 24px 28px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.07);
+  border: 1px solid rgba(82,183,136,0.15);
+  animation: fadeInUp 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+.about-hero-card--main  { animation-delay: 0.2s; }
+.about-hero-card--secondary { animation-delay: 0.35s; margin-left: 32px; }
+
+.ahc-emoji { font-size: 2.2rem; flex-shrink: 0; }
+
+.ahc-label {
+  font-size: 0.8rem;
+  color: #64748b;
+  font-weight: 500;
+  display: block;
+}
+
+.ahc-num {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  display: block;
+  margin-top: 2px;
+}
+
+/* ---- SECTION SHARED ---- */
+.about-section-header {
+  margin-bottom: 52px;
+}
+
+.about-section-title {
+  font-size: 2.4rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  margin: 14px 0 12px;
+}
+
+.about-section-sub {
+  font-size: 1rem;
+  color: #64748b;
+  max-width: 540px;
+  margin: 0 auto;
+  line-height: 1.75;
+  text-align: center;
+}
+
+/* ---- MISSION / VISION / HISTORY ---- */
+.about-mvh-section {
+  padding: 90px 0;
+  background: #fff;
+}
+
+.about-mvh-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 24px;
+}
+
+.about-mvh-card {
+  background: #f8fafc;
+  border-radius: 24px;
+  padding: 36px 32px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  border: 1px solid #e8f0eb;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.about-mvh-card::before {
+  content: '';
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  height: 4px;
+  background: var(--green-accent);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+.about-mvh-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.08);
+}
+
+.about-mvh-card:hover::before { opacity: 1; }
+
+.about-mvh-card--featured {
+  background: var(--green-deep);
+  border-color: transparent;
+  box-shadow: 0 20px 50px rgba(10,31,24,0.18);
+}
+
+.about-mvh-card--featured::before { background: var(--green-accent); opacity: 1; }
+
+.about-mvh-icon {
+  width: 60px;
+  height: 60px;
+  border-radius: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.6rem;
+}
+
+.about-mvh-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  width: fit-content;
+}
+
+.about-mvh-title {
+  font-size: 1.3rem;
+  font-weight: 800;
+  color: var(--green-deep);
+}
+
+.about-mvh-text {
+  font-size: 0.95rem;
+  color: #64748b;
+  line-height: 1.75;
+  flex: 1;
+}
+
+.about-mvh-footer {
+  display: flex;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.about-mvh-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+/* ---- VALUES STRIP ---- */
+.about-values-section {
+  padding: 36px 0;
+  background: linear-gradient(135deg, var(--green-deep) 0%, #1a3b2f 100%);
+}
+
+.about-values-grid {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0;
+  flex-wrap: wrap;
+}
+
+.about-value-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  padding: 20px 40px;
+  border-right: 1px solid rgba(255,255,255,0.1);
+  flex: 1;
+  min-width: 120px;
+  transition: background 0.2s ease;
+}
+
+.about-value-item:last-child { border-right: none; }
+
+.about-value-item:hover {
+  background: rgba(82,183,136,0.12);
+}
+
+.about-value-icon { font-size: 1.8rem; }
+
+.about-value-label {
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.85);
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+
+/* ---- STAFF ---- */
+.about-staff-section {
+  padding: 90px 0;
+  background: #f8fafc;
+}
+
+.about-staff-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 28px;
+}
+
+.about-staff-card {
+  background: #fff;
+  border-radius: 24px;
+  padding: 32px 28px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  border: 1px solid #e8f0eb;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.about-staff-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 20px 50px rgba(0,0,0,0.1);
+}
+
+.about-staff-photo-wrap {
+  position: relative;
+  margin-bottom: 20px;
+}
+
+.about-staff-photo,
+.about-staff-photo-placeholder {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  object-fit: cover;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  background: var(--sage-light, #d8f3dc);
+  border: 4px solid #fff;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.1);
+}
+
+.about-staff-photo-ring {
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 2px dashed rgba(82,183,136,0.3);
+  pointer-events: none;
+  transition: border-color 0.25s ease;
+}
+
+.about-staff-card:hover .about-staff-photo-ring {
+  border-color: var(--green-accent);
+  border-style: solid;
+}
+
+.about-staff-name {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  margin-bottom: 4px;
+}
+
+.about-staff-role {
+  display: inline-block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--green-accent);
+  background: rgba(82,183,136,0.1);
+  padding: 4px 14px;
+  border-radius: 999px;
+  margin-bottom: 14px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.about-staff-bio {
+  font-size: 0.88rem;
+  color: #64748b;
+  line-height: 1.7;
+  margin-bottom: 16px;
+  flex: 1;
+}
+
+.about-staff-email {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  color: #64748b;
+  text-decoration: none;
+  transition: color 0.2s ease;
+  word-break: break-all;
+}
+
+.about-staff-email:hover { color: var(--green-accent); }
+
+.about-staff-email-icon { font-size: 0.9rem; }
+
+.about-staff-empty {
+  grid-column: 1 / -1;
+  text-align: center;
+  padding: 60px 20px;
+  color: #94a3b8;
+}
+
+.about-staff-empty-icon { font-size: 3rem; display: block; margin-bottom: 12px; }
+
+/* ---- WHY US ---- */
+.about-why-section {
+  padding: 90px 0;
+  background: #fff;
+}
+
+.about-why-inner {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 60px;
+  align-items: center;
+}
+
+.about-why-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.about-why-item {
+  display: flex;
+  gap: 16px;
+  align-items: flex-start;
+}
+
+.about-why-check {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--green-accent);
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.75rem;
+  font-weight: 800;
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.about-why-item strong {
+  display: block;
+  font-size: 0.97rem;
+  color: var(--green-deep);
+  margin-bottom: 3px;
+}
+
+.about-why-item p {
+  font-size: 0.88rem;
+  color: #64748b;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.about-why-visual {
+  background: var(--green-deep);
+  border-radius: 28px;
+  padding: 40px;
+  color: #fff;
+  box-shadow: 0 20px 60px rgba(10,31,24,0.18);
+}
+
+.about-why-big-stat {
+  text-align: center;
+  padding-bottom: 32px;
+  border-bottom: 1px solid rgba(255,255,255,0.12);
+  margin-bottom: 28px;
+}
+
+.about-why-num {
+  display: block;
+  font-size: 5rem;
+  font-weight: 900;
+  color: var(--green-accent);
+  line-height: 1;
+}
+
+.about-why-desc {
+  display: block;
+  font-size: 0.92rem;
+  color: rgba(255,255,255,0.7);
+  margin-top: 10px;
+  line-height: 1.6;
+}
+
+.about-why-small-stats {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+  text-align: center;
+}
+
+.about-why-small { }
+
+.awy-num {
+  display: block;
+  font-size: 1.6rem;
+  font-weight: 800;
+  color: #fff;
+}
+
+.awy-label {
+  display: block;
+  font-size: 0.72rem;
+  color: rgba(255,255,255,0.55);
+  margin-top: 4px;
+  font-weight: 500;
+}
+
+/* ---- CTA ---- */
+.about-cta-section {
+  padding: 80px 0;
+  background: linear-gradient(160deg, rgba(82,183,136,0.07) 0%, rgba(10,31,24,0.03) 100%);
+}
+
+.about-cta-inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 40px;
+  background: #fff;
+  border-radius: 28px;
+  padding: 48px 52px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.06);
+  border: 1px solid #e8f0eb;
+  flex-wrap: wrap;
+}
+
+.about-cta-title {
+  font-size: 2rem;
+  font-weight: 800;
+  color: var(--green-deep);
+  margin-bottom: 10px;
+}
+
+.about-cta-sub {
+  font-size: 0.97rem;
+  color: #64748b;
+  max-width: 480px;
+  line-height: 1.7;
+}
+
+.about-cta-actions {
+  display: flex;
+  gap: 14px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+}
+
+.about-cta-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 14px 28px;
+  border-radius: 999px;
+  font-weight: 700;
+  font-size: 0.95rem;
+  text-decoration: none;
+  transition: all 0.25s ease;
+  white-space: nowrap;
+}
+
+.about-cta-btn--primary {
+  background: var(--green-deep);
+  color: #fff;
+}
+
+.about-cta-btn--primary:hover {
+  background: var(--green-accent);
+  color: var(--green-deep);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(10,31,24,0.2);
+}
+
+.about-cta-btn--ghost {
+  background: transparent;
+  color: var(--green-deep);
+  border: 2px solid #dce8e0;
+}
+
+.about-cta-btn--ghost:hover {
+  border-color: var(--green-accent);
+  color: var(--green-accent);
+  transform: translateY(-2px);
+}
+
+/* ---- RESPONSIVE ---- */
+@media (max-width: 992px) {
+  .about-hero-inner    { grid-template-columns: 1fr; gap: 40px; }
+  .about-hero-visual   { display: none; }
+  .about-hero-title    { font-size: 2.6rem; }
+  .about-mvh-grid      { grid-template-columns: 1fr; gap: 18px; }
+  .about-staff-grid    { grid-template-columns: repeat(2, 1fr); }
+  .about-why-inner     { grid-template-columns: 1fr; gap: 40px; }
+  .about-cta-inner     { flex-direction: column; text-align: center; padding: 36px 28px; }
+  .about-cta-actions   { justify-content: center; }
+  .about-cta-sub       { max-width: 100%; }
+}
+
+@media (max-width: 640px) {
+  .about-hero          { padding: 80px 0 50px; }
+  .about-hero-title    { font-size: 2rem; }
+  .about-hero-stats    { gap: 16px; }
+  .about-stat-divider  { display: none; }
+  .about-section-title { font-size: 1.8rem; }
+  .about-staff-grid    { grid-template-columns: 1fr; }
+  .about-value-item    { padding: 16px 20px; }
+  .about-why-visual    { padding: 28px 24px; }
+  .about-why-num       { font-size: 3.8rem; }
+  .about-mvh-card      { padding: 28px 22px; }
+  .about-cta-title     { font-size: 1.6rem; }
+  .about-cta-actions   { flex-direction: column; width: 100%; }
+  .about-cta-btn       { justify-content: center; }
+}
+
+</style>
 
 {% endblock %}
