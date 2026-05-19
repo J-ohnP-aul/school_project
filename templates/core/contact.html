@@ -1,119 +1,686 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
 
-<section class="contact-hero py-5">
-  <div class="container text-center">
-    <span class="badge bg-primary mb-2">We'd love to hear from you</span>
-    <h1 class="display-4 fw-bold mb-3">Contact Greenfield Academy</h1>
-    <p class="lead text-muted">
-      Whether you're a parent, student, or visitor, our team is here to help answer your questions.
-    </p>
+<!-- ========================================
+     HERO
+======================================== -->
+<section class="ct-hero">
+  <div class="ct-hero-bg">
+    <div class="ct-orb ct-orb--1"></div>
+    <div class="ct-orb ct-orb--2"></div>
+    <div class="ct-hero-grid"></div>
   </div>
-</section>
-
-<section class="contact-section py-5">
   <div class="container">
-    <div class="row g-4 align-items-stretch">
+    <div class="ct-hero-inner">
+      <span class="ct-eyebrow">
+        <span class="ct-eyebrow-dot"></span>
+        Get In Touch
+      </span>
+      <h1 class="ct-hero-title">Contact <em>Greenfield</em><br>Academy</h1>
+      <p class="ct-hero-sub">Whether you're a parent, student, or visitor — our team is here to help. Reach out and we'll respond within one business day.</p>
 
-      <!-- Contact Form -->
-      <div class="col-lg-7">
-        <div class="card border-0 shadow">
-          <div class="card-body p-4">
-            <h2 class="card-title mb-4">Send Us a Message</h2>
-
-            {% if messages %}
-              {% for message in messages %}
-                <div class="alert alert-success alert-dismissible fade show" role="alert">
-                  {{ message }}
-                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                </div>
-              {% endfor %}
-            {% endif %}
-
-            <form method="POST">
-              {% csrf_token %}
-
-              <div class="row g-3">
-                <div class="col-md-6">
-                  <label for="name" class="form-label">Full Name</label>
-                  <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="email" class="form-label">Email Address</label>
-                  <input type="email" class="form-control" id="email" name="email" placeholder="john@example.com" required>
-                </div>
-
-                <div class="col-md-6">
-                  <label for="phone" class="form-label">Phone Number</label>
-                  <input type="tel" class="form-control" id="phone" name="phone" placeholder="+254 700 000 000">
-                </div>
-
-                <div class="col-md-6">
-                  <label for="subject" class="form-label">Subject</label>
-                  <input type="text" class="form-control" id="subject" name="subject" placeholder="Admissions Inquiry" required>
-                </div>
-
-                <div class="col-12">
-                  <label for="message" class="form-label">Your Message</label>
-                  <textarea rows="6" class="form-control" id="message" name="message" placeholder="Write your message here..." required></textarea>
-                </div>
-
-                <div class="col-12">
-                  <button type="submit" class="btn btn-primary btn-lg">
-                    Send Message
-                  </button>
-                </div>
-              </div>
-            </form>
-          </div>
+      <!-- Quick info chips -->
+      <div class="ct-chips">
+        <div class="ct-chip">
+          <span>📍</span>
+          <span>Nairobi, Kenya</span>
+        </div>
+        <div class="ct-chip">
+          <span>⏱️</span>
+          <span>Replies within 24hrs</span>
+        </div>
+        <div class="ct-chip">
+          <span>📞</span>
+          <span>Mon–Fri 8AM–5PM</span>
         </div>
       </div>
-
-      <!-- Contact Info -->
-      <div class="col-lg-5">
-        <div class="card border-0 shadow h-100">
-          <div class="card-body p-4">
-            <h2 class="card-title mb-4">Get In Touch</h2>
-
-            <div class="mb-4">
-              <h5 class="mb-2">
-                <span style="font-size: 1.5em;">📍</span> Location
-              </h5>
-              <p class="text-muted">123 Academy Road, Nairobi, Kenya</p>
-            </div>
-
-            <div class="mb-4">
-              <h5 class="mb-2">
-                <span style="font-size: 1.5em;">📞</span> Phone
-              </h5>
-              <p class="text-muted"><a href="tel:+254700000000">+254 700 000 000</a></p>
-            </div>
-
-            <div class="mb-4">
-              <h5 class="mb-2">
-                <span style="font-size: 1.5em;">✉️</span> Email
-              </h5>
-              <p class="text-muted"><a href="mailto:info@greenfieldacademy.ac.ke">info@greenfieldacademy.ac.ke</a></p>
-            </div>
-
-            <div class="mb-4">
-              <h5 class="mb-2">
-                <span style="font-size: 1.5em;">⏰</span> Office Hours
-              </h5>
-              <p class="text-muted">Mon - Fri: 8:00 AM - 5:00 PM</p>
-            </div>
-
-            <div class="pt-3">
-              <p class="small text-muted">Quick response time during office hours. We look forward to hearing from you!</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
     </div>
   </div>
 </section>
+
+<!-- ========================================
+     CONTACT SECTION
+======================================== -->
+<section class="ct-section">
+  <div class="container">
+    <div class="ct-grid">
+
+      <!-- ---- LEFT: Form ---- -->
+      <div class="ct-form-col">
+        <div class="ct-card">
+          <div class="ct-card-header">
+            <div class="ct-card-icon">✉️</div>
+            <div>
+              <h2 class="ct-card-title">Send Us a Message</h2>
+              <p class="ct-card-sub">Fill in the form and we'll get back to you shortly.</p>
+            </div>
+          </div>
+
+          {% if messages %}
+            {% for message in messages %}
+              <div class="ct-alert">
+                <span class="ct-alert-icon">✅</span>
+                <span>{{ message }}</span>
+              </div>
+            {% endfor %}
+          {% endif %}
+
+          <form method="POST" class="ct-form">
+            {% csrf_token %}
+
+            <div class="ct-form-row">
+              <div class="ct-field">
+                <label class="ct-label" for="name">Full Name <span class="ct-req">*</span></label>
+                <input type="text" class="ct-input" id="name" name="name" placeholder="John Doe" required>
+              </div>
+              <div class="ct-field">
+                <label class="ct-label" for="email">Email Address <span class="ct-req">*</span></label>
+                <input type="email" class="ct-input" id="email" name="email" placeholder="john@example.com" required>
+              </div>
+            </div>
+
+            <div class="ct-form-row">
+              <div class="ct-field">
+                <label class="ct-label" for="phone">Phone Number</label>
+                <input type="tel" class="ct-input" id="phone" name="phone" placeholder="+254 700 000 000">
+              </div>
+              <div class="ct-field">
+                <label class="ct-label" for="subject">Subject <span class="ct-req">*</span></label>
+                <input type="text" class="ct-input" id="subject" name="subject" placeholder="Admissions Inquiry" required>
+              </div>
+            </div>
+
+            <div class="ct-field">
+              <label class="ct-label" for="message">Your Message <span class="ct-req">*</span></label>
+              <textarea class="ct-input ct-textarea" id="message" name="message" rows="6" placeholder="Write your message here..." required></textarea>
+            </div>
+
+            <button type="submit" class="ct-submit-btn">
+              <span>Send Message</span>
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <line x1="22" y1="2" x2="11" y2="13"/>
+                <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+              </svg>
+            </button>
+
+          </form>
+        </div>
+      </div>
+
+      <!-- ---- RIGHT: Info + Map ---- -->
+      <div class="ct-info-col">
+
+        <!-- Contact Details -->
+        <div class="ct-card">
+          <h2 class="ct-card-title" style="margin-bottom: 24px;">Contact Details</h2>
+
+          <div class="ct-info-list">
+            <div class="ct-info-item">
+              <div class="ct-info-icon">📍</div>
+              <div>
+                <p class="ct-info-label">Location</p>
+                <p class="ct-info-val">123 Academy Road, Nairobi, Kenya</p>
+              </div>
+            </div>
+            <div class="ct-info-item">
+              <div class="ct-info-icon">📞</div>
+              <div>
+                <p class="ct-info-label">Phone</p>
+                <a href="tel:+254700000000" class="ct-info-val ct-info-link">+254 700 000 000</a>
+              </div>
+            </div>
+            <div class="ct-info-item">
+              <div class="ct-info-icon">✉️</div>
+              <div>
+                <p class="ct-info-label">Email</p>
+                <a href="mailto:info@greenfieldacademy.ac.ke" class="ct-info-val ct-info-link">info@greenfieldacademy.ac.ke</a>
+              </div>
+            </div>
+            <div class="ct-info-item">
+              <div class="ct-info-icon">⏰</div>
+              <div>
+                <p class="ct-info-label">Office Hours</p>
+                <p class="ct-info-val">Mon – Fri: 8:00 AM – 5:00 PM</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- How to Find Us -->
+        <div class="ct-card ct-map-card">
+          <div class="ct-map-header">
+            <div>
+              <h3 class="ct-card-title">How to Find Us</h3>
+              <p class="ct-card-sub">Step-by-step directions to the academy</p>
+            </div>
+            <a href="https://maps.google.com/?q=Nairobi+Kenya" target="_blank" rel="noopener" class="ct-directions-btn">
+              Open in Maps ↗
+            </a>
+          </div>
+
+          <!-- Map embed -->
+          <div class="ct-map-wrap">
+            <iframe
+              src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d255282.35853744246!2d36.68238940625!3d-1.3028617999999978!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x182f1172d84d49a7%3A0xf7cf0254b297924c!2sNairobi%2C%20Kenya!5e0!3m2!1sen!2ske!4v1699900000000!5m2!1sen!2ske"
+              allowfullscreen=""
+              loading="lazy"
+              referrerpolicy="no-referrer-when-downgrade"
+              title="Greenfield Academy location">
+            </iframe>
+          </div>
+
+          <!-- Step-by-step guide -->
+          <div class="ct-steps">
+            <p class="ct-steps-title">📌 Directions from the CBD</p>
+            <ol class="ct-steps-list">
+              <li>
+                <span class="ct-step-num">1</span>
+                <div>
+                  <strong>Start at Nairobi CBD</strong>
+                  <p>Head north along Uhuru Highway towards Westlands.</p>
+                </div>
+              </li>
+              <li>
+                <span class="ct-step-num">2</span>
+                <div>
+                  <strong>Turn onto Academy Road</strong>
+                  <p>After the Westlands roundabout, take the first left onto Academy Road.</p>
+                </div>
+              </li>
+              <li>
+                <span class="ct-step-num">3</span>
+                <div>
+                  <strong>Look for the green gate</strong>
+                  <p>Greenfield Academy is 200m on the right — look for the green gate and school signage.</p>
+                </div>
+              </li>
+              <li>
+                <span class="ct-step-num">4</span>
+                <div>
+                  <strong>Parking & Entry</strong>
+                  <p>Free visitor parking is available inside the main gate. Report to the reception on your left.</p>
+                </div>
+              </li>
+            </ol>
+          </div>
+
+          <!-- Landmark tip -->
+          <div class="ct-landmark">
+            <span class="ct-landmark-icon">💡</span>
+            <p><strong>Nearby landmark:</strong> We are directly opposite Westlands Shopping Mall, next to the Kenya Red Cross offices.</p>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ========================================
+     STYLES
+======================================== -->
+<style>
+
+/* ---- HERO ---- */
+.ct-hero {
+  position: relative;
+  padding: 110px 0 76px;
+  overflow: hidden;
+  background: var(--forest);
+}
+
+.ct-hero-bg {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+.ct-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(80px);
+}
+
+.ct-orb--1 {
+  width: 500px; height: 500px;
+  background: var(--sage);
+  opacity: 0.14;
+  top: -180px; right: -100px;
+}
+
+.ct-orb--2 {
+  width: 360px; height: 360px;
+  background: var(--amber);
+  opacity: 0.10;
+  bottom: -120px; left: -60px;
+}
+
+.ct-hero-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(82,183,136,0.07) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(82,183,136,0.07) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.ct-hero-inner {
+  position: relative;
+  max-width: 680px;
+}
+
+.ct-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(82,183,136,0.18);
+  color: var(--sage);
+  border: 1px solid rgba(82,183,136,0.3);
+  padding: 7px 16px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+}
+
+.ct-eyebrow-dot {
+  width: 6px; height: 6px;
+  background: var(--sage);
+  border-radius: 50%;
+  animation: pulse-dot 2s ease-in-out infinite;
+}
+
+@keyframes pulse-dot {
+  0%,100% { opacity:1; transform:scale(1); }
+  50%      { opacity:0.4; transform:scale(0.6); }
+}
+
+.ct-hero-title {
+  font-size: 3.4rem;
+  font-weight: 900;
+  color: #fff;
+  line-height: 1.1;
+  margin: 20px 0 18px;
+  letter-spacing: -0.02em;
+}
+
+.ct-hero-title em {
+  font-style: normal;
+  color: var(--sage);
+}
+
+.ct-hero-sub {
+  font-size: 1rem;
+  color: rgba(255,255,255,0.62);
+  line-height: 1.85;
+  margin-bottom: 30px;
+}
+
+.ct-chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.ct-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: rgba(255,255,255,0.08);
+  color: rgba(255,255,255,0.75);
+  border: 1px solid rgba(255,255,255,0.12);
+  padding: 7px 15px;
+  border-radius: 999px;
+  font-size: 0.82rem;
+  font-weight: 500;
+}
+
+/* ---- SECTION ---- */
+.ct-section {
+  padding: 64px 0 100px;
+  background: #f1f5f2;
+}
+
+.ct-grid {
+  display: grid;
+  grid-template-columns: 1fr 420px;
+  gap: 28px;
+  align-items: start;
+}
+
+.ct-form-col,
+.ct-info-col {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+/* ---- CARD ---- */
+.ct-card {
+  background: #fff;
+  border-radius: 22px;
+  padding: 34px;
+  box-shadow: 0 4px 24px rgba(10,31,24,0.06);
+  border: 1px solid #e2ebe4;
+}
+
+.ct-card-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 30px;
+}
+
+.ct-card-icon {
+  width: 52px; height: 52px;
+  border-radius: 14px;
+  background: var(--sage-light);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+
+.ct-card-title {
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--forest);
+  margin: 0 0 4px;
+  line-height: 1.3;
+}
+
+.ct-card-sub {
+  font-size: 0.85rem;
+  color: var(--muted);
+  margin: 0;
+}
+
+/* ---- Alert ---- */
+.ct-alert {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(82,183,136,0.10);
+  border: 1px solid rgba(82,183,136,0.3);
+  border-radius: 14px;
+  padding: 14px 18px;
+  margin-bottom: 24px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--forest);
+}
+
+/* ---- Form ---- */
+.ct-form { display: flex; flex-direction: column; gap: 20px; }
+
+.ct-form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+
+.ct-field { display: flex; flex-direction: column; gap: 7px; }
+
+.ct-label {
+  font-size: 0.86rem;
+  font-weight: 600;
+  color: #334155;
+}
+
+.ct-req { color: #ef4444; margin-left: 2px; }
+
+.ct-input {
+  padding: 13px 16px;
+  border-radius: 13px;
+  border: 1px solid #dde8e2;
+  font-size: 0.93rem;
+  color: var(--ink);
+  background: #f8faf9;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  font-family: inherit;
+}
+
+.ct-input:focus {
+  border-color: var(--sage);
+  background: #fff;
+  box-shadow: 0 0 0 4px rgba(82,183,136,0.12);
+}
+
+.ct-textarea {
+  resize: vertical;
+  min-height: 140px;
+}
+
+.ct-submit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  width: 100%;
+  padding: 15px 28px;
+  border-radius: 999px;
+  background: var(--forest);
+  color: #fff;
+  font-weight: 700;
+  font-size: 0.95rem;
+  border: none;
+  cursor: pointer;
+  transition: all 0.24s ease;
+  letter-spacing: 0.01em;
+}
+
+.ct-submit-btn:hover {
+  background: var(--sage);
+  color: var(--forest);
+  transform: translateY(-2px);
+  box-shadow: 0 8px 28px rgba(82,183,136,0.35);
+}
+
+/* ---- Info list ---- */
+.ct-info-list {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ct-info-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  padding: 16px;
+  border-radius: 14px;
+  background: #f8faf9;
+  border: 1px solid #eaf1ec;
+  transition: background 0.2s ease;
+}
+
+.ct-info-item:hover { background: var(--sage-light); }
+
+.ct-info-icon {
+  width: 44px; height: 44px;
+  border-radius: 12px;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.2rem;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(10,31,24,0.06);
+}
+
+.ct-info-label {
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sage);
+  margin: 0 0 3px;
+}
+
+.ct-info-val {
+  font-size: 0.9rem;
+  color: var(--ink);
+  font-weight: 500;
+  margin: 0;
+}
+
+.ct-info-link {
+  color: var(--forest);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.ct-info-link:hover {
+  color: var(--sage);
+  text-decoration: underline;
+}
+
+/* ---- Map card ---- */
+.ct-map-card { padding: 28px; }
+
+.ct-map-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 20px;
+  flex-wrap: wrap;
+}
+
+.ct-directions-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 16px;
+  border-radius: 999px;
+  background: var(--sage-light);
+  color: var(--forest);
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+  flex-shrink: 0;
+}
+
+.ct-directions-btn:hover {
+  background: var(--sage);
+  color: var(--forest);
+  transform: translateY(-1px);
+}
+
+.ct-map-wrap {
+  border-radius: 16px;
+  overflow: hidden;
+  margin-bottom: 24px;
+  box-shadow: 0 4px 20px rgba(10,31,24,0.08);
+}
+
+.ct-map-wrap iframe {
+  width: 100%;
+  height: 240px;
+  border: none;
+  display: block;
+}
+
+/* ---- Step-by-step ---- */
+.ct-steps-title {
+  font-size: 0.84rem;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 14px;
+  letter-spacing: 0.02em;
+}
+
+.ct-steps-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.ct-steps-list li {
+  display: flex;
+  gap: 14px;
+  align-items: flex-start;
+}
+
+.ct-step-num {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: var(--forest);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.ct-steps-list li strong {
+  display: block;
+  font-size: 0.86rem;
+  font-weight: 700;
+  color: var(--forest);
+  margin-bottom: 2px;
+}
+
+.ct-steps-list li p {
+  font-size: 0.81rem;
+  color: var(--muted);
+  margin: 0;
+  line-height: 1.6;
+}
+
+/* ---- Landmark tip ---- */
+.ct-landmark {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-top: 18px;
+  padding: 14px 16px;
+  border-radius: 13px;
+  background: var(--amber-pale);
+  border: 1px solid rgba(244,162,97,0.25);
+}
+
+.ct-landmark-icon { font-size: 1.1rem; flex-shrink: 0; margin-top: 1px; }
+
+.ct-landmark p {
+  font-size: 0.82rem;
+  color: #7c4a00;
+  margin: 0;
+  line-height: 1.6;
+}
+
+.ct-landmark strong { color: #5a3200; }
+
+/* ---- Responsive ---- */
+@media (max-width: 1024px) {
+  .ct-grid { grid-template-columns: 1fr; }
+  .ct-hero-title { font-size: 2.8rem; }
+}
+
+@media (max-width: 640px) {
+  .ct-hero       { padding: 90px 0 56px; }
+  .ct-hero-title { font-size: 2.1rem; }
+  .ct-card       { padding: 24px; }
+  .ct-form-row   { grid-template-columns: 1fr; }
+  .ct-map-wrap iframe { height: 200px; }
+}
+
+</style>
 
 {% endblock %}
