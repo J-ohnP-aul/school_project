@@ -49,33 +49,6 @@
 
 <hr>
 
-<h2>Facilities</h2>
-
-<div class="row">
-
-{% for facility in facilities %} 
-<div class="col-md-4 mb-4">
-
-    <div class="card h-100">
-
-        <img src="{{ facility.image.url }}">
-
-        <div class="card-body">
-
-            <h4>{{ facility.title }}</h4>
-
-            <p class="text-primary">
-                {{ facility.description }}
-            </p>
-
-        </div>
-
-    </div>
-
-</div>
-
-{% endfor %}
-
-</div>
+<p><a href="{% url 'facilities' %}" class="btn btn-outline-dark">View Our Facilities →</a></p>
 
 {% endblock %}

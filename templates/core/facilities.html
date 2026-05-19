@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<section class="py-5">
+    <div class="container">
+        <h1>Our Facilities</h1>
+        <p class="lead">Explore the facilities that support our students' learning, growth, and wellness.</p>
+        
+        <div class="row mt-4">
+            {% if request.user.is_superuser %}
+                <div class="col-12 mb-3">
+                    <a href="{% url 'facility_create' %}" class="btn btn-primary">
+                        Add New Facility
+                    </a>
+                </div>
+            {% endif %}
+            
+            {% for facility in facilities %}
+                <div class="col-md-4 mb-4">
+                    <div class="card h-100">
+                        {% if facility.image %}
+                            <img src="{{ facility.image.url }}" class="card-img-top" alt="{{ facility.title }}">
+                        {% else %}
+                            <div class="card-img-top bg-secondary text-white d-flex align-items-center justify-content-center" style="height: 200px;">
+                                <span>No Image Available</span>
+                            </div>
+                        {% endif %}
+                        <div class="card-body">
+                            <h3>{{ facility.title }}</h3>
+                            <p>{{ facility.description }}</p>
+                        </div>
+                        {% if request.user.is_superuser %}
+                            <div class="card-footer d-flex gap-2">
+                                <a href="{% url 'facility_update' facility.id %}" class="btn btn-primary btn-sm">Edit</a>
+                                <a href="{% url 'facility_del' facility.id %}" class="btn btn-danger btn-sm">Delete</a>
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            {% empty %}
+                <div class="col-12">
+                    <p>No facilities are published yet.</p>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+{% endblock %}

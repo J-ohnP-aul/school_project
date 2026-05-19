@@ -24,8 +24,7 @@ urlpatterns = [
     path('', include('core.urls')),
     path('news/', include('news.urls')),
     path('admissions/', include('admissions.urls')),
-    path('accounts/', include('accounts.urls')),
-    path('academics/', include('academics.urls', namespace='academics')),
+    path('accounts/', include('accounts.urls')),  # Admin dashboard only
 ]
 
 if settings.DEBUG: 

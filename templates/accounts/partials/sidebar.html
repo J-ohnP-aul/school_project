@@ -7,8 +7,8 @@
   <a href="{% url 'admin_dashboard' %}" class="sidebar-brand" style="text-decoration:none;">
     <div class="sidebar-brand-icon">GA</div>
     <div>
-      <h2>EduAdmin</h2>
-      <span>Greenacre Academy</span>
+      <h2>Greenfield CMS</h2>
+      <span>Admin Dashboard</span>
     </div>
   </a>
 
@@ -17,9 +17,9 @@
 
   <ul class="sidebar-links">
      <li>
-      <a href="/" class="{% if request.resolver_match.url_name == 'admin_dashboard' %}active{% endif %}">
+      <a href="/" class="{% if request.path == '/' %}active{% endif %}">
         <span class="nav-icon">⏪</span>
-        exit Dashboard
+        Exit to Site
       </a>
     </li>
     <li>
@@ -29,45 +29,39 @@
       </a>
     </li>
     <li>
-      <a href="{% url 'users_list' %}" class="{% if request.resolver_match.url_name == 'users_list' %}active{% endif %}">
-        <span class="nav-icon">👥</span>
-        User Management
-      </a>
-    </li>
-    <li>
       <a href="{% url 'applicant_list' %}" class="{% if request.resolver_match.url_name == 'applicant_list' %}active{% endif %}">
         <span class="nav-icon">📋</span>
-        Applicants
-        {% comment %} Optional badge: <span class="nav-badge">3</span> {% endcomment %}
-      </a>
-    </li>
-    <li>
-      <a href="{% url 'create_user' %}" class="{% if request.resolver_match.url_name == 'create_user' %}active{% endif %}">
-        <span class="nav-icon">➕</span>
-        Create User
+        Admissions
       </a>
     </li>
   </ul>
 
-  <p class="sidebar-section-label">Content</p>
+  <p class="sidebar-section-label">Content Management</p>
 
   <ul class="sidebar-links">
     <li>
-      <a href="/news/">
-        <span class="nav-icon">📰</span>
-        News
+      <a href="{% url 'about' %}">
+        <span class="nav-icon">🏫</span>
+        School Info
+      </a>
+    </li>
+   
+    <li>
+      <a href="{% url 'facilities' %}">
+        <span class="nav-icon">🏢</span>
+        Facilities
       </a>
     </li>
     <li>
-      <a href="/gallery/">
+      <a href="{% url 'gallery' %}">
         <span class="nav-icon">🖼️</span>
         Gallery
       </a>
     </li>
     <li>
-      <a href="#">
-        <span class="nav-icon">⚙️</span>
-        Settings
+      <a href="{% url 'news_list' %}">
+        <span class="nav-icon">📰</span>
+        News
       </a>
     </li>
   </ul>
@@ -79,7 +73,7 @@
       <div class="sidebar-footer-name">{{ request.user.username|title }}</div>
       <div class="sidebar-footer-role">Administrator</div>
     </div>
-    <a href="/logout/" class="sidebar-footer-logout" title="Log out">↪</a>
+    <a href="{% url 'admin_logout' %}" class="sidebar-footer-logout" title="Log out">↪</a>
   </div>
 
 </div>

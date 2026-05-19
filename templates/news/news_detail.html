@@ -10,4 +10,6 @@
 
 <p>{{ post.content }}</p>
 
+<a href="{% url 'news_update' post.id %}" class="btn btn-primary">Edit Post</a>
+
 {% endblock %}

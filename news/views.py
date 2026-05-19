@@ -36,3 +36,14 @@ def news_create(request):
     else:
         form = NewsPostForm()
     return render(request, 'news/news_create.html', {'form': form})
+
+def news_update(request, pk):
+    post = get_object_or_404(NewsPost, id=pk)
+    if request.method == 'POST':
+        form = NewsPostForm(request.POST, request.FILES, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect('news_detail', slug=post.slug)
+    else:
+        form = NewsPostForm(instance=post)
+    return render(request, 'news/news_update.html', {'form': form, 'post': post})

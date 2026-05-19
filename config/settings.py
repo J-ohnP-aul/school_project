@@ -44,7 +44,6 @@ INSTALLED_APPS = [
     'news',
     'admissions',
     'accounts',
-    'academics',
 ]
 
 MIDDLEWARE = [

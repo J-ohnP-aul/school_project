@@ -1,102 +1,112 @@
-# Greenfield Academy — Contact Us Page
-
-```html
 {% extends 'base.html' %}
 
 {% block content %}
 
-<section class="contact-hero">
+<section class="contact-hero py-5">
   <div class="container text-center">
-    <span class="contact-badge">We'd love to hear from you</span>
-    <h1 class="contact-title">Contact Greenfield Academy</h1>
-    <p class="contact-text">
+    <span class="badge bg-primary mb-2">We'd love to hear from you</span>
+    <h1 class="display-4 fw-bold mb-3">Contact Greenfield Academy</h1>
+    <p class="lead text-muted">
       Whether you're a parent, student, or visitor, our team is here to help answer your questions.
     </p>
   </div>
 </section>
 
-<section class="contact-section">
+<section class="contact-section py-5">
   <div class="container">
     <div class="row g-4 align-items-stretch">
 
       <!-- Contact Form -->
       <div class="col-lg-7">
-        <div class="contact-card">
-          <h2>Send Us a Message</h2>
+        <div class="card border-0 shadow">
+          <div class="card-body p-4">
+            <h2 class="card-title mb-4">Send Us a Message</h2>
 
-          <form method="POST">
-            {% csrf_token %}
+            {% if messages %}
+              {% for message in messages %}
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                  {{ message }}
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+              {% endfor %}
+            {% endif %}
 
-            <div class="row g-3">
-              <div class="col-md-6">
-                <label>Full Name</label>
-                <input type="text" class="form-control" placeholder="John Doe">
+            <form method="POST">
+              {% csrf_token %}
+
+              <div class="row g-3">
+                <div class="col-md-6">
+                  <label for="name" class="form-label">Full Name</label>
+                  <input type="text" class="form-control" id="name" name="name" placeholder="John Doe" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="email" class="form-label">Email Address</label>
+                  <input type="email" class="form-control" id="email" name="email" placeholder="john@example.com" required>
+                </div>
+
+                <div class="col-md-6">
+                  <label for="phone" class="form-label">Phone Number</label>
+                  <input type="tel" class="form-control" id="phone" name="phone" placeholder="+254 700 000 000">
+                </div>
+
+                <div class="col-md-6">
+                  <label for="subject" class="form-label">Subject</label>
+                  <input type="text" class="form-control" id="subject" name="subject" placeholder="Admissions Inquiry" required>
+                </div>
+
+                <div class="col-12">
+                  <label for="message" class="form-label">Your Message</label>
+                  <textarea rows="6" class="form-control" id="message" name="message" placeholder="Write your message here..." required></textarea>
+                </div>
+
+                <div class="col-12">
+                  <button type="submit" class="btn btn-primary btn-lg">
+                    Send Message
+                  </button>
+                </div>
               </div>
-
-              <div class="col-md-6">
-                <label>Email Address</label>
-                <input type="email" class="form-control" placeholder="john@example.com">
-              </div>
-
-              <div class="col-md-6">
-                <label>Phone Number</label>
-                <input type="text" class="form-control" placeholder="+254 700 000 000">
-              </div>
-
-              <div class="col-md-6">
-                <label>Subject</label>
-                <input type="text" class="form-control" placeholder="Admissions Inquiry">
-              </div>
-
-              <div class="col-12">
-                <label>Your Message</label>
-                <textarea rows="6" class="form-control" placeholder="Write your message here..."></textarea>
-              </div>
-
-              <div class="col-12">
-                <button type="submit" class="contact-btn">
-                  Send Message
-                </button>
-              </div>
-            </div>
-          </form>
+            </form>
+          </div>
         </div>
       </div>
 
       <!-- Contact Info -->
       <div class="col-lg-5">
-        <div class="contact-info-card">
-          <h2>Get In Touch</h2>
+        <div class="card border-0 shadow h-100">
+          <div class="card-body p-4">
+            <h2 class="card-title mb-4">Get In Touch</h2>
 
-          <div class="contact-info-item">
-            <span class="contact-icon">📍</span>
-            <div>
-              <h5>Location</h5>
-              <p>123 Academy Road, Nairobi, Kenya</p>
+            <div class="mb-4">
+              <h5 class="mb-2">
+                <span style="font-size: 1.5em;">📍</span> Location
+              </h5>
+              <p class="text-muted">123 Academy Road, Nairobi, Kenya</p>
             </div>
-          </div>
 
-          <div class="contact-info-item">
-            <span class="contact-icon">📞</span>
-            <div>
-              <h5>Phone</h5>
-              <p>+254 700 000 000</p>
+            <div class="mb-4">
+              <h5 class="mb-2">
+                <span style="font-size: 1.5em;">📞</span> Phone
+              </h5>
+              <p class="text-muted"><a href="tel:+254700000000">+254 700 000 000</a></p>
             </div>
-          </div>
 
-          <div class="contact-info-item">
-            <span class="contact-icon">✉️</span>
-            <div>
-              <h5>Email</h5>
-              <p>info@greenfieldacademy.ac.ke</p>
+            <div class="mb-4">
+              <h5 class="mb-2">
+                <span style="font-size: 1.5em;">✉️</span> Email
+              </h5>
+              <p class="text-muted"><a href="mailto:info@greenfieldacademy.ac.ke">info@greenfieldacademy.ac.ke</a></p>
             </div>
-          </div>
 
-          <div class="contact-info-item">
-            <span class="contact-icon">⏰</span>
-            <div>
-              <h5>Office Hours</h5>
-              <p>Mon - Fri : 8:00 AM - 5:00 PM</p>
+            <div class="mb-4">
+              <h5 class="mb-2">
+                <span style="font-size: 1.5em;">⏰</span> Office Hours
+              </h5>
+              <p class="text-muted">Mon - Fri: 8:00 AM - 5:00 PM</p>
+            </div>
+
+            <div class="pt-3">
+              <p class="small text-muted">Quick response time during office hours. We look forward to hearing from you!</p>
             </div>
           </div>
         </div>
@@ -105,45 +115,5 @@
     </div>
   </div>
 </section>
-</section>
 
-<!-- MAP SECTION HERE -->
-
-<section class="ga-map-section">
-
-  <div class="container">
-
-    <div class="ga-map-header text-center">
-
-      <span class="ga-map-badge">
-        Find Us
-      </span>
-
-      <h2 class="ga-map-title">
-        Visit Greenfield Academy
-      </h2>
-
-      <p class="ga-map-text">
-        Conveniently located in Nairobi, Kenya — providing a safe and inspiring learning environment for every student.
-      </p>
-
-    </div>
-
-    <div class="ga-map-card">
-
-      <iframe
-        src="https://www.google.com/maps?q=Nairobi%20Kenya&output=embed"
-        allowfullscreen=""
-        loading="lazy"
-        referrerpolicy="no-referrer-when-downgrade">
-      </iframe>
-
-    </div>
-
-  </div>
-
-</section>
-
-
-
-{% endblock content %}
+{% endblock %}

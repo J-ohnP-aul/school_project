@@ -445,6 +445,7 @@ h1,h2,h3,h4,h5{
 }
 
 .hero-image{
+    padding-top: 20px;
 
     border-radius: 24px;
 
@@ -2577,3 +2578,421 @@ h1,h2,h3,h4,h5{
   }
 
 
+/* ========================================
+   ANIMATION STYLES - Hero Fade-in & Stat Counters
+   ======================================== */
+
+/* 1. HERO FADE-IN ANIMATION */
+.hero-fade-in {
+    animation: fadeInUp 0.8s ease-out forwards;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Hero elements staggered delay */
+.hero-badge {
+    animation: fadeInUp 0.5s ease-out forwards;
+    opacity: 0;
+}
+
+.hero-title {
+    animation: fadeInUp 0.6s ease-out 0.1s forwards;
+    opacity: 0;
+}
+
+.hero-text {
+    animation: fadeInUp 0.6s ease-out 0.2s forwards;
+    opacity: 0;
+}
+
+.hero-buttons {
+    animation: fadeInUp 0.6s ease-out 0.3s forwards;
+    opacity: 0;
+}
+
+.hero-image {
+    animation: fadeInRight 0.8s ease-out 0.2s forwards;
+    opacity: 0;
+}
+
+@keyframes fadeInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* 2. STAT COUNTER STYLES */
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--green-deep);
+    display: inline-block;
+}
+
+.stat-item {
+    text-align: center;
+    padding: 20px;
+    background: var(--white);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow);
+    transition: transform 0.3s ease;
+}
+
+.stat-item:hover {
+    transform: translateY(-5px);
+}
+
+.stat-label {
+    font-size: 0.9rem;
+    color: var(--muted);
+    margin-top: 8px;
+    font-weight: 500;
+}
+
+/* Counter container */
+.stats-container {
+    display: flex;
+    justify-content: space-around;
+    flex-wrap: wrap;
+    gap: 30px;
+    margin: 40px 0;
+}
+
+/* Optional: Floating animation for hero image */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+.hero-image-floating {
+    animation: float 4s ease-in-out infinite;
+}
+
+/* ========================================
+   HERO FADE-IN ANIMATIONS
+   ======================================== */
+
+/* Hero elements start invisible and fade in */
+.hero-badge,
+.hero-title,
+.hero-text,
+.hero .btn-primary-custom,
+.hero .btn-outline-custom,
+.hero-image {
+    opacity: 0;
+}
+
+.hero-badge {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.hero-title {
+    animation: fadeInUp 0.6s ease-out 0.1s forwards;
+}
+
+.hero-text {
+    animation: fadeInUp 0.6s ease-out 0.2s forwards;
+}
+
+.hero .btn-primary-custom {
+    animation: fadeInUp 0.5s ease-out 0.3s forwards;
+}
+
+.hero .btn-outline-custom {
+    animation: fadeInUp 0.5s ease-out 0.35s forwards;
+}
+
+.hero-image {
+    animation: fadeInRight 0.8s ease-out 0.2s forwards;
+}
+
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Floating animation for hero image */
+.hero-image {
+    animation: fadeInRight 0.8s ease-out 0.2s forwards, float 4s ease-in-out 0.8s infinite;
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) translateX(0);
+    }
+    50% {
+        transform: translateY(-10px) translateX(0);
+    }
+}
+
+/* ========================================
+   STAT COUNTER ANIMATION
+   ======================================== */
+
+.stat-number {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--green-deep);
+    display: inline-block;
+}
+
+.stats-section h2 {
+    transition: all 0.3s ease;
+}
+
+.stats-section .col-md-3 {
+    transition: transform 0.3s ease;
+}
+
+.stats-section .col-md-3:hover {
+    transform: translateY(-5px);
+}
+
+/* ========================================
+   CARD HOVER ENHANCEMENTS (extra life)
+   ======================================== */
+
+.ga-card,
+.facilities-section .card,
+.news-section .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ga-card:hover,
+.facilities-section .card:hover,
+.news-section .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+.ga-card {
+    transition: all 0.3s ease;
+}
+
+/* Section fade-in on scroll */
+.ga-section,
+.facilities-section,
+.news-section {
+    opacity: 0;
+    transform: translateY(20px);
+    transition: opacity 0.6s ease, transform 0.6s ease;
+}
+
+.ga-section.visible,
+.facilities-section.visible,
+.news-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========================================
+   HERO FADE-IN ANIMATIONS
+   ======================================== */
+
+/* Hero elements start invisible */
+.hero-badge,
+.hero-title,
+.hero-text,
+.hero .btn-primary-custom,
+.hero .btn-outline-custom,
+.hero-image {
+    opacity: 0;
+}
+
+/* Staggered fade-in animations */
+.hero-badge {
+    animation: fadeInUp 0.5s ease-out forwards;
+}
+
+.hero-title {
+    animation: fadeInUp 0.6s ease-out 0.1s forwards;
+}
+
+.hero-text {
+    animation: fadeInUp 0.6s ease-out 0.2s forwards;
+}
+
+.hero .btn-primary-custom {
+    animation: fadeInUp 0.5s ease-out 0.3s forwards;
+}
+
+.hero .btn-outline-custom {
+    animation: fadeInUp 0.5s ease-out 0.35s forwards;
+}
+
+.hero-image {
+    animation: fadeInRight 0.8s ease-out 0.2s forwards, float 4s ease-in-out 0.8s infinite;
+}
+
+/* Keyframe animations */
+@keyframes fadeInUp {
+    0% {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@keyframes fadeInRight {
+    0% {
+        opacity: 0;
+        transform: translateX(40px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px) translateX(0);
+    }
+    50% {
+        transform: translateY(-10px) translateX(0);
+    }
+}
+
+/* ========================================
+   STAT COUNTER SECTION
+   ======================================== */
+
+/* Make stats section numbers look nice */
+.stats-section h2 {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: var(--green-deep, #0a1f18);
+    transition: all 0.3s ease;
+}
+
+/* Hover effect on stat boxes */
+.stats-section .col-md-3 {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    padding: 20px;
+    border-radius: 16px;
+}
+
+.stats-section .col-md-3:hover {
+    transform: translateY(-5px);
+    background: rgba(82, 183, 136, 0.08);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+}
+
+/* ========================================
+   SECTION FADE-IN ON SCROLL
+   ======================================== */
+
+.ga-section,
+.news-section {
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+}
+
+.ga-section.visible,
+.news-section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ========================================
+   CARD HOVER ENHANCEMENTS
+   ======================================== */
+
+.ga-card,
+.news-section .card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.ga-card:hover,
+.news-section .card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
+}
+
+/* Card image zoom effect on hover */
+.news-section .card {
+    overflow: hidden;
+}
+
+.news-section .card img {
+    transition: transform 0.4s ease;
+}
+
+.news-section .card:hover img {
+    transform: scale(1.05);
+}
+
+/* ========================================
+   BUTTON PULSE EFFECT (optional)
+   ======================================== */
+
+.btn-primary-custom,
+.btn-outline-custom {
+    transition: all 0.3s ease;
+}
+
+.btn-primary-custom:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(10, 31, 24, 0.2);
+}
+
+.btn-outline-custom:hover {
+    transform: translateY(-2px);
+}
+
+/* Hidden admin login link - nearly invisible but clickable */
+.hidden-admin-link {
+    position: fixed;
+    bottom: 10px;
+    right: 10px;
+    font-size: 10px;
+    opacity: 0.15;
+    color: #666;
+    text-decoration: none;
+    z-index: 9999;
+    transition: opacity 0.2s ease;
+}
+
+.hidden-admin-link:hover {
+    opacity: 0.6;
+    color: var(--green-deep, #0a1f18);
+}
