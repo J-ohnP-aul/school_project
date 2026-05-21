@@ -5,11 +5,17 @@ from django.contrib import messages
 from django.http import JsonResponse
 from django.db.models import Q
 
-from .forms import RegisterForm, StudentProfileForm, TeacherProfileForm, ParentProfileForm
+from .forms import LoginForm, RegisterForm, StudentProfileForm, TeacherProfileForm, ParentProfileForm
 from .forms import AdminCreateUserForm
 from .models import StudentProfile, TeacherProfile, ParentProfile
 from admissions.models import Applicant
 from django.contrib.auth.models import User, Group
+
+ROLE_TO_GROUP = {
+    'student': 'Students',
+    'teacher': 'Teachers',
+    'parent': 'Parents',
+}
 
 
 def get_user_role(user):
@@ -60,21 +66,32 @@ def register_view(request):
 
 def login_view(request):
     if request.method == 'POST':
-        username = request.POST.get('username')
-        password = request.POST.get('password')
-        
-        user = authenticate(request, username=username, password=password)
-        if user is not None:
-            login(request, user)
-            if not has_complete_profile(user):
-                role = get_user_role(user)
-                messages.info(request, 'Please complete your profile before continuing.')
-                return redirect('complete_profile', role=role)
-            messages.success(request, 'Login successful.')
-            return redirect('dashboard')
+        form = LoginForm(request.POST)
+        if form.is_valid():
+            username = form.cleaned_data['username']
+            password = form.cleaned_data['password']
+            selected_role = form.cleaned_data['role']
+            user = authenticate(request, username=username, password=password)
+            if user is not None:
+                allowed = user.is_superuser or user.is_staff
+                if not allowed:
+                    expected_group = ROLE_TO_GROUP.get(selected_role)
+                    allowed = user.groups.filter(name=expected_group).exists()
+                if not allowed:
+                    messages.error(request, 'You are not authorized to login as that role.')
+                else:
+                    login(request, user)
+                    if not has_complete_profile(user):
+                        role = get_user_role(user) or selected_role
+                        messages.info(request, 'Please complete your profile before continuing.')
+                        return redirect('complete_profile', role=role)
+                    messages.success(request, 'Login successful.')
+                    return redirect('dashboard')
         else:
-            messages.error(request, 'Invalid username or password.')
-    return render(request, 'accounts/login.html')
+            messages.error(request, 'Please correct the errors below.')
+    else:
+        form = LoginForm()
+    return render(request, 'accounts/login.html', {'form': form})
 
 def logout_view(request):
     logout(request)
@@ -269,30 +286,27 @@ def complete_profile(request, role):
 
     form_class, profile_model = form_class_map[role]
 
-    # If profile already exists, send to dashboard
     existing = profile_model.objects.filter(user=request.user).first()
     if existing:
-        messages.info(request, 'Your profile is already completed.')
-        return redirect('dashboard')
+        if role == 'parent' and not existing.students.exists():
+            # allow parents who have not linked any students yet to complete the student relation
+            form = form_class(request.POST or None, request.FILES or None, instance=existing)
+        else:
+            messages.info(request, 'Your profile is already completed.')
+            return redirect('dashboard')
+    else:
+        form = form_class(request.POST or None, request.FILES or None)
 
     if request.method == 'POST':
-        form = form_class(request.POST, request.FILES)
         if form.is_valid():
             profile = form.save(commit=False)
             profile.user = request.user
             profile.save()
-            # for parent students m2m: explicitly set from POST to be robust
             if role == 'parent':
-                student_ids = request.POST.getlist('students')
-                if student_ids:
-                    students_qs = StudentProfile.objects.filter(id__in=student_ids)
-                    profile.students.set(students_qs)
-                else:
-                    # no students selected
+                form.save_m2m()
+                if not profile.students.exists():
                     messages.warning(request, 'No students linked to your profile. You can add them later from your dashboard.')
             messages.success(request, 'Profile completed.')
             return redirect('dashboard')
-    else:
-        form = form_class()
 
     return render(request, 'accounts/complete_profile.html', {'form': form, 'role': role})

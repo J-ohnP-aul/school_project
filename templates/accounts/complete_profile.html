@@ -83,20 +83,23 @@
             }
 
             function addStudent(id, text){
-              // avoid duplicates
-              if(Array.from(hiddenSelect.options).some(o=>o.value==id)) return;
-              const opt = document.createElement('option');
-              opt.value = id; opt.selected = true; opt.text = text;
-              hiddenSelect.appendChild(opt);
+              const existingOption = Array.from(hiddenSelect.options).find(o=>o.value==id);
+              if(existingOption){
+                if(existingOption.selected) return;
+                existingOption.selected = true;
+              } else {
+                const opt = document.createElement('option');
+                opt.value = id; opt.selected = true; opt.text = text;
+                hiddenSelect.appendChild(opt);
+              }
 
               const chip = document.createElement('div');
               chip.style.padding='6px 8px'; chip.style.border='1px solid #ccc'; chip.style.borderRadius='12px'; chip.style.display='inline-flex'; chip.style.alignItems='center';
               chip.textContent = text;
               const btn = document.createElement('button'); btn.type='button'; btn.style.marginLeft='8px'; btn.textContent='×';
               btn.addEventListener('click', ()=>{
-                // remove option
                 const optToRemove = Array.from(hiddenSelect.options).find(o=>o.value==id);
-                if(optToRemove) hiddenSelect.removeChild(optToRemove);
+                if(optToRemove) optToRemove.selected = false;
                 selectedBox.removeChild(chip);
               });
               chip.appendChild(btn);

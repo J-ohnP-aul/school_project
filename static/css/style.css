@@ -1078,6 +1078,14 @@ h1,h2,h3,h4,h5{
 
     color:#64748b;
 
+/* Temporary debug helpers — remove after inspection */
+.ga-section, .news-section {
+  outline: 3px dashed rgba(255,0,0,0.7) !important;
+}
+.ga-card {
+  background: #fff; /* ensure cards are visible */
+}
+
     line-height:1.7;
 
     margin-bottom:25px;

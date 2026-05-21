@@ -28,7 +28,7 @@
     <ul class="ga-nav-links">
       <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
       <li><a href="/about/" class="{% if request.path == '/about/' %}active{% endif %}">About</a></li>
-      <li><a href="/academics/" class="{% if request.path == '/academics/' %}active{% endif %}">Academics</a></li>
+      <li><a href="/academics/" class="{% if request.resolver_match.url_name == 'academics:fee_structure' %}active{% endif %}">Academics</a></li>
       <li><a href="/gallery/" class="{% if '/gallery/' in request.path %}active{% endif %}">Gallery</a></li>
       <li><a href="/news/" class="{% if request.path == '/news/' %}active{% endif %}">News</a></li>
       <li><a href="/contact/" class="{% if '/contact/' in request.path %}active{% endif %}">Contact</a></li>
@@ -65,7 +65,7 @@
       <ul class="ga-drawer-nav">
         <li><a href="/" class="{% if request.path == '/' %}active{% endif %}">Home</a></li>
         <li><a href="/about/" class="{% if request.path == '/about/' %}active{% endif %}">About Us</a></li>
-        <li><a href="/academics/" class="{% if request.path == '/academics/' %}active{% endif %}">Academics</a></li>
+        <li><a href="/academics/" class="{% if request.resolver_match.url_name == 'fee_structure' %}active{% endif %}">Academics</a></li>
         <li><a href="/admissions/" class="{% if '/admissions/' in request.path %}active{% endif %}">Admissions</a></li>
         <li><a href="/news/" class="{% if '/news/' in request.path %}active{% endif %}">News & Events</a></li>
         <li><a href="/gallery/" class="{% if '/gallery/' in request.path %}active{% endif %}">Gallery</a></li>
@@ -164,46 +164,136 @@
 
   <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"></script>
   <script>
+    
+    // ========================================
+    // MOBILE DRAWER TOGGLE
+    // ========================================
     const toggler = document.getElementById('ga-toggler');
     const drawer = document.getElementById('ga-drawer');
     const backdrop = document.getElementById('ga-drawer-backdrop');
 
     function setDrawer(open) {
-      drawer.classList.toggle('open', open);
-      backdrop.classList.toggle('show', open);
-      document.body.style.overflow = open ? 'hidden' : '';
-      toggler.classList.toggle('open', open);
+        if (drawer) drawer.classList.toggle('open', open);
+        if (backdrop) backdrop.classList.toggle('show', open);
+        if (open) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+        if (toggler) toggler.classList.toggle('open', open);
     }
 
-    toggler?.addEventListener('click', () => {
-      const isOpen = drawer.classList.contains('open');
-      setDrawer(!isOpen);
-    });
+    if (toggler) {
+        toggler.addEventListener('click', () => {
+            const isOpen = drawer?.classList.contains('open');
+            setDrawer(!isOpen);
+        });
+    }
 
-    backdrop?.addEventListener('click', () => {
-      setDrawer(false);
-    });
+    if (backdrop) {
+        backdrop.addEventListener('click', () => {
+            setDrawer(false);
+        });
+    }
 
     document.addEventListener('click', (e) => {
-      const isOpen = drawer.classList.contains('open');
-
-      if (!isOpen) return;
-
-      const clickedInsideDrawer = drawer.contains(e.target);
-      const clickedToggler = toggler.contains(e.target);
-
-      if (!clickedInsideDrawer && !clickedToggler) {
-        setDrawer(false);
-      }
+        const isOpen = drawer?.classList.contains('open');
+        if (!isOpen) return;
+        const clickedInsideDrawer = drawer?.contains(e.target);
+        const clickedToggler = toggler?.contains(e.target);
+        if (!clickedInsideDrawer && !clickedToggler) {
+            setDrawer(false);
+        }
     });
 
-    drawer.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => setDrawer(false));
-    });
+    if (drawer) {
+        drawer.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => setDrawer(false));
+        });
+    }
 
     document.addEventListener('keydown', (e) => {
-      if (e.key === 'Escape') setDrawer(false);
+        if (e.key === 'Escape') setDrawer(false);
     });
-</script>
+
+    // ========================================
+    // ANIMATIONS: STAT COUNTERS + SCROLL FADE-IN
+    // ========================================
+    document.addEventListener('DOMContentLoaded', function() {
+        
+        // Helper: check if element is visible in viewport
+        function isElementInViewport(el) {
+            const rect = el.getBoundingClientRect();
+            const windowHeight = window.innerHeight || document.documentElement.clientHeight;
+            return rect.top <= windowHeight - 80 && rect.bottom >= 80;
+        }
+        
+        // STAT COUNTERS (targets your .stats-section h2 elements)
+        function animateCounters() {
+            const statItems = document.querySelectorAll('.stats-section .col-md-3');
+            
+            statItems.forEach(item => {
+                if (!item.classList.contains('counted') && isElementInViewport(item)) {
+                    item.classList.add('counted');
+                    
+                    const h2 = item.querySelector('h2');
+                    if (!h2) return;
+                    
+                    const originalText = h2.innerText;
+                    const target = parseInt(originalText);
+                    if (isNaN(target)) return;
+                    
+                    const plusSign = originalText.includes('+') ? '+' : '';
+                    const duration = 2000;
+                    const stepTime = 20;
+                    const steps = duration / stepTime;
+                    const increment = target / steps;
+                    
+                    let current = 0;
+                    
+                    const counter = setInterval(() => {
+                        current += increment;
+                        if (current >= target) {
+                            h2.innerHTML = target.toLocaleString() + plusSign;
+                            clearInterval(counter);
+                        } else {
+                            h2.innerHTML = Math.floor(current).toLocaleString() + plusSign;
+                        }
+                    }, stepTime);
+                }
+            });
+        }
+        
+        // SECTION FADE-IN ON SCROLL
+        function fadeInSections() {
+            const sections = document.querySelectorAll('.ga-section, .news-section');
+            sections.forEach(section => {
+                if (isElementInViewport(section) && !section.classList.contains('visible')) {
+                    section.classList.add('visible');
+                }
+            });
+        }
+        
+        // Run both on load
+        animateCounters();
+        fadeInSections();
+        
+        // Run on scroll
+        window.addEventListener('scroll', function() {
+            animateCounters();
+            fadeInSections();
+        });
+        
+        window.addEventListener('resize', function() {
+            animateCounters();
+            fadeInSections();
+        });
+        
+        // Extra safety for slow-loading images
+        setTimeout(animateCounters, 500);
+        setTimeout(fadeInSections, 500);
+    });
+
+  </script>
 </body>
 </html>

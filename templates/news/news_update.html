@@ -11,8 +11,8 @@
     <div class="td-hero" style="margin-bottom: 32px;">
       <div>
         <p class="td-greeting-label">Admin Panel</p>
-        <h1 class="td-greeting-name">Create Gallery Image</h1>
-        <p class="td-greeting-sub">Upload and add a new image to the school gallery.</p>
+        <h1 class="td-greeting-name">Update News Post</h1>
+        <p class="td-greeting-sub">Edit the content and details of this news article.</p>
       </div>
       <div class="td-hero-actions">
         <a href="javascript:history.back()" class="td-btn td-btn-outline">
@@ -28,7 +28,7 @@
 
         <div class="ca-form-grid">
           {% for field in form %}
-            <div class="{% if field.field.widget.attrs.rows or 'description' in field.html_name or 'caption' in field.html_name %}ca-full{% endif %}">
+            <div class="{% if field.field.widget.attrs.rows or 'content' in field.html_name or 'body' in field.html_name or 'description' in field.html_name %}ca-full{% endif %}">
               <label class="ca-label" for="{{ field.id_for_label }}">
                 {{ field.label }}
                 {% if field.field.required %}<span class="ca-required">*</span>{% endif %}
@@ -58,7 +58,7 @@
         <div class="ca-actions">
           <a href="javascript:history.back()" class="td-btn td-btn-outline">Cancel</a>
           <button type="submit" class="td-btn td-btn-primary">
-            ✦ Upload Image
+            ✦ Save Changes
           </button>
         </div>
 
@@ -75,7 +75,7 @@
     <div class="td-card">
       <div style="font-size: 3rem; margin-bottom: 18px;">🔒</div>
       <h2 style="color: var(--forest); margin-bottom: 12px;">Access Denied</h2>
-      <p style="color: var(--muted);">You do not have permission to create gallery images.</p>
+      <p style="color: var(--muted);">You do not have permission to edit news posts.</p>
       <a href="javascript:history.back()" class="td-btn td-btn-outline" style="margin-top: 24px; display: inline-flex;">← Go Back</a>
     </div>
   </div>

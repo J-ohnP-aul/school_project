@@ -4,6 +4,28 @@ from django.contrib.auth.models import User
 from .models import StudentProfile, TeacherProfile, ParentProfile
 
 
+class LoginForm(forms.Form):
+    ROLE_CHOICES = (
+        ('student', 'Student'),
+        ('teacher', 'Teacher'),
+        ('parent', 'Parent'),
+    )
+
+    username = forms.CharField(
+        max_length=150,
+        widget=forms.TextInput(attrs={'class': 'form-control'})
+    )
+    password = forms.CharField(
+        widget=forms.PasswordInput(attrs={'class': 'form-control'})
+    )
+    role = forms.ChoiceField(
+        choices=ROLE_CHOICES,
+        required=True,
+        widget=forms.RadioSelect(attrs={'class': 'auth-role-input'}),
+        label='Login as'
+    )
+
+
 class RegisterForm(UserCreationForm):
     ROLE_CHOICES = (
         ('student', 'Student'),

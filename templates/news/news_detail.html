@@ -1,13 +1,52 @@
+
 {% extends 'base.html' %}
 
 {% block content %}
 
-<h1>{{ post.title }}</h1>
+<div class="td-page">
+  <div class="td-wrap" style="max-width: 860px;">
 
-<p>{{ post.created_at }}</p>
+    <!-- Back + Admin Actions -->
+    <div class="td-hero" style="margin-bottom: 32px;">
+      <div>
+        <p class="td-greeting-label">School News</p>
+        <h1 class="td-greeting-name">{{ post.title }}</h1>
+        <p class="td-greeting-sub">
+          📅 {{ post.created_at|date:"F j, Y" }}
+        </p>
+      </div>
+      <div class="td-hero-actions">
+        <a href="javascript:history.back()" class="td-btn td-btn-outline">← Back</a>
+        {% if request.user.is_superuser %}
+          <a href="{% url 'news_update' post.id %}" class="td-btn td-btn-primary">✏️ Edit Post</a>
+        {% endif %}
+      </div>
+    </div>
 
-<img src="{{ post.image.url }}" class="img-fluid mb-4">
+    <!-- Featured Image -->
+    {% if post.image %}
+      <div style="border-radius: 24px; overflow: hidden; margin-bottom: 32px; box-shadow: 0 15px 40px rgba(0,0,0,0.10);">
+        <img src="{{ post.image.url }}" alt="{{ post.title }}"
+          style="width: 100%; max-height: 480px; object-fit: cover; display: block;">
+      </div>
+    {% endif %}
 
-<p>{{ post.content }}</p>
+    <!-- Content Card -->
+    <div class="td-card">
+      <div style="font-size: 1.05rem; color: var(--ink); line-height: 1.9;">
+        {{ post.content|linebreaks }}
+      </div>
+    </div>
+
+    <!-- Bottom nav -->
+    <div style="margin-top: 28px; display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 12px;">
+      <a href="javascript:history.back()" class="td-btn td-btn-outline">← Back to News</a>
+      {% if request.user.is_superuser %}
+        <a href="{% url 'news_update' post.id %}" class="td-btn td-btn-primary">✏️ Edit Post</a>
+      {% endif %}
+    </div>
+
+  </div>
+</div>
 
 {% endblock %}

@@ -13,11 +13,13 @@
         <h1 class="td-greeting-name" style="font-size: 2rem;">Assignments</h1>
         <p class="td-greeting-sub">{{ page_obj.paginator.count }} assignment{{ page_obj.paginator.count|pluralize }} found</p>
       </div>
-      {% if request.user.groups.all.0.name == 'Teachers' %}
+      {% with groups=request.user.groups.all %}
+        {% if groups|length and groups.0.name == 'Teachers' %}
         <a href="{% url 'academics:create_assignment' %}" class="td-btn td-btn-primary">
           + New Assignment
         </a>
-      {% endif %}
+        {% endif %}
+      {% endwith %}
     </div>
 
     <!-- Search -->

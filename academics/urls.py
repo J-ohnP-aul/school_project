@@ -1,6 +1,16 @@
 from django.urls import path
 
-from .views import create_assignment, assignment_list, record_grade, record_attendance, student_dashboard, parent_dashboard, teacher_dashboard
+from .views import (
+    create_assignment,
+    assignment_list,
+    record_grade,
+    record_attendance,
+    student_dashboard,
+    parent_dashboard,
+    parent_report_card,
+    teacher_dashboard,
+    fee_structure,
+)
 
 app_name = 'academics'
 
@@ -11,5 +21,7 @@ urlpatterns = [
     path('record-attendance/', record_attendance, name='record_attendance'),
     path('student-dashboard/', student_dashboard, name='student_dashboard'),
     path('parent-dashboard/', parent_dashboard, name='parent_dashboard'),
+    path('parent-dashboard/report/<int:student_id>/', parent_report_card, name='parent_report_card'),
     path('teacher-dashboard/', teacher_dashboard, name='teacher_dashboard'),
+    path('fee-structure/', fee_structure, name='fee_structure'),
 ]

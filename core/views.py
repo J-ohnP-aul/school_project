@@ -1,4 +1,4 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import get_object_or_404, redirect, render
 from django.contrib.auth.decorators import login_required
 from .models import SchoolInfo, Staff, Facility, GalleryImage
 from news.models import NewsPost
@@ -50,3 +50,14 @@ def gallery_create(request):
     else:
         form = GalleryImgForm()
     return render(request, 'core/gallery_create.html', {'form': form})
+
+def gallery_update(request, pk):
+    image = get_object_or_404(GalleryImage, pk=pk)
+    if request.method == 'POST':
+        form = GalleryImgForm(request.POST, request.FILES, instance=image)
+        if form.is_valid():
+            form.save()
+            return redirect('gallery')
+    else:
+        form = GalleryImgForm(instance=image)
+    return render(request, 'core/gallery_form.html', {'form': form})

@@ -23,15 +23,8 @@
       </div>
     </div>
 
-    <!-- Stats -->
+    <!-- Stats (reordered: Grades Recorded, My Assignments, Attendance, Average) -->
     <div class="td-stats">
-      <div class="td-stat-card">
-        <div class="td-stat-icon green">📋</div>
-        <div>
-          <div class="td-stat-val">{{ total_assignments }}</div>
-          <div class="td-stat-label">My Assignments</div>
-        </div>
-      </div>
       <div class="td-stat-card">
         <div class="td-stat-icon blue">🏆</div>
         <div>
@@ -40,10 +33,10 @@
         </div>
       </div>
       <div class="td-stat-card">
-        <div class="td-stat-icon amber">📊</div>
+        <div class="td-stat-icon green">📋</div>
         <div>
-          <div class="td-stat-val">{{ avg_score }}%</div>
-          <div class="td-stat-label">Average Score</div>
+          <div class="td-stat-val">{{ total_assignments }}</div>
+          <div class="td-stat-label">My Assignments</div>
         </div>
       </div>
       <div class="td-stat-card">
@@ -51,6 +44,13 @@
         <div>
           <div class="td-stat-val">{{ attendance_rate }}%</div>
           <div class="td-stat-label">Attendance Rate</div>
+        </div>
+      </div>
+      <div class="td-stat-card">
+        <div class="td-stat-icon amber">📊</div>
+        <div>
+          <div class="td-stat-val">{{ avg_score }}%</div>
+          <div class="td-stat-label">Average Score</div>
         </div>
       </div>
     </div>
@@ -61,45 +61,7 @@
       <!-- LEFT -->
       <div class="td-col-left">
 
-        <!-- My Assignments -->
-        <div class="td-card">
-          <div class="td-card-header">
-            <h2 class="td-card-title">My Assignments</h2>
-            <a href="{% url 'academics:assignment_list' %}" class="td-card-link">View all →</a>
-          </div>
-          <table class="td-table">
-            <thead>
-              <tr>
-                <th>Title</th>
-                <th>Due Date</th>
-                <th>Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              {% for assignment in assignments %}
-              <tr>
-                <td><strong>{{ assignment.title }}</strong></td>
-                <td>{{ assignment.due_date }}</td>
-                <td>
-                  <a href="{% url 'academics:record_grade' %}?assignment={{ assignment.pk }}"
-                     class="td-pill blue" style="text-decoration:none;">
-                    Grade
-                  </a>
-                </td>
-              </tr>
-              {% empty %}
-              <tr>
-                <td colspan="3" style="text-align:center; color:var(--muted); padding:30px;">
-                  No assignments yet.
-                  <a href="{% url 'academics:create_assignment' %}" class="td-card-link">Create one →</a>
-                </td>
-              </tr>
-              {% endfor %}
-            </tbody>
-          </table>
-        </div>
-
-        <!-- Recent Grades -->
+        <!-- Recent Grades (moved above assignments) -->
         <div class="td-card">
           <div class="td-card-header">
             <h2 class="td-card-title">Recent Grades</h2>
@@ -133,6 +95,44 @@
                 <td colspan="4" style="text-align:center; color:var(--muted); padding:30px;">
                   No grades recorded yet.
                   <a href="{% url 'academics:record_grade' %}" class="td-card-link">Record one →</a>
+                </td>
+              </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+
+        <!-- My Assignments -->
+        <div class="td-card">
+          <div class="td-card-header">
+            <h2 class="td-card-title">My Assignments</h2>
+            <a href="{% url 'academics:assignment_list' %}" class="td-card-link">View all →</a>
+          </div>
+          <table class="td-table">
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Due Date</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              {% for assignment in assignments %}
+              <tr>
+                <td><strong>{{ assignment.title }}</strong></td>
+                <td>{{ assignment.due_date }}</td>
+                <td>
+                  <a href="{% url 'academics:record_grade' %}?assignment={{ assignment.pk }}"
+                     class="td-pill blue" style="text-decoration:none;">
+                    Grade
+                  </a>
+                </td>
+              </tr>
+              {% empty %}
+              <tr>
+                <td colspan="3" style="text-align:center; color:var(--muted); padding:30px;">
+                  No assignments yet.
+                  <a href="{% url 'academics:create_assignment' %}" class="td-card-link">Create one →</a>
                 </td>
               </tr>
               {% endfor %}

@@ -509,5 +509,45 @@ school_project/
 
 ---
 
-**Document Prepared by:** Claude Code  
+## 13. Recent Updates (since v1.0)
+
+This section records changes made to the codebase after the initial 1.0 SRS release. These updates implement parent-facing report card download functionality and related backend/template changes.
+
+- **Feature:** Parent report card download (PDF)
+  - **Description:** Parents can download a student's report card as a PDF from the Parent Dashboard by clicking the "View Full Report" button for a linked child. The report contains student details, average grade, per-assignment grades, issuing teacher, attendance summary, and generation timestamp.
+  - **User Flow:** Parent navigates to the Parent Dashboard (`/academics/parent-dashboard/`), clicks **View Full Report**, and the browser downloads `report-card-<student>.pdf` after server-side generation.
+
+- **Backend changes:**
+  - `academics/views.py`: added `parent_report_card(request, student_id)` view which:
+    - validates the requesting user is the student's linked parent
+    - aggregates `Grade` and `Attendance` data for the student
+    - generates an in-memory PDF using `reportlab` and returns it as an attachment (`application/pdf`).
+  - `academics/urls.py`: added route `parent-dashboard/report/<int:student_id>/` named `academics:parent_report_card`.
+
+- **Templates & UI:**
+  - `templates/academics/parent_dashboard.html`: updated the **View Full Report** button to point to the new report URL for the corresponding student.
+  - `templates/academics/parent_report_card.html`: added an HTML report-card template (kept for human-readable view and for reference) that shows student details, assignment breakdown, teacher names, remarks, and timestamp.
+
+- **Dependencies:**
+  - `requirements.txt` updated to include `reportlab==4.0.0` (PDF generation library).
+
+- **Testing & Validation:**
+  - Ran `python manage.py check` to validate Django configuration after changes; system checks reported no issues.
+  - The `reportlab` package was installed into the project's virtual environment and used to render the report PDF in-memory.
+
+- **Security & Authorization:**
+  - The `parent_report_card` view enforces that only a `ParentProfile` linked to the target `StudentProfile` may download that student's report.
+
+- **Files added/modified:**
+  - Modified: `academics/views.py` (added PDF generation view)
+  - Modified: `academics/urls.py` (added report route)
+  - Modified: `templates/academics/parent_dashboard.html` (updated report button link)
+  - Added: `templates/academics/parent_report_card.html` (HTML report template)
+  - Modified: `requirements.txt` (added `reportlab`)
+
+If you want a more polished PDF (logo, styling, multi-column layout), I can update the PDF layout in `academics/views.py` and embed a school logo from `static/`.
+
+---
+
+**Document Prepared by:** john Paul  
 **Date:** 2024
