@@ -202,3 +202,66 @@ class Subject(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Competency(models.Model): #math, comp subjects ...
+    name = models.CharField(
+        max_length=100,
+        unique=True
+    )
+    description = models.TextField(blank=True)
+
+    def __str__(self):
+        return self.name
+    
+class Assesment(models.Model):
+    BAND_EE = 'EE'
+    BAND_ME = 'ME'
+    BAND_AE = 'AE'
+    BAND_BE = 'BE'
+    
+    PERFOMANCE_CHOICES = [
+        (BAND_EE, 'Exceeding Expectations'),
+        (BAND_ME, 'Meeting Expectations'),
+        (BAND_AE, 'Approaching Expectations'),
+        (BAND_BE, 'Below Expectations'),
+    ]
+    student = models.ForeignKey(
+        'accounts.StudentProfile',
+        on_delete=models.CASCADE
+    )
+    teacher = models.ForeignKey(
+        'accounts.TeacherProfile',
+        on_delete=models.CASCADE
+    )
+    subject = models.ForeignKey(
+        Subject,
+        on_delete=models.CASCADE
+    )
+    competency = models.ForeignKey(
+        Competency, 
+        on_delete=models.CASCADE
+    )
+    term = models.ForeignKey(
+        Term,
+        on_delete=models.CASCADE
+    )
+    perfomance_band = models.CharField(
+        max_length=2,
+        choices=PERFOMANCE_CHOICES
+    )
+    remarks = models.TextField(blank=True)
+    assessed_at = models.DateTimeField(auto_now_add=True)
+    
+    def __str__(self):
+        return  (
+            f'{self.student} - '
+            f'{self.subject} - '
+            f'{self.performance_band}'
+        )
+    class Meta:
+        unique_together = [
+            'student',
+            'subject',
+            'competency',
+            'term'
+        ]
