@@ -53,6 +53,14 @@
           <div class="td-stat-label">Average Score</div>
         </div>
       </div>
+      <!-- Add as 5th stat card -->
+      <div class="td-stat-card">
+          <div class="td-stat-icon orange">📝</div>
+          <div>
+              <div class="td-stat-val">{{ pending_drafts_count }}</div>
+              <div class="td-stat-label">Pending Drafts</div>
+          </div>
+      </div>
     </div>
 
     <!-- Main Grid -->
@@ -158,6 +166,10 @@
             <a href="{% url 'academics:record_grade' %}" class="td-quick-btn">
               <span class="td-quick-icon">🏆</span>
               <span class="td-quick-label">Record Grade</span>
+            </a>
+            <a href="{% url 'academics:record_assessment' %}" class="td-quick-btn">
+              <span>🐱‍💻</span>
+              <span>record assessment</span>
             </a>
             <a href="{% url 'academics:record_attendance' %}" class="td-quick-btn">
               <span class="td-quick-icon">✅</span>

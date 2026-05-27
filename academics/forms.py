@@ -1,6 +1,6 @@
 from django import forms
 
-from .models import Assignment,Grade, Attendance
+from .models import Assignment,Grade, Attendance, Assessment
 from accounts.models import StudentProfile
 
 class AssignmentForm(forms.ModelForm):
@@ -95,5 +95,59 @@ class AttendanceForm(forms.ModelForm):
 
             'status': forms.Select(
                 attrs={'class': 'form-select'}
+            )
+        }
+
+class AssessmentForm(forms.ModelForm):
+
+    class Meta:
+        model = Assessment
+
+        fields = [
+            'student',
+            'subject',
+            'competency',
+            'term',
+            'perfomance_band',
+            'remarks'
+        ]
+
+        widgets = {
+
+            'student': forms.Select(
+                attrs={
+                    'class': 'form-select'
+                }
+            ),
+
+            'subject': forms.Select(
+                attrs={
+                    'class': 'form-select'
+                }
+            ),
+
+            'competency': forms.Select(
+                attrs={
+                    'class': 'form-select'
+                }
+            ),
+
+            'term': forms.Select(
+                attrs={
+                    'class': 'form-select'
+                }
+            ),
+
+            'performance_band': forms.Select(
+                attrs={
+                    'class': 'form-select'
+                }
+            ),
+
+            'remarks': forms.Textarea(
+                attrs={
+                    'class': 'form-control',
+                    'rows': 3
+                }
             )
         }

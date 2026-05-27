@@ -67,7 +67,14 @@ class AdminCreateUserForm(UserCreationForm):
 class StudentProfileForm(forms.ModelForm):
     class Meta:
         model = StudentProfile
-        fields = ['admission_number', 'grade', 'profile_picture']
+        fields = [
+            'admission_number',
+            'grade',
+            'stream',
+            'guardian_name',
+            'guardian_phone',
+            'profile_picture',
+        ]
 
 
 class TeacherProfileForm(forms.ModelForm):

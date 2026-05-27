@@ -1,13 +1,15 @@
 from django.contrib import admin
-from .models import Assignment, Grade, Attendance, FeeStructure, AcademicProgram, Requirement, GradeLevel, Term, Subject
+from .models import Assignment, Grade, Attendance, FeeStructure, AcademicProgram, Requirement, GradeLevel, Term, Subject, Competency, Assessment
 # Register your models here.
 
 admin.site.register(Assignment)
 admin.site.register(Grade)
 admin.site.register(Attendance)
+admin.site.register(Assessment)
 admin.site.register(GradeLevel)
 admin.site.register(Term)
 admin.site.register(Subject)
+admin.site.register(Competency)
 
 @admin.register(FeeStructure)
 class FeeStructureAdmin(admin.ModelAdmin):

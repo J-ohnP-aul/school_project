@@ -173,35 +173,6 @@ class Subject(models.Model):
 
     def __str__(self):
         return self.name
-
-class GradeLevel(models.Model):
-    name = models.CharField(
-        max_length=30,
-        unique=True
-    )
-
-    def __str__(self):
-        return self.name
-
-
-class Term(models.Model):
-    name = models.CharField(
-        max_length=20,
-        unique=True
-    )
-
-    def __str__(self):
-        return self.name
-
-
-class Subject(models.Model):
-    name = models.CharField(
-        max_length=50,
-        unique=True
-    )
-
-    def __str__(self):
-        return self.name
     
 class Competency(models.Model): #math, comp subjects ...
     name = models.CharField(
@@ -213,7 +184,7 @@ class Competency(models.Model): #math, comp subjects ...
     def __str__(self):
         return self.name
     
-class Assesment(models.Model):
+class Assessment(models.Model):
     BAND_EE = 'EE'
     BAND_ME = 'ME'
     BAND_AE = 'AE'
@@ -256,7 +227,7 @@ class Assesment(models.Model):
         return  (
             f'{self.student} - '
             f'{self.subject} - '
-            f'{self.performance_band}'
+            f'{self.perfomance_band}'
         )
     class Meta:
         unique_together = [
@@ -265,3 +236,45 @@ class Assesment(models.Model):
             'competency',
             'term'
         ]
+    
+# academics/models.py - add this one model
+class DraftAssessment(models.Model):
+    """Stores incomplete assessments for teachers to finish later"""
+    teacher = models.ForeignKey(
+        'accounts.TeacherProfile',
+        on_delete=models.CASCADE,
+        related_name='assessment_drafts'
+    )
+    grade = models.CharField(max_length=50)  # e.g., "Grade 7"
+    stream = models.CharField(max_length=30, blank=True)  # e.g., "A" or blank for all
+    subject = models.ForeignKey('Subject', on_delete=models.CASCADE)
+    competency = models.ForeignKey('Competency', on_delete=models.CASCADE)
+    term = models.ForeignKey('Term', on_delete=models.CASCADE)
+    
+    # Stores draft data as JSON: {student_id: {"percentage": 68, "remarks": "good work", "absent": false}}
+    draft_data = models.JSONField(default=dict)
+    
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    
+    class Meta:
+        ordering = ['-updated_at']
+        unique_together = ['teacher', 'grade', 'stream', 'subject', 'competency', 'term']
+    
+    def __str__(self):
+        stream_display = f" - {self.stream}" if self.stream else ""
+        return f"Draft: {self.grade}{stream_display} - {self.subject.name} ({self.teacher.user.username})"
+    
+    def get_completion_count(self):
+        """Returns number of students with scores entered"""
+        from accounts.models import StudentProfile
+        
+        # Get total students for this grade/stream
+        students = StudentProfile.objects.filter(grade=self.grade)
+        if self.stream:
+            students = students.filter(stream=self.stream)
+        
+        total = students.count()
+        filled = len([s for s in self.draft_data.values() if s.get('percentage')])
+        
+        return filled, total

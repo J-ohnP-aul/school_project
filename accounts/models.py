@@ -69,7 +69,11 @@ class StudentProfile(models.Model):
     
 class TeacherProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    subject = models.CharField(max_length=100)
+    subject = models.CharField(
+        max_length=100,
+        blank=True,
+        null=True,
+    )
     profile_picture = models.ImageField(upload_to='teachers/', blank=True, null=True)
 
     def __str__(self):
