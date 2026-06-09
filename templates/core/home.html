@@ -14,7 +14,7 @@
                 <p class="hero-text">
                     Empowering students with academic excellence,
                     innovation, creativity, and leadership skills
-                    for tomorrow’s world.
+                    for tomorrow's world.
                 </p>
                 <div class="mt-4">
                     <a href="/admissions/" class="btn btn-primary-custom">Apply Now</a>
@@ -91,24 +91,34 @@
   </div>
 </section>
 
+{% comment %} Latest news: show only if available; include simple count for debugging {% endcomment %}
 <section class="news-section py-5">
-    <div class="container">
-        <h2 class="mb-4">Latest News</h2>
-        <div class="row">
-            {% for post in latest_news %}
-                <div class="col-md-4 mb-4">
-                    <div class="card h-100">
-                        <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
-                        <div class="card-body">
-                            <h5 class="fw-bold">{{ post.title }}</h5>
-                            <p>{{ post.content|truncatewords:18 }}</p>
-                            <a href="{% url 'news_detail' post.slug %}" class="btn btn-dark">Read More</a>
-                        </div>
-                    </div>
-                </div>
-            {% endfor %}
+  <div class="container">
+    <h2 class="mb-4">Latest News</h2>
+    <div class="mb-2"><small class="text-muted">Posts found: {{ latest_news|length }}</small></div>
+    <div class="row">
+      {% if latest_news %}
+        {% for post in latest_news %}
+        <div class="col-md-4 mb-4">
+          <div class="card h-100">
+            {% if post.image %}
+              <img src="{{ post.image.url }}" class="card-img-top" alt="{{ post.title }}">
+            {% endif %}
+            <div class="card-body">
+              <h5 class="fw-bold">{{ post.title }}</h5>
+              <p>{{ post.content|truncatewords:18 }}</p>
+              <a href="{% url 'news_detail' post.slug %}" class="btn btn-dark">Read More</a>
+            </div>
+          </div>
         </div>
+        {% endfor %}
+      {% else %}
+        <div class="col-12">
+          <div class="alert alert-info">No news items available right now. Check back soon.</div>
+        </div>
+      {% endif %}
     </div>
+  </div>
 </section>
 
 {% endblock %}

@@ -1,0 +1,176 @@
+
+<!-- templates/accounts/user_list.html -->
+
+{% extends 'accounts/base_dashboard.html' %}
+
+{% block title %}User Management — EduAdmin{% endblock %}
+{% block page_label %}User Management{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-section">
+
+  <!-- Page Header -->
+  <div class="dashboard-page-header">
+    <div class="dashboard-page-header-left">
+      <h2>User Management</h2>
+      <p>Manage all registered users across students, teachers, and parents.</p>
+    </div>
+    <div class="header-actions">
+      <a href="{% url 'create_user' %}" class="dashboard-btn">+ Create User</a>
+    </div>
+  </div>
+
+  <!-- User Table -->
+  <div class="user-table-section">
+
+    <div class="table-toolbar">
+      <div class="table-filters">
+        <a href="?" class="filter-chip {% if not request.GET.role %}active{% endif %}">
+          All ({{ students.count|add:teachers.count|add:parents.count }})
+        </a>
+        <a href="?role=student" class="filter-chip {% if request.GET.role == 'student' %}active{% endif %}">
+          Students ({{ students.count }})
+        </a>
+        <a href="?role=teacher" class="filter-chip {% if request.GET.role == 'teacher' %}active{% endif %}">
+          Teachers ({{ teachers.count }})
+        </a>
+        <a href="?role=parent" class="filter-chip {% if request.GET.role == 'parent' %}active{% endif %}">
+          Parents ({{ parents.count }})
+        </a>
+      </div>
+    </div>
+
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>User</th>
+          <th>Email</th>
+          <th>Role</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        <!-- Students -->
+        <tr class="group-row">
+          <td colspan="4">🎓 Students — {{ students.count }} enrolled</td>
+        </tr>
+        {% for user in students %}
+        <tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar-sm avatar-blue">
+                {{ user.username|slice:":2"|upper }}
+              </div>
+              <div>
+                <div class="user-name">{{ user.username }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ user.email|default:'—' }}</td>
+          <td><span class="role-badge role-student">Student</span></td>
+          <td class="text-right">
+            {% if user != request.user %}
+            <form method="post" action="{% url 'delete_user' user.pk %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="dashboard-btn delete-btn"
+                      onclick="return confirm('Delete {{ user.username }}?')">
+                Delete
+              </button>
+            </form>
+            {% else %}
+            <span class="muted">You</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" style="color:var(--text-muted); padding:20px 14px;">No students registered.</td>
+        </tr>
+        {% endfor %}
+
+        <!-- Teachers -->
+        <tr class="group-row">
+          <td colspan="4">📚 Teachers — {{ teachers.count }} active</td>
+        </tr>
+        {% for user in teachers %}
+        <tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar-sm avatar-green">
+                {{ user.username|slice:":2"|upper }}
+              </div>
+              <div>
+                <div class="user-name">{{ user.username }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ user.email|default:'—' }}</td>
+          <td><span class="role-badge role-teacher">Teacher</span></td>
+          <td class="text-right">
+            {% if user != request.user %}
+            <form method="post" action="{% url 'delete_user' user.pk %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="dashboard-btn delete-btn"
+                      onclick="return confirm('Delete {{ user.username }}?')">
+                Delete
+              </button>
+            </form>
+            {% else %}
+            <span class="muted">You</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" style="color:var(--text-muted); padding:20px 14px;">No teachers registered.</td>
+        </tr>
+        {% endfor %}
+
+        <!-- Parents -->
+        <tr class="group-row">
+          <td colspan="4">👨‍👩‍👧 Parents — {{ parents.count }} connected</td>
+        </tr>
+        {% for user in parents %}
+        <tr>
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar-sm avatar-amber">
+                {{ user.username|slice:":2"|upper }}
+              </div>
+              <div>
+                <div class="user-name">{{ user.username }}</div>
+              </div>
+            </div>
+          </td>
+          <td>{{ user.email|default:'—' }}</td>
+          <td><span class="role-badge role-parent">Parent</span></td>
+          <td class="text-right">
+            {% if user != request.user %}
+            <form method="post" action="{% url 'delete_user' user.pk %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="dashboard-btn delete-btn"
+                      onclick="return confirm('Delete {{ user.username }}?')">
+                Delete
+              </button>
+            </form>
+            {% else %}
+            <span class="muted">You</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="4" style="color:var(--text-muted); padding:20px 14px;">No parents registered.</td>
+        </tr>
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+{% endblock %}

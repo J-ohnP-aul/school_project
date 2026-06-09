@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<section class="dashboard-section report-card-section">
+    <div class="dashboard-layout">
+        <div class="container">
+            <div class="dashboard-header">
+                <div>
+                    <h1 class="dashboard-title">Student Report Card</h1>
+                    <p class="dashboard-subtitle">Detailed performance report for {{ student.user.get_full_name|default:student.user.username }}</p>
+                </div>
+            </div>
+
+            <div class="report-card-card">
+                <div class="report-card-header">
+                    <div>
+                        <h2>{{ student.user.get_full_name|default:student.user.username }}</h2>
+                        <p>Admission Number: {{ student.admission_number }}</p>
+                        <p>Grade Level: {{ student.grade }}</p>
+                    </div>
+                    <div>
+                        <p>Average Score: <strong>{{ average_score }}</strong></p>
+                        <p>Attendance: <strong>{{ attendance_percentage }}%</strong></p>
+                        <p>Present Days: <strong>{{ present_days }}</strong></p>
+                        <p>Absent Days: <strong>{{ absent_days }}</strong></p>
+                    </div>
+                </div>
+
+                <div class="report-card-table-wrapper">
+                    <table class="report-card-table">
+                        <thead>
+                            <tr>
+                                <th>Assignment</th>
+                                <th>Teacher</th>
+                                <th>Score</th>
+                                <th>Remarks</th>
+                                <th>Due Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for grade in grades %}
+                            <tr>
+                                <td>{{ grade.assignment.title }}</td>
+                                <td>{{ grade.assignment.teacher.user.get_full_name|default:grade.assignment.teacher.user.username }}</td>
+                                <td>{{ grade.score }}</td>
+                                <td>{{ grade.remarks|default:'N/A' }}</td>
+                                <td>{{ grade.assignment.due_date }}</td>
+                            </tr>
+                            {% empty %}
+                            <tr>
+                                <td colspan="5">No grades recorded yet for this student.</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="report-card-footer">
+                    <p>Generated on {% now "F j, Y, g:i a" %}</p>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</section>
+{% endblock %}

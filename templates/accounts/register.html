@@ -27,30 +27,45 @@
 
             {% csrf_token %}
 
-            {% for field in form %}
-
-              <div class="auth-group">
-
-                <label class="auth-label">
-                  {{ field.label }}
-                </label>
-
-                {{ field }}
-
-                {% if field.help_text %}
-                  <small class="auth-help">
-                    {{ field.help_text }}
-                  </small>
-                {% endif %}
-
-                {% if field.errors %}
-                  <div class="auth-error">
-                    {{ field.errors }}
-                  </div>
-                {% endif %}
-
+            <div class="auth-group auth-role-options">
+              <label class="auth-label">{{ form.role.label }}</label>
+              <div class="auth-role-grid">
+                {% for radio in form.role %}
+                  <label class="auth-role-option">
+                    {{ radio.tag }}
+                    <span>{{ radio.choice_label }}</span>
+                  </label>
+                {% endfor %}
               </div>
+              {% if form.role.errors %}
+                <div class="auth-error">{{ form.role.errors }}</div>
+              {% endif %}
+            </div>
 
+            {% for field in form %}
+              {% if field.name != 'role' %}
+                <div class="auth-group">
+
+                  <label class="auth-label">
+                    {{ field.label }}
+                  </label>
+
+                  {{ field }}
+
+                  {% if field.help_text %}
+                    <small class="auth-help">
+                      {{ field.help_text }}
+                    </small>
+                  {% endif %}
+
+                  {% if field.errors %}
+                    <div class="auth-error">
+                      {{ field.errors }}
+                    </div>
+                  {% endif %}
+
+                </div>
+              {% endif %}
             {% endfor %}
 
             <button type="submit" class="auth-btn">

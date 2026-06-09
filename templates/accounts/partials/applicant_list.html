@@ -1,0 +1,144 @@
+
+<!-- templates/accounts/applicant_list.html -->
+
+{% extends 'accounts/base_dashboard.html' %}
+
+{% block title %}Applicants — EduAdmin{% endblock %}
+{% block page_label %}Applicants{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-section">
+
+  <!-- Page Header -->
+  <div class="dashboard-page-header">
+    <div class="dashboard-page-header-left">
+      <h2>Applicants</h2>
+      <p>Review and manage all incoming school applications.</p>
+    </div>
+    <div class="header-actions">
+      <span style="font-size:.82rem;color:var(--text-secondary);align-self:center;">
+        {{ applicants|length }} total
+      </span>
+    </div>
+  </div>
+
+  <!-- Table Card -->
+  <div class="user-table-section">
+
+    <div class="table-toolbar">
+      <div class="table-filters">
+        <a href="?" class="filter-chip active">All Applicants</a>
+        <a href="?status=pending"  class="filter-chip">Pending</a>
+        <a href="?status=reviewed" class="filter-chip">Reviewed</a>
+        <a href="?status=accepted" class="filter-chip">Accepted</a>
+      </div>
+    </div>
+
+    <table class="user-table">
+      <thead>
+        <tr>
+          <th>Applicant</th>
+          <th>Email</th>
+          <th>Date Applied</th>
+          <th>Status</th>
+          <th class="text-right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+
+        {% for applicant in applicants %}
+        <tr>
+
+          <!-- Name + initials avatar -->
+          <td>
+            <div class="user-cell">
+              <div class="user-avatar-sm avatar-blue">
+                {{ applicant.first_name|slice:":1"|upper }}{{ applicant.last_name|slice:":1"|upper }}
+              </div>
+              <div>
+                <div class="user-name">{{ applicant.first_name }} {{ applicant.last_name }}</div>
+                {% if applicant.phone %}
+                <div class="user-sub">{{ applicant.phone }}</div>
+                {% endif %}
+              </div>
+            </div>
+          </td>
+
+          <!-- Email -->
+          <td style="color:var(--text-secondary);">{{ applicant.email }}</td>
+
+          <!-- Date applied -->
+          <td style="color:var(--text-muted);font-size:.8rem;">
+            {% if applicant.submitted_at %}
+              {{ applicant.submitted_at|date:"M d, Y" }}
+            {% else %}
+              —
+            {% endif %}
+          </td>
+
+          <!-- Status badge -->
+          <td>
+            {% if applicant.status == 'accepted' %}
+              <span class="role-badge role-teacher">✓ Accepted</span>
+            {% elif applicant.status == 'reviewed' %}
+              <span class="role-badge role-admin">● Reviewed</span>
+            {% elif applicant.status == 'rejected' %}
+              <span class="role-badge" style="background:var(--red-bg);color:var(--red);">✕ Rejected</span>
+            {% else %}
+              <span class="role-badge role-parent">○ Pending</span>
+            {% endif %}
+          </td>
+
+          <!-- Actions -->
+          <td class="text-right">
+            <div style="display:flex;gap:8px;justify-content:flex-end;align-items:center;">
+
+              {% if applicant.pk %}
+              <a href="{% url 'applicant_detail' applicant.pk %}"
+                 class="dashboard-btn outline"
+                 style="padding:5px 12px;font-size:.75rem;">
+                View
+              </a>
+              {% endif %}
+
+              <form method="post" action="{% url 'delete_applicant' applicant.pk %}" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit"
+                        class="dashboard-btn delete-btn"
+                        onclick="return confirm('Remove {{ applicant.first_name }} {{ applicant.last_name }}?')">
+                  Delete
+                </button>
+              </form>
+
+            </div>
+          </td>
+
+        </tr>
+        {% empty %}
+
+        <!-- Empty state -->
+        <tr>
+          <td colspan="5">
+            <div style="text-align:center;padding:48px 20px;">
+              <div style="font-size:2.5rem;margin-bottom:12px;">📋</div>
+              <div style="font-size:.95rem;font-weight:600;color:var(--text-primary);margin-bottom:6px;">
+                No applicants yet
+              </div>
+              <div style="font-size:.82rem;color:var(--text-muted);">
+                Applications submitted through the website will appear here.
+              </div>
+            </div>
+          </td>
+        </tr>
+
+        {% endfor %}
+
+      </tbody>
+    </table>
+
+  </div>
+
+</div>
+
+{% endblock %}
