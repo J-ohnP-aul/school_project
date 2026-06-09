@@ -58,7 +58,9 @@
           <div class="td-stat-icon orange">📝</div>
           <div>
               <div class="td-stat-val">{{ pending_drafts_count }}</div>
-              <div class="td-stat-label">Pending Drafts</div>
+              <div class="td-stat-label">
+                <a href="{% url 'academics:pending_drafts' %}">Pending Drafts</a>
+              </div>
           </div>
       </div>
     </div>

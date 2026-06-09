@@ -2,8 +2,6 @@ from django.db import models
 
 # Create your models here.
 
-# from accounts.models import StudentProfile, TeacherProfile
-
 class Assignment(models.Model):
 
     teacher = models.ForeignKey(
@@ -25,7 +23,6 @@ class Assignment(models.Model):
 
     def __str__(self):
         return self.title
-
 
 class Grade(models.Model):
 
@@ -143,8 +140,6 @@ class Requirement(models.Model):
     def __str__(self):
         return self.name
 
-# grading subject term 
-
 class GradeLevel(models.Model):
     name = models.CharField(
         max_length=30,
@@ -160,7 +155,6 @@ class Term(models.Model):
         max_length=20,
         unique=True
     )
-
     def __str__(self):
         return self.name
 
@@ -237,9 +231,7 @@ class Assessment(models.Model):
             'term'
         ]
     
-# academics/models.py - add this one model
 class DraftAssessment(models.Model):
-    """Stores incomplete assessments for teachers to finish later"""
     teacher = models.ForeignKey(
         'accounts.TeacherProfile',
         on_delete=models.CASCADE,
@@ -269,7 +261,7 @@ class DraftAssessment(models.Model):
         """Returns number of students with scores entered"""
         from accounts.models import StudentProfile
         
-        # Get total students for this grade/stream
+        # Get total students for this gs
         students = StudentProfile.objects.filter(grade=self.grade)
         if self.stream:
             students = students.filter(stream=self.stream)
